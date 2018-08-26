@@ -1,5 +1,5 @@
 %Los tiempos se indican en segundos
-function valor_eficaz = calcular_energia_eficaz(data, Ts, t_comienzo, periodo) 
+function valor_eficaz = calcular_potencia_eficaz(data, Ts, t_comienzo, periodo) 
 
     T_duracion_total = (length(data) - 1) * Ts;
     t_final = t_comienzo + periodo;
