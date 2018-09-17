@@ -32,4 +32,5 @@ function rayleigh = rayrnd(sigma)
 
     num_uni = rand();
     rayleigh = sqrt(-2*(sigma^2)*log(1-num_uni));
+    
 end
