@@ -13,4 +13,4 @@ filtered_signal = filter(f_pasabanda_400_500,data);
 f = 0: fs/length(filtered_signal) : fs/2;
 data_freq = fft(filtered_signal);
 ydft = data_freq(1:length(filtered_signal)/2+1);
-plot(f,abs(ydft))
+plot(f,abs(ydft));

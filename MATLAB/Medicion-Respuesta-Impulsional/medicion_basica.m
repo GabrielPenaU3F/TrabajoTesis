@@ -24,9 +24,9 @@ title('Señal de medición x(t)');
 %Señal de medicion en frecuencia
 eje_f = 0:fs/length(x):fs/2-fs/length(x);
 xfft = fft(x);
-xfft = xfft(1:length(x)/2);
+xfft_graf = xfft(1:length(x)/2);
 subplot(3,2,2);
-plot(eje_f, abs(xfft), eje_f, angle(xfft));
+plot(eje_f, abs(xfft_graf), eje_f, angle(xfft_graf));
 axis([0 22050 0 8000]);
 xlabel('f(Hz)');
 legend('Modulo', 'Fase');
@@ -44,9 +44,9 @@ title('Señal grabada y(t)');
 %Señal grabada en frecuencia
 eje_f = 0:fs/length(y):fs/2-fs/length(y);
 yfft = fft(y);
-yfft = yfft(1:length(y)/2);
+yfft_graf = yfft(1:length(y)/2);
 subplot(3,2,4);
-plot(eje_f, abs(yfft), eje_f, angle(yfft));
+plot(eje_f, abs(yfft_graf), eje_f, angle(yfft_graf));
 axis([0 22050 0 100]);
 xlabel('f(Hz)');
 legend('Modulo', 'Fase');
