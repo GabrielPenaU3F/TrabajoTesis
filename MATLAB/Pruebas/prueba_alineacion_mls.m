@@ -10,27 +10,21 @@ x_align = x(1:end-lag); %Eliminamos la parte sobrante al final de la señal gener
 %Ahora, x_align y y_align tienen la misma longitud y están alineadas
 %muestra a muestra.
 
-Rxy = xcorr(x_align,y_align);
-
-%Graficamos las cinco señales
+%Graficamos las cuatro señales
 t_duracion = length(x)/fs;
 t = 0:1/fs:t_duracion - 1/fs;
 t_duracion_align = length(x_align)/fs;
 t_align = 0:1/fs:t_duracion_align - 1/fs;
-t_r = 0:1/fs:length(Rxy)/fs - 1/fs;
-subplot(3,2,1);
+subplot(2,2,1);
 plot(t,x);
 title('Señal MLS');
-subplot(3,2,2);
+subplot(2,2,2);
 plot(t_align,x_align);
 title('Señal MLS sincronizada');
-subplot(3,2,3);
+subplot(2,2,3);
 plot(t,y);
 title('Señal grabada');
-subplot(3,2,4);
+subplot(2,2,4);
 plot(t_align,y_align);
 title('Señal grabada sincronizada');
-subplot(3,2,[5,6]);
-plot(t_r, Rxy);
-title('Correlación cruzada entre las señales sincronizadas');
 
