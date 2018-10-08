@@ -4,10 +4,10 @@ function mls_sincrono = generar_senal_mls_sincrona(fs, n_bits, cantidad_periodos
 
     mls_puro = generar_senal_mls_bits(n_bits, cantidad_periodos);
     
-    amplitud_senoide = 2;
+    amplitud_senoide = 10;
     frecuencia_senoide = 100;
     fase_inicial_senoide = 0;
-    senoide = generar_senoide(fs, amplitud_senoide, frecuencia_senoide, fase_inicial_senoide, 1);
+    senoide = generar_senoide(fs, amplitud_senoide, frecuencia_senoide, fase_inicial_senoide, 100);
     silencio = generar_silencio(2,fs); %2 segundos de silencio
     
     mls_sincrono = cat(2, senoide, silencio);
