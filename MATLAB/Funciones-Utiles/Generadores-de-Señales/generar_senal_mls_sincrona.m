@@ -4,6 +4,8 @@ function mls_sincrono = generar_senal_mls_sincrona(fs, n_bits, cantidad_periodos
 
     mls_puro = generar_senal_mls_bits(n_bits, cantidad_periodos);
     
+    %Estos podrían ser parámetros a elegir, pero por ahora, no hacen
+    %diferencia
     amplitud_senoide = 10;
     frecuencia_senoide = 100;
     fase_inicial_senoide = 0;
