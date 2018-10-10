@@ -1,0 +1,14 @@
+clc;
+
+%{
+Esta prueba se realiza con los siguientes datos:
+x = Señal mls generada. Es el archivo senal_mls_generada de la carpeta Sonidos
+y = Señal mls grabada. Es el archivo senal_mls_grabada de la carpeta Sonidos
+fs = 44100
+
+%}
+
+h = calcular_respuesta_impulsional_mls(x, y, fs, 16, 7);
+
+t = 0:1/fs:length(h)/fs - 1/fs;
+plot(t,h);
