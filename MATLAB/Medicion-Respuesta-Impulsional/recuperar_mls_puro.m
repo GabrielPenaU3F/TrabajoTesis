@@ -1,8 +1,6 @@
 function [x_mls, y_mls] = recuperar_mls_puro(x, y, fs, frecuencia_senoide, cant_periodos_senoide, tiempo_silencio)
 
-    lag = finddelay(x,y); %Computa el delay exacto entre el comienzo de cada señal
-    y_align = y(lag+1:end); %Eliminamos la parte nula al principio de la señal grabada
-    x_align = x(1:end-lag); %Eliminamos la parte sobrante al final de la señal generada, que no tendrá correspondencia con ninguna parte de la señal grabada
+    [x_align, y_align] = alinear_senales(x,y);
 
     %Eliminación de la senoide
     tiempo_senoide = (1/frecuencia_senoide)*cant_periodos_senoide; %Duracion de la senoide
