@@ -2,21 +2,14 @@
 function valor_eficaz = calcular_potencia_eficaz(data, Ts, t_comienzo, periodo) 
 
     T_duracion_total = (length(data) - 1) * Ts;
-    t_final = t_comienzo + periodo - Ts;
+    t_final = t_comienzo + periodo;
 
-    if (t_comienzo > T_duracion_total) 
+    if (t_comienzo > (T_duracion_total) 
         fprintf('El tiempo de inicio del periodo excede la duracion del audio %.4f \n', T_duracion_total);
     elseif (t_final > T_duracion_total) 
         fprintf('El periodo indicado excede la duracion del audio \n');
     elseif (periodo < Ts)
         fprintf('El periodo indicado es mas corto que el periodo de muestreo \n');
-        valor_eficaz = 0; 
-        %{
-            Este return está porque en el cálculo de la envolvente
-            energética, puede pedirse integrar sobre un período menor al 
-            período de muestreo. En dicho caso, efectivamente no se agrega
-            energía ninguna en dicho período de integración.
-        %}
     else
     
         muestra_inicial = calcular_muestra(t_comienzo,Ts);
