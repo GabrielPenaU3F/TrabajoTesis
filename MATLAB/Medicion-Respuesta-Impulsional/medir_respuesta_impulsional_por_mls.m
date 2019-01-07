@@ -1,4 +1,4 @@
-function h = medir_respuesta_impulsional_por_mls(fs, n_bits, periodos);
+function h = medir_respuesta_impulsional_por_mls(fs, n_bits, periodos)
 
     x = generar_senal_mls_sincrona(fs,n_bits,periodos);
     tiempo_duracion = length(x)/fs;
