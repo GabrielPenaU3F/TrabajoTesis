@@ -1,6 +1,6 @@
 function edt = calcular_edt(s_db,fs)
 
-    edt = calcular_tx(s_db,fs,10);
+    edt = 6 * calcular_tx(s_db,fs,10);
             
         
 

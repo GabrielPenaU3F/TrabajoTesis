@@ -1,5 +1,5 @@
 %Los parámetros son los mismos que para la señal ESS correspondiente
-function h = generar_filtro_inverso_ess(fs, T, f1, f2);
+function h = generar_filtro_inverso_ess(fs, T, f1, f2)
 
     %{
 
