@@ -6,6 +6,7 @@ root = Tk()
 root.title("Medidor Acústico por Gabriel Pena")
 root.iconbitmap("../resources/icons/mic_icon.ico")
 root.tk_setPalette(background='#f4f3f3')
+root.resizable(False, False)
 
 # ----- Configuracion del frame principal de la ventana -----
 main_frame = Frame(root)
@@ -13,7 +14,7 @@ main_frame.config(width="1200", height="600")
 main_frame.pack(fill="both", expand="True", padx=20, pady=20)
 
 
-# ----- Dividiré el frame principal en un grid de 3x2 -----
+# ----- Divido el frame principal en un grid de 3x2 -----
 
 frame_titulos = Frame(main_frame)
 frame_titulos.grid(row=0, column=0)
@@ -24,9 +25,16 @@ frame_graficas.grid(row=1, column=0)
 frame_medicion = Frame(main_frame)
 frame_medicion.grid(row=2, column=0, sticky="w", pady=(10, 0))
 
-frame_resultados = Frame(main_frame)
-frame_resultados.grid(row=0, column=1, sticky="n", padx=(20, 0))
+frame_boton_derecha = Frame(main_frame)
+frame_boton_derecha.grid(row=2, column=1, sticky="e")
 
+frame_titulo_resultados = Frame(main_frame)
+frame_titulo_resultados.grid(row=0, column=1, sticky="n", padx=(20, 0))
+frame_titulo_resultados.config(width=125, height=20, borderwidth=2, relief="groove")
+frame_titulo_resultados.pack_propagate(False)
+
+frame_resultados = Frame(main_frame)
+frame_resultados.grid(row=1, column=1, sticky="n", padx=(20, 0), pady=(20,0))
 
 # ----- Frame de títulos -----
 
@@ -76,17 +84,49 @@ radiob_ess.grid(row=0, column=2, padx=10)
 radiob_mls = Radiobutton(frame_medicion, text="Método MLS", variable=radiob_metodo_var, value="MLS")
 radiob_mls.grid(row=0, column=3, padx=10)
 
+boton_ver_por_bandas = Button(frame_boton_derecha, text="Ver por banda de frecuencia", state=DISABLED)
+boton_ver_por_bandas.pack(padx=(10, 0))
 
 # ----- Frame de resultados -----
 
-frame_titulo_resultados = Frame(frame_resultados)
-frame_titulo_resultados.config(width=100, height=20, borderwidth=2, relief="groove")
-frame_titulo_resultados.pack_propagate(False)
-frame_titulo_resultados.grid(row=0, column=1)
 label_titulo_resultados = Label(frame_titulo_resultados)
 label_titulo_resultados.config(text="Resultados")
 label_titulo_resultados.pack(fill="both", expand="True", ipadx=3, ipady=3)
 
+label_edt = Label(frame_resultados)
+label_edt.config(text="EDT:")
+label_edt.grid(row=0, column=0)
+entry_edt = Entry(frame_resultados)
+entry_edt.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
+entry_edt.grid(row=0, column=1, padx=(10, 0))
+
+label_t20 = Label(frame_resultados)
+label_t20.config(text="T20:")
+label_t20.grid(row=1, column=0)
+entry_t20 = Entry(frame_resultados)
+entry_t20.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
+entry_t20.grid(row=1, column=1, padx=(10, 0))
+
+label_t30 = Label(frame_resultados)
+label_t30.config(text="T30:")
+label_t30.grid(row=2, column=0)
+entry_t30 = Entry(frame_resultados)
+entry_t30.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
+entry_t30.grid(row=2, column=1, padx=(10, 0))
+
+label_t60_30 = Label(frame_resultados)
+label_t60_30.config(text="T60(30):")
+label_t60_30.grid(row=3, column=0)
+entry_t60_30 = Entry(frame_resultados)
+entry_t60_30.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
+entry_t60_30.grid(row=3, column=1, padx=(10, 0))
+
+label_rxy = Label(frame_resultados)
+label_rxy.config(text="r")
+label_rxy.grid(row=4, column=0)
+entry_rxy = Entry(frame_resultados)
+entry_rxy.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
+entry_rxy.grid(row=4, column=1, padx=(10, 0))
 
 
 root.mainloop()
