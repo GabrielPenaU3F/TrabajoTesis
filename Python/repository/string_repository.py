@@ -13,7 +13,10 @@ class StringRepository:
                                     "modulada exponencialmente). Se recomienda para la mayoría de las " \
                                     "aplicaciones el método ESS, por ser más resistente al ruido.\n" \
                                     "Asegúrese de no causar ruidos espurios que contaminen la medición " \
-                                    "mientras ésta se esté efectuando.\n\n"\
+                                    "mientras ésta se esté efectuando.\n" \
+                                    "Se recomienda que el micrófono se encuentre a al menos dos metros de " \
+                                    "la fuente de sonido y a al menos un metro del suelo, " \
+                                    "preferentemente en la localización usual de los oyentes.\n\n"\
                                     "PARÁMETROS DE LINEALIDAD:\n" \
                                     "Los tres valores adicionales son parámetros representativos " \
                                     "del carácter lineal de la curva de decaimiento, definidos " \
