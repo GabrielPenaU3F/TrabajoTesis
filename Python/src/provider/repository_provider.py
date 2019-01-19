@@ -1,4 +1,4 @@
-from repository.string_repository import StringRepository
+from src.repository.string_repository import StringRepository
 
 
 class RepositoryProvider:

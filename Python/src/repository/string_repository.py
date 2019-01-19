@@ -38,6 +38,5 @@ class StringRepository:
                                     "de frecuencia, tanto de octava como de tercio de octava." \
 
 
-
     def get_string_instrucciones(self):
         return self.string_instrucciones

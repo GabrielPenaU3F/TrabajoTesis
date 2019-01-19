@@ -1,7 +1,7 @@
 from tkinter import *;
 
-from controller.instrucciones_controller import InstruccionesController
-from provider.repository_provider import RepositoryProvider
+from src.controller.instrucciones_controller import InstruccionesController
+from src.provider.repository_provider import RepositoryProvider
 
 
 class InstruccionesView:
@@ -18,13 +18,18 @@ class InstruccionesView:
 
         self.construir_label_instrucciones()
 
+        self.construir_boton_aceptar()
+
+        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
+
         self.root.mainloop()
 
     def construir_root(self):
         root = Tk()
+        root.withdraw()  # Inmediatamente despues de la creación, oculto la ventana
         # ----- Configuracion del root ------
         root.title("Instrucciones")
-        root.iconbitmap("resources/icons/mic_icon.ico")
+        root.iconbitmap("../resources/icons/mic_icon.ico")
         root.tk_setPalette(background='#f4f3f3')
         root.resizable(False, False)
         return root
@@ -40,4 +45,9 @@ class InstruccionesView:
         self.label_instrucciones = Label(self.main_frame)
         self.label_instrucciones.config(text=self.string_repository.get_string_instrucciones(), width=65,
                                         justify=CENTER, wraplength=400)
-        self.label_instrucciones.pack()
+        self.label_instrucciones.grid(row=0, column=0)
+
+    def construir_boton_aceptar(self):
+        self.boton_aceptar = Button(self.main_frame)
+        self.boton_aceptar.config(text="Aceptar", command=self.controller.on_aceptar)
+        self.boton_aceptar.grid(row=1, column=0, pady=(20, 0))

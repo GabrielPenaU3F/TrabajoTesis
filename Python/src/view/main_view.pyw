@@ -1,5 +1,5 @@
 from tkinter import *
-from controller.main_controller import MainController
+from src.controller.main_controller import MainController
 
 
 class MainView:
@@ -21,6 +21,8 @@ class MainView:
         self.construir_frame_medicion()
 
         self.construir_frame_resultados()
+
+        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
         self.root.mainloop()
 
@@ -85,7 +87,7 @@ class MainView:
 
         # ----- Frame de medicion -----
         self.boton_instrucciones = Button(self.frame_medicion, text="Instrucciones",
-                                          command=self.controller.mostrar_instrucciones)
+                                          command=self.controller.on_mostrar_instrucciones)
         self.boton_instrucciones.grid(row=0, column=0, padx=(0, 10))
 
         self.boton_medir = Button(self.frame_medicion, text="Medir")
@@ -167,9 +169,10 @@ class MainView:
 
     def construir_root(self):
         root = Tk()
+        root.withdraw() #Inmediatamente después de la creación, oculto la ventana
         # ----- Configuracion del root ------
         root.title("Medidor Acústico por Gabriel Pena")
-        root.iconbitmap("resources/icons/mic_icon.ico")
+        root.iconbitmap("../resources/icons/mic_icon.ico")
         root.tk_setPalette(background='#f4f3f3')
         root.resizable(False, False)
         return root
