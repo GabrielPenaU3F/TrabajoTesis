@@ -103,11 +103,11 @@ class SenalAudio:
 
     '''
     def obtener_t_inmediato_anterior(self, t):
-        for k in self.senal_en_tiempo:
+        for k in self.senal_en_tiempo.get_dominio_temporal():
             if (k + 1/self.fs) > t: return k
 
     def obtener_t_inmediato_siguiente(self, t):
-        for k in self.senal_en_tiempo:
+        for k in self.senal_en_tiempo.get_dominio_temporal():
             if (t - 1/self.fs) < k: return k
     '''
 
