@@ -101,6 +101,20 @@ class SenalAudioTest(unittest.TestCase):
 
         self.assertRaises(ValidacionParametrosSenalException, SenalAudio, fs, dominio, valores)
 
+    def test_que_lance_excepcion_si_creo_senal_con_dominio_desordenado(self):
+        fs = 5
+        dominio = [0, 0.4, 0.2, 0.1, 10, 1, 1.2, 1.4, 1.6, 1.8]
+        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        self.assertRaises(ValidacionParametrosSenalException, SenalAudio, fs, dominio, valores)
+
+    def test_que_lance_excepcion_si_creo_senal_con_frecuencia_de_muestreo_y_dominio_temporal_incongruentes(self):
+        fs = 5
+        dominio = [0, 0.2, 0.4, 0.6, 0.9, 1, 1.2, 1.4, 1.6, 1.8]
+        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        self.assertRaises(ValidacionParametrosSenalException, SenalAudio, fs, dominio, valores)
+
     def generar_valores_senal_senoidal(self, longitud, fs):
         dominio_temporal = []
         for t in range(longitud):
