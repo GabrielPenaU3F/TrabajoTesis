@@ -65,6 +65,9 @@ class SenalAudio:
     def get_valores(self):
         return self.senal_en_tiempo.get_valores()
 
+    def get_senal_en_tiempo(self):
+        return self.senal_en_tiempo
+
     '''
     Se observa en este método que la señal se modela como un valor constante
     entre muestra y muestra, con amplitud igual a la muestra de la izquierda
