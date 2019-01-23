@@ -1,31 +1,30 @@
 import unittest
 
 import math
+import numpy
 from src.domain.senal_audio import SenalAudio
 from src.exception.exceptions import *
-
-# Usar NUMPY para mejorar los test
 
 
 class SenalAudioTest(unittest.TestCase):
 
     def test_que_la_longitud_de_una_senal_nula_sea_correcta(self):
         fs = 5
-        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        valores = numpy.zeros(10)
         senal = SenalAudio(fs, valores)
 
         self.assertEqual(10, senal.get_longitud())
 
     def test_que_la_duracion_de_una_senal_nula_sea_correcta(self):
         fs = 5
-        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        valores = numpy.zeros(10)
         senal = SenalAudio(fs, valores)
 
         self.assertEqual(2, senal.get_duracion())
 
     def test_que_el_dominio_temporal_de_una_senal_nula_sea_correcto(self):
         fs = 5
-        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        valores = numpy.zeros(10)
         senal = SenalAudio(fs, valores)
         dominio_temporal = [0, 1/5, 2/5, 3/5, 4/5, 1, 6/5, 7/5, 8/5, 9/5]
 
@@ -33,7 +32,7 @@ class SenalAudioTest(unittest.TestCase):
 
     def test_que_los_valores_de_una_senal_nula_sean_correctos(self):
         fs = 5
-        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        valores = list(numpy.zeros(10))
         senal = SenalAudio(fs, valores)
 
         self.assertListEqual(valores, senal.get_valores())
@@ -80,7 +79,7 @@ class SenalAudioTest(unittest.TestCase):
     def test_que_una_senal_nula_se_cree_correctamente_con_dominio_y_valores(self):
         fs = 5
         dominio = [0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8]
-        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        valores = list(numpy.zeros(10))
         senal = SenalAudio(fs, dominio, valores)
 
         self.assertListEqual(dominio, senal.get_dominio_temporal())
@@ -104,14 +103,14 @@ class SenalAudioTest(unittest.TestCase):
     def test_que_lance_excepcion_si_creo_senal_con_dominio_desordenado(self):
         fs = 5
         dominio = [0, 0.4, 0.2, 0.1, 10, 1, 1.2, 1.4, 1.6, 1.8]
-        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        valores = numpy.zeros(10)
 
         self.assertRaises(ValidacionParametrosSenalException, SenalAudio, fs, dominio, valores)
 
     def test_que_lance_excepcion_si_creo_senal_con_frecuencia_de_muestreo_y_dominio_temporal_incongruentes(self):
         fs = 5
         dominio = [0, 0.2, 0.4, 0.6, 0.9, 1, 1.2, 1.4, 1.6, 1.8]
-        valores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        valores = numpy.zeros(10)
 
         self.assertRaises(ValidacionParametrosSenalException, SenalAudio, fs, dominio, valores)
 
