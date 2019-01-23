@@ -2,6 +2,8 @@ import unittest
 
 import math
 import numpy
+
+from src.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
 from src.domain.senal_audio import SenalAudio
 from src.exception.exceptions import *
 
@@ -39,42 +41,24 @@ class SenalAudioTest(unittest.TestCase):
 
     def test_que_los_valores_de_una_senal_senoidal_sean_correctos(self):
         fs = 5
-        valores = self.generar_valores_senal_senoidal(10, fs)
+        valores = GeneradorSenoidal().generar_valores_senal_senoidal(10, fs)
         senal = SenalAudio(fs, valores)
 
         self.assertListEqual(valores, senal.get_valores())
 
     def test_que_una_senal_senoidal_en_0_valga_0(self):
         fs = 5
-        valores = self.generar_valores_senal_senoidal(10, fs)
+        valores = GeneradorSenoidal().generar_valores_senal_senoidal(10, fs)
         senal = SenalAudio(fs, valores)
 
         self.assertEqual(0, senal.get_valor_en(0))
 
     def test_que_el_retenedor_de_orden_cero_producza_que_una_senoidal_en_cero_coma_cinco_valga_seno_de_cero_coma_cuatro(self):
         fs = 5
-        valores = self.generar_valores_senal_senoidal(10, fs)
+        valores = GeneradorSenoidal().generar_valores_senal_senoidal(10, fs)
         senal = SenalAudio(fs, valores)
 
         self.assertEqual(math.sin(0.4), senal.get_valor_en(0.5))
-
-    def test_que_al_recortar_senal_senoidal_el_dominio_temporal_sea_correcto(self):
-        fs = 5
-        valores = self.generar_valores_senal_senoidal(10, fs)
-        senal = SenalAudio(fs, valores)
-        senal_entre_1_y_2 = senal.recortar_segmento(1, 2)
-        dominio_temporal_esperado = [1, 6/5, 7/5, 8/5, 9/5]
-
-        self.assertListEqual(dominio_temporal_esperado, senal_entre_1_y_2.get_dominio_temporal())
-
-    def test_que_al_recortar_senal_senoidal_los_valores_sean_correctos(self):
-        fs = 5
-        valores = self.generar_valores_senal_senoidal(10, fs)
-        senal = SenalAudio(fs, valores)
-        senal_entre_1_y_2 = senal.recortar_segmento(1, 2)
-        valores_esperados = [math.sin(1), math.sin(6 / 5), math.sin(7 / 5), math.sin(8 / 5), math.sin(9 / 5)]
-
-        self.assertListEqual(valores_esperados, senal_entre_1_y_2.get_valores())
 
     def test_que_una_senal_nula_se_cree_correctamente_con_dominio_y_valores(self):
         fs = 5
@@ -114,11 +98,3 @@ class SenalAudioTest(unittest.TestCase):
 
         self.assertRaises(ValidacionParametrosSenalException, SenalAudio, fs, dominio, valores)
 
-    def generar_valores_senal_senoidal(self, longitud, fs):
-        dominio_temporal = []
-        for t in range(longitud):
-            dominio_temporal.append(t/fs)
-        valores = []
-        for t in dominio_temporal:
-            valores.append(math.sin(t))
-        return valores
