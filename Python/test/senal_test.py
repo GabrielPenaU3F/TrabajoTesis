@@ -110,17 +110,18 @@ class SenalAudioTest(unittest.TestCase):
     def test_que_la_senoide_pura_tenga_unicamente_su_frecuencia_fundamental(self):
         fs = 44100
         duracion = 10
-        senoide_220Hz = GeneradorSenoidal().generar_senoide(fs, duracion, 220, 1, 0)
+        frecuencia_fundamental = 220
+        senoide_220Hz = GeneradorSenoidal().generar_senoide(fs, duracion, frecuencia_fundamental, 1, 0)
         modulos_frecuencia = senoide_220Hz.get_modulos_frecuencia()
 
         valores_no_nulos = 0
         for i in range(len(modulos_frecuencia)):
-            if modulos_frecuencia[i] > math.pow(10, -7):
-                valores_no_nulos += 1
-                print(senoide_220Hz.get_dominio_frecuencial()[i])
+            if modulos_frecuencia[i] > math.pow(10, -7): valores_no_nulos += 1
 
         # Son dos que representan la frecuencia fundamental f0 y su réplica fs - f0
         self.assertEqual(2, valores_no_nulos)
+        self.assertEqual(True, senoide_220Hz.get_dominio_frecuencial()[frecuencia_fundamental] > math.pow(10, -7))
+        self.assertEqual(True, senoide_220Hz.get_dominio_frecuencial()[fs - frecuencia_fundamental] > math.pow(10, -7))
 
 
 
