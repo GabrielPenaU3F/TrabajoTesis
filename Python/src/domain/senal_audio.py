@@ -2,6 +2,7 @@ import math
 
 from src.domain.senal_en_tiempo import SenalEnTiempo
 from src.exception.exceptions import *
+from src.provider.action_provider import ActionProvider
 
 
 class SenalAudio:
@@ -28,6 +29,8 @@ class SenalAudio:
             self.senal_en_tiempo = SenalEnTiempo(dominio_temporal, valores)
 
         else: raise CantidadDeParametrosException("La señal de audio puede recibir únicamente 2 o 3 parámetros")
+
+        self.senal_en_frecuencia = None
 
     def validar_parametros(self, fs, dominio_temporal, valores):
         if len(dominio_temporal) != len(valores):
@@ -68,6 +71,18 @@ class SenalAudio:
     def get_senal_en_tiempo(self):
         return self.senal_en_tiempo
 
+    def get_modulos_frecuencia(self):
+        if self.senal_en_frecuencia is None:
+            accion_transformar = ActionProvider.provide_transformar_fourier_action()
+            self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
+        return self.senal_en_frecuencia.get_modulo_valores()
+
+    def get_fases_frecuencia(self):
+        if self.senal_en_frecuencia is None:
+            accion_transformar = ActionProvider.provide_transformar_fourier_action()
+            self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
+        return self.senal_en_frecuencia.get_fase_valores()
+
     '''
     Se observa en este método que la señal se modela como un valor constante
     entre muestra y muestra, con amplitud igual a la muestra de la izquierda
@@ -96,4 +111,10 @@ class SenalAudio:
         for t in range(1, len(dominio_temporal)):
             if ((dominio_temporal[t] - dominio_temporal[t-1]) - 1/fs) >= 1/fs/math.pow(10, 6): return False
         return True
+
+    def get_dominio_frecuencial(self):
+        if self.senal_en_frecuencia is None:
+            accion_transformar = ActionProvider.provide_transformar_fourier_action()
+            self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
+        return self.senal_en_frecuencia.get_dominio_frecuencial()
 

@@ -41,21 +41,21 @@ class SenalAudioTest(unittest.TestCase):
 
     def test_que_los_valores_de_una_senal_senoidal_sean_correctos(self):
         fs = 5
-        valores = GeneradorSenoidal().generar_valores_senal_senoidal(10, fs)
+        valores = GeneradorSenoidal().generar_valores_senoide(10, fs)
         senal = SenalAudio(fs, valores)
 
         self.assertListEqual(valores, senal.get_valores())
 
     def test_que_una_senal_senoidal_en_0_valga_0(self):
         fs = 5
-        valores = GeneradorSenoidal().generar_valores_senal_senoidal(10, fs)
+        valores = GeneradorSenoidal().generar_valores_senoide(10, fs)
         senal = SenalAudio(fs, valores)
 
         self.assertEqual(0, senal.get_valor_en(0))
 
     def test_que_el_retenedor_de_orden_cero_producza_que_una_senoidal_en_cero_coma_cinco_valga_seno_de_cero_coma_cuatro(self):
         fs = 5
-        valores = GeneradorSenoidal().generar_valores_senal_senoidal(10, fs)
+        valores = GeneradorSenoidal().generar_valores_senoide(10, fs)
         senal = SenalAudio(fs, valores)
 
         self.assertEqual(math.sin(0.4), senal.get_valor_en(0.5))
@@ -97,4 +97,30 @@ class SenalAudioTest(unittest.TestCase):
         valores = numpy.zeros(10)
 
         self.assertRaises(ValidacionParametrosSenalException, SenalAudio, fs, dominio, valores)
+
+    def test_que_el_dominio_frecuencial_vaya_de_0_hasta_la_frecuencia_de_muestreo(self):
+        fs = 44100
+        duracion = 10
+        senoide_220Hz = GeneradorSenoidal().generar_senoide(fs, duracion, 220, 1, 0)
+        espaciado_en_frecuencia = 1/duracion
+        dominio_frecuencial_esperado = list(numpy.arange(0, fs, espaciado_en_frecuencia))
+
+        self.assertListEqual(dominio_frecuencial_esperado, senoide_220Hz.get_dominio_frecuencial())
+
+    def test_que_la_senoide_pura_tenga_unicamente_su_frecuencia_fundamental(self):
+        fs = 44100
+        duracion = 10
+        senoide_220Hz = GeneradorSenoidal().generar_senoide(fs, duracion, 220, 1, 0)
+        modulos_frecuencia = senoide_220Hz.get_modulos_frecuencia()
+
+        valores_no_nulos = 0
+        for i in range(len(modulos_frecuencia)):
+            if modulos_frecuencia[i] > math.pow(10, -7):
+                valores_no_nulos += 1
+                print(senoide_220Hz.get_dominio_frecuencial()[i])
+
+        # Son dos que representan la frecuencia fundamental f0 y su réplica fs - f0
+        self.assertEqual(2, valores_no_nulos)
+
+
 

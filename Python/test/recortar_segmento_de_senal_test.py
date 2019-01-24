@@ -20,7 +20,7 @@ class RecortarSegmentoDeSenalEntreAmplitudesTest(unittest.TestCase):
 
     def test_que_al_recortar_senal_senoidal_el_dominio_temporal_sea_correcto(self):
         fs = 5
-        valores = GeneradorSenoidal().generar_valores_senal_senoidal(10, fs)
+        valores = GeneradorSenoidal().generar_valores_senoide(10, fs)
         senal = SenalAudio(fs, valores)
         senal_entre_1_y_2 = RecortarSegmentoDeSenalEntreAmplitudesTest.recortar_en_tiempo_action.execute(senal, 1, 2)
         dominio_temporal_esperado = [1, 6/5, 7/5, 8/5, 9/5]
@@ -29,7 +29,7 @@ class RecortarSegmentoDeSenalEntreAmplitudesTest(unittest.TestCase):
 
     def test_que_al_recortar_senal_senoidal_los_valores_sean_correctos(self):
         fs = 5
-        valores = GeneradorSenoidal().generar_valores_senal_senoidal(10, fs)
+        valores = GeneradorSenoidal().generar_valores_senoide(10, fs)
         senal = SenalAudio(fs, valores)
         senal_entre_1_y_2 = RecortarSegmentoDeSenalEntreAmplitudesTest.recortar_en_tiempo_action.execute(senal, 1, 2)
         valores_esperados = [math.sin(1), math.sin(6 / 5), math.sin(7 / 5), math.sin(8 / 5), math.sin(9 / 5)]
