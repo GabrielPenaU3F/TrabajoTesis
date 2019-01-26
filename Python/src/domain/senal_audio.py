@@ -11,7 +11,7 @@ class SenalAudio:
 
         if len(args) == 2:
             fs = args[0]
-            valores = args[1]
+            valores = list(args[1])
             self.longitud = len(valores)
             self.duracion = self.longitud/fs
             self.fs = fs
@@ -20,8 +20,8 @@ class SenalAudio:
 
         elif len(args) == 3:
             fs = args[0]
-            dominio_temporal = args[1]
-            valores = args[2]
+            dominio_temporal = list(args[1])
+            valores = list(args[2])
             self.validar_parametros(fs, dominio_temporal, valores)
             self.longitud = len(valores)
             self.duracion = self.longitud/fs

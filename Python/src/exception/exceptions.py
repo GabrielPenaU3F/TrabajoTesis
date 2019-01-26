@@ -10,3 +10,8 @@ class CantidadDeParametrosException(Exception):
         super().__init__(message)
 
 
+class IOException(Exception):
+
+    def __init__(self, message):
+        super().__init__(message)
+
