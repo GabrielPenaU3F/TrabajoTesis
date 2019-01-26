@@ -1,6 +1,6 @@
 from tkinter import filedialog
 
-from src.exception.exceptions import IOException
+from src.exception.excepciones import IOException
 
 
 class EscritorDeArchivosDeAudio:

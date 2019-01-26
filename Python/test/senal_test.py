@@ -5,7 +5,7 @@ import numpy
 
 from src.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
 from src.domain.senal_audio import SenalAudio
-from src.exception.exceptions import *
+from src.exception.excepciones import *
 
 
 class SenalAudioTest(unittest.TestCase):

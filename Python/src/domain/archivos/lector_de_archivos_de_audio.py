@@ -2,7 +2,7 @@ from tkinter import filedialog
 
 import numpy
 
-from src.exception.exceptions import IOException
+from src.exception.excepciones import IOException
 from src.domain.senal_audio import SenalAudio
 
 
