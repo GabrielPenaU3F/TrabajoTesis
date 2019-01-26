@@ -90,16 +90,22 @@ class MainView:
                                           command=self.controller.on_mostrar_instrucciones)
         self.boton_instrucciones.grid(row=0, column=0, padx=(0, 10))
 
+        self.boton_cargar_archivo = Button(self.frame_medicion, text="Cargar archivo", command=self.controller.on_cargar_archivo)
+        self.boton_cargar_archivo.grid(row=0, column=1, padx=10)
+
         self.boton_medir = Button(self.frame_medicion, text="Medir")
-        self.boton_medir.grid(row=0, column=1, padx=10)
+        self.boton_medir.grid(row=0, column=2, padx=10)
 
         self.radiob_metodo_var = StringVar(value="ESS")
         self.radiob_ess = Radiobutton(self.frame_medicion, text="Método ESS", variable=self.radiob_metodo_var, value="ESS")
-        self.radiob_ess.grid(row=0, column=2, padx=10)
+        self.radiob_ess.grid(row=0, column=3, padx=10)
         self.radiob_mls = Radiobutton(self.frame_medicion, text="Método MLS", variable=self.radiob_metodo_var, value="MLS")
-        self.radiob_mls.grid(row=0, column=3, padx=10)
+        self.radiob_mls.grid(row=0, column=4, padx=10)
 
-        boton_ver_por_bandas = Button(self.frame_boton_derecha, text="Ver por banda de frecuencia", state=DISABLED)
+        self.boton_guardar_archivo = Button(self.frame_medicion, text="Guardar archivo", command=self.controller.on_guardar_archivo)
+        self.boton_guardar_archivo.grid(row=0, column=5, padx=10)
+
+        boton_ver_por_bandas = Button(self.frame_boton_derecha, text="Vista detallada", state=DISABLED)
         boton_ver_por_bandas.pack(padx=(10, 0))
 
     def construir_frame_graficas(self):
