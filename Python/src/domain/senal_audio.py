@@ -2,7 +2,7 @@ import math
 
 from src.domain.senal_en_tiempo import SenalEnTiempo
 from src.exception.excepciones import *
-from src.provider.action_provider import ActionProvider
+from src.core.provider.action_provider import ActionProvider
 
 
 class SenalAudio:

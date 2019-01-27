@@ -1,11 +1,10 @@
 import math
 import unittest
 
-from src.action.recortar_segmento_de_senal_entre_amplitudes_action import RecortarSegmentoDeSenalEntreAmplitudesAction
 from src.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
 from src.domain.senal_audio import SenalAudio
 from src.domain.senal_en_tiempo import SenalEnTiempo
-from src.provider.action_provider import ActionProvider
+from src.core.provider.action_provider import ActionProvider
 
 
 class RecortarSegmentoDeSenalEntreAmplitudesTest(unittest.TestCase):

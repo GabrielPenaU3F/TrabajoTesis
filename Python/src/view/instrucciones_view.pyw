@@ -1,7 +1,7 @@
 from tkinter import *;
 
 from src.controller.instrucciones_controller import InstruccionesController
-from src.provider.repository_provider import RepositoryProvider
+from src.core.provider.repository_provider import RepositoryProvider
 
 
 class InstruccionesView:
