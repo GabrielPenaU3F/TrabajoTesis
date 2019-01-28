@@ -3,7 +3,7 @@ import unittest
 from src.core.provider.action_provider import ActionProvider
 
 
-class EliminarSegmentoInicialConstanteTest(unittest.TestCase):
+class TestEliminarSegmentoInicialConstante(unittest.TestCase):
 
     eliminar_segmento_inicial_constante_action = None
 

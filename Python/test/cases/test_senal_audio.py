@@ -8,7 +8,7 @@ from src.domain.senal_audio import SenalAudio
 from src.exception.excepciones import *
 
 
-class SenalAudioTest(unittest.TestCase):
+class TestSenalAudio(unittest.TestCase):
 
     def test_que_la_longitud_de_una_senal_nula_sea_correcta(self):
         fs = 5
