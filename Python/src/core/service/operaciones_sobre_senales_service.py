@@ -55,11 +55,11 @@ class OperacionesSobreSenalesService:
     def eliminar_delay_entre_senales(self, *args):
 
         senal_de_referencia = args[0]
-        senal_a_truncar = args[1]
-        Ts = self.calcular_periodo_muestral(senal_a_truncar)
+        senal_con_delay = args[1]
+        Ts = self.calcular_periodo_muestral(senal_con_delay)
         if len(args) == 2:
             ventana_en_segundos = self.obtener_longitud_del_array_mas_corto(senal_de_referencia.get_valores(),
-                                                                            senal_a_truncar.get_valores()) * Ts
+                                                                            senal_con_delay.get_valores()) * Ts
         elif len(args) == 3:
             ventana_en_segundos = args[2]
 
@@ -67,35 +67,35 @@ class OperacionesSobreSenalesService:
 
         ventana_en_cantidad_de_muestras = int(ventana_en_segundos/Ts)
         if ventana_en_cantidad_de_muestras > self.obtener_longitud_del_array_mas_corto(
-                senal_de_referencia.get_valores(), senal_a_truncar.get_valores()):
+                senal_de_referencia.get_valores(), senal_con_delay.get_valores()):
             raise AlineacionException("La ventana debe ser mas corta que las señales a alinear")
 
-        valores_senal = senal_a_truncar.get_valores().copy()[0:ventana_en_cantidad_de_muestras]
+        valores_con_delay = senal_con_delay.get_valores().copy()[0:ventana_en_cantidad_de_muestras]
         valores_referencia = senal_de_referencia.get_valores().copy()[0:ventana_en_cantidad_de_muestras]
-        iteraciones = len(valores_senal) - 1
+        iteraciones = len(valores_con_delay) - 1
 
         puntos_heuristicos = []
         for i in range(iteraciones):
-            heuristico = self.calcular_heuristico(valores_referencia, valores_senal)
+            heuristico = self.calcular_heuristico(valores_referencia, valores_con_delay)
             puntos_heuristicos.append(heuristico)
-            valores_senal.pop(0)
+            valores_con_delay.pop(0)
 
         posicion_inicial_truncada = puntos_heuristicos.index(min(puntos_heuristicos))
-        nuevos_valores = senal_a_truncar.get_valores().copy()
+        nuevos_valores = senal_con_delay.get_valores().copy()
         for i in range(posicion_inicial_truncada):
             nuevos_valores.pop(0)
 
         nuevo_dominio = list(numpy.arange(0, len(nuevos_valores)*Ts, Ts))
         return SenalEnTiempo(nuevo_dominio, nuevos_valores)
 
-    def calcular_heuristico(self, valores_referencia, valores_senal):
+    def calcular_heuristico(self, valores_referencia, valores_con_delay):
         heuristico = 0
-        longitud = self.obtener_longitud_del_array_mas_corto(valores_senal, valores_referencia)
+        longitud = self.obtener_longitud_del_array_mas_corto(valores_con_delay, valores_referencia)
         for i in range(longitud):
-            diferencia = abs(valores_referencia[i] - valores_senal[i])
+            diferencia = abs(valores_referencia[i] - valores_con_delay[i])
             heuristico += diferencia
         return heuristico
 
-    def obtener_longitud_del_array_mas_corto(self, valores_senal, valores_referencia):
-        if len(valores_senal) >= len(valores_referencia): return len(valores_referencia)
-        else: return len(valores_senal)
+    def obtener_longitud_del_array_mas_corto(self, valores_con_delay, valores_referencia):
+        if len(valores_con_delay) >= len(valores_referencia): return len(valores_referencia)
+        else: return len(valores_con_delay)
