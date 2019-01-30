@@ -118,3 +118,6 @@ class SenalAudio:
             self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
         return self.senal_en_frecuencia.get_dominio_frecuencial()
 
+    def get_energia_total(self):
+        return self.senal_en_tiempo.get_energia_total()
+

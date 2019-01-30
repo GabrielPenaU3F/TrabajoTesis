@@ -131,5 +131,18 @@ class TestSenalAudio(unittest.TestCase):
         self.assertEqual(True, senoide_220Hz.get_dominio_frecuencial()[frecuencia_fundamental]/maximo > delta)
         self.assertEqual(True, senoide_220Hz.get_dominio_frecuencial()[fs - frecuencia_fundamental]/maximo > delta)
 
+    def test_que_la_energia_de_una_senal_nula_sea_nula(self):
+        fs = 44100
+        valores = numpy.zeros(44100)
+        senal = SenalAudio(fs, valores)
+
+        self.assertEqual(0, senal.get_energia_total())
+
+    def test_que_la_energia_de_una_senoide_con_frecuencia_angular_unitaria_y_un_unico_periodo_sea_pi(self):
+        fs = 44100
+        frecuencia = 1/(2*math.pi)
+        senoide = GeneradorSenoidal().generar_senoide(fs, 2*math.pi, frecuencia, 1, 0)
+
+        self.assertAlmostEqual(math.pi, senoide.get_energia_total(), int(math.pow(10, -7)))
 
 
