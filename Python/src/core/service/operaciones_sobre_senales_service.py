@@ -1,7 +1,10 @@
+import math
+
 import numpy
 
 from src.domain.senal_en_frecuencia import SenalEnFrecuencia
 from src.domain.senal_en_tiempo import SenalEnTiempo
+from src.exception.excepciones import AlineacionException
 
 
 class OperacionesSobreSenalesService:
@@ -22,3 +25,77 @@ class OperacionesSobreSenalesService:
             diferencia_finita = valores[i+1] - valores[i]
             valores_derivados.append(diferencia_finita)
         return SenalEnTiempo(senal_en_tiempo.get_dominio_temporal(), valores_derivados)
+
+    def calcular_periodo_muestral(self, senal_en_tiempo):
+        return senal_en_tiempo.get_dominio_temporal()[1] - senal_en_tiempo.get_dominio_temporal()[0]
+
+    def calcular_energia_total_de_senal(self, senal_en_tiempo):
+        Ts = self.calcular_periodo_muestral(senal_en_tiempo)
+        return self.calcular_energia_total(senal_en_tiempo.get_valores(), Ts)
+
+    def calcular_energia_total(self, valores, Ts):
+        energia = 0
+        for valor in valores:
+            energia += math.pow(valor, 2) * Ts
+        return energia
+
+
+    '''
+    La eliminación del delay se hace por un algoritmo de tipo iterativo.
+    Se define una heurística para evaluar cuando dos señales son más parecidas:
+    tomamos como referencia la suma total de las diferencias punto a punto
+    entre los valores de ambas señales. Las señales se consideran alineadas
+    en la posición en que dicha diferencia es mínima. El análisis se hace solo
+    sobre una pequeña ventana, cuya duración debe ser pequeña, ya que es muy 
+    costoso en tiempo de cómputo. Obviamente, dicha ventana debe ser bastante
+    más grande que el delay a eliminar, lo que requiere conocimiento de la
+    duración del mismo. Ya que las latencias producidas en la grabación
+    son mínimas, esto no resultará problemático.
+    '''
+    def eliminar_delay_entre_senales(self, *args):
+
+        senal_de_referencia = args[0]
+        senal_a_truncar = args[1]
+        Ts = self.calcular_periodo_muestral(senal_a_truncar)
+        if len(args) == 2:
+            ventana_en_segundos = self.obtener_longitud_del_array_mas_corto(senal_de_referencia.get_valores(),
+                                                                            senal_a_truncar.get_valores()) * Ts
+        elif len(args) == 3:
+            ventana_en_segundos = args[2]
+
+        else: raise AlineacionException("El método de eliminar delay solo puede recibir dos o tres parámetros")
+
+        ventana_en_cantidad_de_muestras = int(ventana_en_segundos/Ts)
+        if ventana_en_cantidad_de_muestras > self.obtener_longitud_del_array_mas_corto(
+                senal_de_referencia.get_valores(), senal_a_truncar.get_valores()):
+            raise AlineacionException("La ventana debe ser mas corta que las señales a alinear")
+
+        valores_senal = senal_a_truncar.get_valores().copy()[0:ventana_en_cantidad_de_muestras]
+        valores_referencia = senal_de_referencia.get_valores().copy()[0:ventana_en_cantidad_de_muestras]
+        iteraciones = len(valores_senal) - 1
+
+        puntos_heuristicos = []
+        for i in range(iteraciones):
+            heuristico = self.calcular_heuristico(valores_referencia, valores_senal)
+            puntos_heuristicos.append(heuristico)
+            valores_senal.pop(0)
+
+        posicion_inicial_truncada = puntos_heuristicos.index(min(puntos_heuristicos))
+        nuevos_valores = senal_a_truncar.get_valores().copy()
+        for i in range(posicion_inicial_truncada):
+            nuevos_valores.pop(0)
+
+        nuevo_dominio = list(numpy.arange(0, len(nuevos_valores)*Ts, Ts))
+        return SenalEnTiempo(nuevo_dominio, nuevos_valores)
+
+    def calcular_heuristico(self, valores_referencia, valores_senal):
+        heuristico = 0
+        longitud = self.obtener_longitud_del_array_mas_corto(valores_senal, valores_referencia)
+        for i in range(longitud):
+            diferencia = abs(valores_referencia[i] - valores_senal[i])
+            heuristico += diferencia
+        return heuristico
+
+    def obtener_longitud_del_array_mas_corto(self, valores_senal, valores_referencia):
+        if len(valores_senal) >= len(valores_referencia): return len(valores_referencia)
+        else: return len(valores_senal)

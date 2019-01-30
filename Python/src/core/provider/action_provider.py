@@ -1,3 +1,4 @@
+from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
 from src.core.action.eliminar_segmento_inicial_constante_action import EliminarSegmentoInicialConstanteAction
 from src.core.action.recortar_segmento_de_senal_en_tiempo_action import RecortarSegmentoDeSenalEnTiempoAction
 from src.core.action.recortar_segmento_de_senal_entre_amplitudes_action import RecortarSegmentoDeSenalEntreAmplitudesAction
@@ -10,6 +11,7 @@ class ActionProvider:
     recortar_segmento_de_senal_en_tiempo_action = None
     transformar_fourier_action = None
     eliminar_segmento_inicial_constante_action = None
+    calcular_energia_total_action = None
 
     @classmethod
     def provide_recortar_segmento_de_senal_entre_amplitudes_action(cls):
@@ -38,3 +40,10 @@ class ActionProvider:
             cls.eliminar_segmento_inicial_constante_action = EliminarSegmentoInicialConstanteAction()
 
         return cls.eliminar_segmento_inicial_constante_action
+
+    @classmethod
+    def provide_calcular_energia_total_action(cls):
+        if cls.calcular_energia_total_action is None:
+            cls.calcular_energia_total_action = CalcularEnergiaTotalAction()
+
+        return cls.calcular_energia_total_action

@@ -15,3 +15,9 @@ class IOException(Exception):
     def __init__(self, message):
         super().__init__(message)
 
+
+class AlineacionException(Exception):
+
+    def __init__(self, message):
+        super().__init__(message)
+
