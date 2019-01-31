@@ -1,26 +1,23 @@
-import math
 import unittest
 
-import numpy
-
-from src.core.provider.service_provider import ServiceProvider
+from src.core.provider.action_provider import ActionProvider
 from src.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
 from src.domain.senal_audio import SenalAudio, AlineacionException
 
 
 class AlinearSenalesTest(unittest.TestCase):
 
-    operaciones_service = None
+    eliminar_latencia_action = None
 
     @classmethod
     def setUpClass(cls):
-        cls.operaciones_service = ServiceProvider.provide_operaciones_sobre_senales_service()
+        cls.eliminar_latencia_action = ActionProvider.provide_eliminar_latencia_action()
 
     def test_que_alinee_correctamente_una_senal_y_su_version_con_delay(self):
         fs = 5
         senal = SenalAudio(fs, [1, 0, 1, 2, 1])
         senal_a_truncar = SenalAudio(fs, [0, 0, 0, 1, 0, 1, 2, 1])
-        senal_resultante = AlinearSenalesTest.operaciones_service.eliminar_delay_entre_senales(senal, senal_a_truncar)\
+        senal_resultante = AlinearSenalesTest.eliminar_latencia_action.execute(senal, senal_a_truncar)\
             .get_valores()
 
         self.assertListEqual(senal.get_valores(), senal_resultante)
@@ -29,7 +26,7 @@ class AlinearSenalesTest(unittest.TestCase):
         fs = 5
         senal = SenalAudio(fs, [1, 0, 1, 2, 1])
         senal_a_truncar = SenalAudio(fs, [0.001, -0.001, 0.003, 1, 0, 1, 2, 1])
-        senal_resultante = AlinearSenalesTest.operaciones_service.eliminar_delay_entre_senales(
+        senal_resultante = AlinearSenalesTest.eliminar_latencia_action.execute(
             senal, senal_a_truncar).get_valores()
 
         self.assertListEqual(senal.get_valores(), senal_resultante)
@@ -40,7 +37,7 @@ class AlinearSenalesTest(unittest.TestCase):
         senoide = GeneradorSenoidal().generar_senoide(fs, 10, frecuencia, 1, 0)
         ruido = [0.001, -0.001, 0.003, 0.002, 0.01]
         senoide_a_truncar = SenalAudio(fs, ruido + senoide.get_valores().copy())
-        senal_resultante = AlinearSenalesTest.operaciones_service.eliminar_delay_entre_senales(
+        senal_resultante = AlinearSenalesTest.eliminar_latencia_action.execute(
             senoide, senoide_a_truncar, 0.100).get_valores()
 
         self.assertListEqual(senoide.get_valores(), senal_resultante)
@@ -50,7 +47,7 @@ class AlinearSenalesTest(unittest.TestCase):
         frecuencia = 200
         senoide = GeneradorSenoidal().generar_senoide(fs, 10, frecuencia, 1, 0)
         senoide_a_truncar = GeneradorSenoidal().generar_senoide(fs, 10, frecuencia, 1, 0)
-        senal_resultante = AlinearSenalesTest.operaciones_service.eliminar_delay_entre_senales(
+        senal_resultante = AlinearSenalesTest.eliminar_latencia_action.execute(
             senoide, senoide_a_truncar, 0.100).get_valores()
 
         self.assertListEqual(senoide.get_valores(), senal_resultante)
@@ -61,5 +58,5 @@ class AlinearSenalesTest(unittest.TestCase):
         senoide = GeneradorSenoidal().generar_senoide(fs, 2, frecuencia, 1, 0)
         senoide_a_truncar = GeneradorSenoidal().generar_senoide(fs, 2, frecuencia, 1, 0)
 
-        self.assertRaises(AlineacionException, AlinearSenalesTest.operaciones_service.
-                          eliminar_delay_entre_senales, senoide, senoide_a_truncar, 5)
+        self.assertRaises(AlineacionException, AlinearSenalesTest.eliminar_latencia_action.
+                          execute, senoide, senoide_a_truncar, 5)
