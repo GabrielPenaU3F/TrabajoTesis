@@ -1,8 +1,6 @@
 import math
 import unittest
 
-import numpy
-
 from src.domain.generadores_de_senales.generador_mls import GeneradorMLS
 
 
