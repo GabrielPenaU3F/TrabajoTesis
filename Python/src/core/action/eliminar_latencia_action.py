@@ -1,4 +1,5 @@
 from src.core.provider.service_provider import ServiceProvider
+from src.domain.senal_audio import SenalAudio
 from src.exception.excepciones import AlineacionException
 
 
@@ -19,5 +20,6 @@ class EliminarLatenciaAction:
             ventana_en_segundos = args[2]
         else: raise AlineacionException("El método de eliminar latencia solo puede recibir dos o tres parámetros")
 
-        return self.operaciones_sobre_senales_service.eliminar_latencia_entre_senales(
+        senal_en_tiempo = self.operaciones_sobre_senales_service.eliminar_latencia_entre_senales(
             senal_de_referencia, senal_con_latencia, Ts, ventana_en_segundos)
+        return SenalAudio(1/Ts, senal_en_tiempo.get_valores())

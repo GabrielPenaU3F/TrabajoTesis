@@ -1,6 +1,8 @@
 from tkinter import *
 from src.controller.main_controller import MainController
-
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.figure import Figure
+import matplotlib
 
 class MainView:
 
@@ -93,7 +95,7 @@ class MainView:
         self.boton_cargar_archivo = Button(self.frame_medicion, text="Cargar archivo", command=self.controller.on_cargar_archivo)
         self.boton_cargar_archivo.grid(row=0, column=1, padx=10)
 
-        self.boton_medir = Button(self.frame_medicion, text="Medir")
+        self.boton_medir = Button(self.frame_medicion, text="Medir", command=self.controller.on_efectuar_medicion)
         self.boton_medir.grid(row=0, column=2, padx=10)
 
         self.radiob_metodo_var = StringVar(value="ESS")
@@ -116,11 +118,15 @@ class MainView:
         self.frame_graf_rta_impulsional.config(width=500, height=300, borderwidth=2, relief="groove")
         self.frame_graf_rta_impulsional.pack_propagate(False)
         self.frame_graf_rta_impulsional.grid(row=0, column=0)
+        self.label_graf_respuesta_impulsional = Label(self.frame_graf_rta_impulsional)
+        self.label_graf_respuesta_impulsional.pack()
 
         self.frame_graf_curva_decaimiento = Frame(self.frame_graficas)
         self.frame_graf_curva_decaimiento.config(width=500, height=300, borderwidth=2, relief="groove")
         self.frame_graf_curva_decaimiento.pack_propagate(False)
         self.frame_graf_curva_decaimiento.grid(row=0, column=1)
+        self.label_graf_curva_decaimiento = Label(self.frame_graf_curva_decaimiento)
+        self.label_graf_curva_decaimiento.pack()
 
     def construir_frame_titulos(self):
 
@@ -182,3 +188,16 @@ class MainView:
         root.tk_setPalette(background='#f4f3f3')
         root.resizable(False, False)
         return root
+
+    def graficar_respuesta_impulsional(self, dominio_temporal, respuesta_impulsional):
+        figura = Figure(figsize=(5, 5), dpi=100)
+        subplot = figura.add_subplot(111)
+        subplot.plot(dominio_temporal, respuesta_impulsional)
+
+        canvas = FigureCanvasTkAgg(figura, master=self.label_graf_respuesta_impulsional)
+        canvas.draw()
+        canvas.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
+
+        toolbar = NavigationToolbar2Tk(canvas, self.root)
+        toolbar.update()
+        canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)

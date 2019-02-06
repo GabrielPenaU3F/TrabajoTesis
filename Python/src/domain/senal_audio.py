@@ -2,7 +2,6 @@ import math
 
 from src.domain.senal_en_tiempo import SenalEnTiempo
 from src.exception.excepciones import *
-from src.core.provider.action_provider import ActionProvider
 
 
 class SenalAudio:
@@ -73,12 +72,14 @@ class SenalAudio:
 
     def get_modulos_frecuencia(self):
         if self.senal_en_frecuencia is None:
+            from src.core.provider.action_provider import ActionProvider
             accion_transformar = ActionProvider.provide_transformar_fourier_action()
             self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
         return self.senal_en_frecuencia.get_modulo_valores()
 
     def get_fases_frecuencia(self):
         if self.senal_en_frecuencia is None:
+            from src.core.provider.action_provider import ActionProvider
             accion_transformar = ActionProvider.provide_transformar_fourier_action()
             self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
         return self.senal_en_frecuencia.get_fase_valores()
@@ -114,6 +115,7 @@ class SenalAudio:
 
     def get_dominio_frecuencial(self):
         if self.senal_en_frecuencia is None:
+            from src.core.provider.action_provider import ActionProvider
             accion_transformar = ActionProvider.provide_transformar_fourier_action()
             self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
         return self.senal_en_frecuencia.get_dominio_frecuencial()

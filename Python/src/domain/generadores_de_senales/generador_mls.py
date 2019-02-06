@@ -21,4 +21,4 @@ class GeneradorMLS:
         for i in range(len(senal)):
             if senal[i] == 0:
                 senal[i] = -1
-        return list(senal)
+        return list(senal.astype(dtype=numpy.float64))
