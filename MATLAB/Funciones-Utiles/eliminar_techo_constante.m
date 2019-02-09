@@ -26,7 +26,7 @@ function s = eliminar_techo_constante(s_db, n, epsilon)
     i=1;
     while (techo_eliminado == 0)
         
-        if (i+10 < length(s_db))
+        if (i+n < length(s_db))
             if (abs(s_db(i+n) - s_db(i)) < epsilon)
            
                 s_db = s_db(i+n:end);
