@@ -32,5 +32,17 @@ function tx = calcular_tx(s_db, fs, t)
         s_db = obtener_segmento_de_curva(s_db,0,10);
     end
     
-    tx = length(s_db)/fs;
+    y_matriz = s_db';
+    x = 0:1/fs:length(y_matriz)/fs - 1/fs;
+    
+    x_columna = x';
+    x_matriz = cat(2,ones(length(y_matriz),1),x_columna);
+    
+    %Con los puntos (x,y) se realiza el ajuste lineal
+    coeficientes = x_matriz\y_matriz; %El operador \ ajusta por minimos cuadrados
+    
+    ordenada_al_origen = coeficientes(1);
+    pendiente = coeficientes(2);
+    
+    tx = (-t - ordenada_al_origen)/pendiente;
     

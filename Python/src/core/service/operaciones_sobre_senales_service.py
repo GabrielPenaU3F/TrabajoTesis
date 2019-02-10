@@ -82,7 +82,12 @@ class OperacionesSobreSenalesService:
 
     def calcular_heuristico(self, valores_referencia, valores_con_latencia):
         heuristico = 0
-        longitud = self.operaciones_sobre_arrays_service.obtener_longitud_del_array_mas_corto(valores_con_latencia, valores_referencia)
+        factor_ajuste = max(valores_referencia)/max(valores_con_latencia)
+        valores_con_latencia_ajustados = []
+        for i in range(len(valores_con_latencia)):
+            valores_con_latencia_ajustados.append(valores_con_latencia[i] * factor_ajuste)
+        longitud = self.operaciones_sobre_arrays_service.obtener_longitud_del_array_mas_corto(
+            valores_con_latencia, valores_referencia)
         for i in range(longitud):
             diferencia = abs(valores_referencia[i] - valores_con_latencia[i])
             heuristico += diferencia
