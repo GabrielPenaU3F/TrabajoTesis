@@ -10,7 +10,7 @@
 %}
 
 
-function tx = calcular_tx(s_db, fs, t)
+function tx = calcular_tx(s_db, fs, t, graficar)
 
     %{
         Primero, eliminamos la parte de la curva que no es util
@@ -28,21 +28,31 @@ function tx = calcular_tx(s_db, fs, t)
     %Si no es EDT, se eliminan los primeros 5dB
     if (t ~= 10) 
         s_db = obtener_segmento_de_curva(s_db,5,t+5); 
+    elseif (t~= 60)
+        s_db = obtener_segmento_de_curva(s_db,5,35);
     else
         s_db = obtener_segmento_de_curva(s_db,0,10);
     end
     
-    y_matriz = s_db';
-    x = 0:1/fs:length(y_matriz)/fs - 1/fs;
+    y = s_db;
+    x = 0:1/fs:length(y)/fs - 1/fs;
     
-    x_columna = x';
-    x_matriz = cat(2,ones(length(y_matriz),1),x_columna);
+    media_x = mean(x); media_y = mean(y);
+    media_x_cuadrado = mean(x.^2); media_y_cuadrado = mean(y.^2);
+    media_cuadrada_x = media_x^2; media_cuadrada_y = media_y^2;
+    desviacion_estandar_x = sqrt(media_x_cuadrado - media_cuadrada_x); 
+    desviacion_estandar_y = sqrt(media_y_cuadrado - media_cuadrada_y);
+    covarianza = mean(x .* y) - media_x * media_y;
+    r = covarianza / (desviacion_estandar_x * desviacion_estandar_y);
+    pendiente = r * desviacion_estandar_y  / desviacion_estandar_x;
+    ordenada_al_origen = -(pendiente * media_x) + media_y;
     
-    %Con los puntos (x,y) se realiza el ajuste lineal
-    coeficientes = x_matriz\y_matriz; %El operador \ ajusta por minimos cuadrados
+    if (nargin==4) 
+        if (graficar==1)
+            y_recta = (pendiente .* x) + ordenada_al_origen;
+            plot(x, y, x, y_recta);
+        end
+    end
     
-    ordenada_al_origen = coeficientes(1);
-    pendiente = coeficientes(2);
-    
-    tx = (-t - ordenada_al_origen)/pendiente;
+    tx = -(ordenada_al_origen + t)/pendiente;
     
