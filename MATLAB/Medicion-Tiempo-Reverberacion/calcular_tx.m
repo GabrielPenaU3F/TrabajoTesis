@@ -24,18 +24,18 @@ function [tx, r_xy] = calcular_tx(s_db, fs, t, graficar)
     
     %}
 
-    s_db = eliminar_techo_constante(s_db,10,10^-6);
+    y = eliminar_techo_constante(s_db,10,10^-6);
     
     %Si es EDT, el intervalo va entre 0 y -10
     %Si es T60, se utiliza el intervalo de T30 y se extrapola
     %Para T20 y T30, se utiliza el intervalo -5, -25 y -3, -35
     %respectivamente
     if (t == 10) 
-        y = obtener_segmento_de_curva(s_db,0,10);
+        y = obtener_segmento_de_curva(y,0,10);
     elseif (t == 60)
-        y = obtener_segmento_de_curva(s_db,5,35);
+        y = obtener_segmento_de_curva(y,5,35);
     else
-        y = obtener_segmento_de_curva(s_db,5,t+5);
+        y = obtener_segmento_de_curva(y,5,t+5);
     end
     
     x = 0:1/fs:length(y)/fs - 1/fs;
