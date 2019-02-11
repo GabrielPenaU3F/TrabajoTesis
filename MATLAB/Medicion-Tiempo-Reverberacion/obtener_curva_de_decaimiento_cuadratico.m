@@ -22,6 +22,7 @@ end
 
 function integral = integrar_array(x, dx)
 
+    integral = 0;
     for j=1:length(x) 
         integral = integral + x(j)*dx;
     end

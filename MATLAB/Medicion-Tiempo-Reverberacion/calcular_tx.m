@@ -58,5 +58,6 @@ function [tx, r_xy] = calcular_tx(s_db, fs, t, graficar)
             plot(x, y, x, y_recta);
         end
     end
-    longitud_senal_estimulo = (length(s_db) + 1)/2;
-    tx = (-(ordenada_al_origen + t)/pendiente)/(longitud_senal_estimulo/fs);
+    %longitud_senal_estimulo = (length(s_db) + 1)/2;
+    %tx = (-(ordenada_al_origen + t)/pendiente)/(longitud_senal_estimulo/fs);
+    tx = -(ordenada_al_origen + t)/pendiente;
