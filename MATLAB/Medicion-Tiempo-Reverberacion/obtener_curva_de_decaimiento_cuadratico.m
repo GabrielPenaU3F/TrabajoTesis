@@ -16,9 +16,8 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h,fs)
     
     s_cuadrado(1) = integrar_array(h_cuadrado, fs);
     for i=2:length(s_cuadrado)
-        s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado(i-1);
+        s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado(i-1)/fs;
     end
-    
 end
 
 function integral = integrar_array(x, fs)
