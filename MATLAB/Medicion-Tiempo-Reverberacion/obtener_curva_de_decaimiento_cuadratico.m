@@ -14,18 +14,19 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h,fs)
     h_cuadrado = h.^2;
     s_cuadrado = 0:1/fs:length(h_cuadrado)/fs - 1/fs;
     
-    s_cuadrado(1) = sumar_array(h_cuadrado);
+    s_cuadrado(1) = integrar_array(h_cuadrado, fs);
     for i=2:length(s_cuadrado)
         s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado(i-1);
     end
     
 end
 
-function suma = sumar_array(x)
+function integral = integrar_array(x, fs)
 
-    suma = 0;
+    integral = 0;
+    dx = 1/fs;
     for j=1:length(x) 
-        suma = suma + x(j);
+        integral = integral + x(j)*dx;
     end
     
 end
