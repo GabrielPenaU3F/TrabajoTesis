@@ -1,3 +1,3 @@
-function t20 = calcular_t20(s_db,fs)
+function [t20, r_xy] = calcular_t20(s_db,fs)
 
-    t20 = calcular_tx(s_db,fs,20);
+    [t20, r_xy] = calcular_tx(s_db,fs,20);
