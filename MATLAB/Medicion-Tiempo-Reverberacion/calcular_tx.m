@@ -12,42 +12,29 @@
 
 
 function [tx, r_xy] = calcular_tx(s_db, fs, t, graficar)
-
-    %{
-        Primero, eliminamos la parte de la curva que no es util
-        Utilizo como parámetros n=10 muestras y epsilon = 10^-6 dB,
-        lo que implica que si pierdo información útil de la señal,
-        la duración temporal de esta será como máximo 226us y su
-        contenido de amplitud no excederá la millonésima parte de un dB.
-        Estos parámetros se pueden ajustar, pero definidos de esta manera
-        me aseguro que produzcan una pérdida despreciable.
-    
-    %}
-
-    y = eliminar_techo_constante(s_db,10,10^-6);
     
     %Si es EDT, el intervalo va entre 0 y -10
     %Si es T60, se utiliza el intervalo de T30 y se extrapola
     %Para T20 y T30, se utiliza el intervalo -5, -25 y -3, -35
     %respectivamente
     if (t == 10) 
-        y = obtener_segmento_de_curva(y,0,10);
+        s_db = obtener_segmento_de_curva(s_db,0,10);
     elseif (t == 60)
-        y = obtener_segmento_de_curva(y,5,35);
+        s_db = obtener_segmento_de_curva(s_db,5,35);
     else
-        y = obtener_segmento_de_curva(y,5,t+5);
+        s_db = obtener_segmento_de_curva(s_db,5,t+5);
     end
     
-    x = 0:1/fs:length(y)/fs - 1/fs;
+    x = 0:1/fs:length(s_db)/fs - 1/fs;
     
-    r_xy = calcular_coeficiente_r_xy(x, y); %Coeficiente de correlación lineal; este se devuelve
+    r_xy = calcular_coeficiente_r_xy(x, s_db); %Coeficiente de correlación lineal; este se devuelve
     
-    [pendiente, ordenada_al_origen] = efectuar_regresion_lineal(x, y);
+    [pendiente, ordenada_al_origen] = efectuar_regresion_lineal(x, s_db);
     
     if (nargin==4) 
         if (graficar==1)
             y_recta = (pendiente .* x) + ordenada_al_origen;
-            plot(x, y, x, y_recta);
+            plot(x, s_db, x, y_recta);
         end
     end
     %longitud_senal_estimulo = (length(s_db) + 1)/2;

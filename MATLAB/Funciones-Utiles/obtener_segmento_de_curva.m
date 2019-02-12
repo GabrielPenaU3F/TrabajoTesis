@@ -37,6 +37,8 @@ function s = obtener_segmento_de_curva(s_db,decaimiento_inicial,decaimiento_fina
         if (i+1 < length(s_db))
             i = i+1;
             decaimiento = abs(s_db(i) - y_max);
+        else
+            break;
         end
         
     end
