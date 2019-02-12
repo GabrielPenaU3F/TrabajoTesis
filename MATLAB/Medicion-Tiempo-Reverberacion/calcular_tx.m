@@ -40,17 +40,9 @@ function [tx, r_xy] = calcular_tx(s_db, fs, t, graficar)
     
     x = 0:1/fs:length(y)/fs - 1/fs;
     
-    r_xy = calcular_coeficiente_r_xy(x,y); %Coeficiente de correlación lineal; este se devuelve
+    r_xy = calcular_coeficiente_r_xy(x, y); %Coeficiente de correlación lineal; este se devuelve
     
-    media_x = mean(x); media_y = mean(y);
-    media_x_cuadrado = mean(x.^2); media_y_cuadrado = mean(y.^2);
-    media_cuadrada_x = media_x^2; media_cuadrada_y = media_y^2;
-    desviacion_estandar_x = sqrt(media_x_cuadrado - media_cuadrada_x); 
-    desviacion_estandar_y = sqrt(media_y_cuadrado - media_cuadrada_y);
-    covarianza = mean(x .* y) - media_x * media_y;
-    r = covarianza / (desviacion_estandar_x * desviacion_estandar_y);
-    pendiente = r * desviacion_estandar_y  / desviacion_estandar_x;
-    ordenada_al_origen = -(pendiente * media_x) + media_y;
+    [pendiente, ordenada_al_origen] = efectuar_regresion_lineal(x, y);
     
     if (nargin==4) 
         if (graficar==1)
