@@ -10,8 +10,8 @@ function lim = estimar_limite_superior_de_integracion_de_schroeder(h, fs)
     %}
 
     n = 10;
-    epsilon = 2*10^-8;
-    umbral_inicial = encontrar_limite_respuesta_impulsional(h, n, epsilon, 1);
+    epsilon = 10^-9;
+    umbral_inicial = encontrar_limite_respuesta_impulsional(h, n, epsilon);
     h_abs = abs(h); %Porque queremos encontrar una 'recta envolvente'
     h_izquierda = h_abs(1:umbral_inicial);
     h_derecha = h_abs(umbral_inicial+1:end);
@@ -30,7 +30,7 @@ function lim = estimar_limite_superior_de_integracion_de_schroeder(h, fs)
         t_derecha = (umbral_inicial+1)/fs:1/fs:length(h_abs)/fs;
         recta_izquierda = m_izquierda*t_izquierda + b_izquierda;
         recta_derecha = m_derecha*t_derecha + b_derecha;
-        plot(t, h_abs, t_izquierda, recta_izquierda, t_derecha, recta_derecha);
+        plot(t, h_abs, t_izquierda, recta_izquierda, t_derecha, recta_derecha);;
     %}
     
 end

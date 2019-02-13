@@ -12,8 +12,8 @@ hasta el final de la señal.
 function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h,fs)
     
     h = eliminar_distorsion_no_lineal(h);
-    h_hilbert = abs(hilbert(h));
-    h_cuadrado = h_hilbert.^2;
+    h_envolvente = abs(hilbert(h));
+    h_cuadrado = h_envolvente.^2;
     lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_cuadrado, fs);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
     dx = 1/fs;
