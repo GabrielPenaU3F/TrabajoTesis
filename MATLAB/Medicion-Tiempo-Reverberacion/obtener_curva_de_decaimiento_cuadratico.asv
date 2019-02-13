@@ -8,16 +8,16 @@ de la respuesta impulsional original, desde la muestra del instante t
 hasta el final de la señal.
 %}
 
-function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
+function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h,fs)
     
     h = eliminar_distorsion_no_lineal(h);
     h_cuadrado_envolvente = abs(hilbert(h./2));
     lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_cuadrado_envolvente, fs);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
     dx = 1/fs;
-    s_cuadrado(1) = integrar_array(h_cuadrado_envolvente, lim_superior, dx);
+    s_cuadrado(1) = integrar_array(h_cuadrado, lim_superior, dx);
     for i=2:lim_superior
-        s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado_envolvente(i-1)*dx;
+        s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado(i-1)*dx;
     end
 end
 
