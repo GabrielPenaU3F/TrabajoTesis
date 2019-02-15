@@ -9,16 +9,21 @@ hasta el final de la señal.
 %}
 
 function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
-    
-    h = eliminar_distorsion_no_lineal(h);
-    h_cuadrado_envolvente = abs(hilbert(h./2));
-    lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_cuadrado_envolvente, fs);
+   
+    h_cuadrado_original = h.^2;
+    h_cuadrado = abs(hilbert(h_cuadrado_original));
+    lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_cuadrado, fs);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
     dx = 1/fs;
-    s_cuadrado(1) = integrar_array(h_cuadrado_envolvente, lim_superior, dx);
+    s_cuadrado(1) = integrar_array(h_cuadrado, lim_superior, dx);
     for i=2:lim_superior
-        s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado_envolvente(i-1)*dx;
+        s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado(i-1)*dx;
     end
+    %Calculamos el ruido de fondo sobre la respuesta impulsional original,
+    %ya que la envolvente de Hilbert tiene una réplica del pico inicial
+    %al final de la señal y esta destruye el cálculo.
+    s_cuadrado = sustraer_ruido_de_fondo(s_cuadrado, h_cuadrado_original, fs, lim_superior);
+    
 end
 
 function integral = integrar_array(x, lim_superior, dx)
@@ -28,4 +33,14 @@ function integral = integrar_array(x, lim_superior, dx)
         integral = integral + x(j)*dx;
     end
     
+end
+
+function s = sustraer_ruido_de_fondo(s_cuadrado, h, fs, lim_superior)
+    
+    s = 0:1/fs:length(s_cuadrado)/fs - 1/fs;
+    nivel_ruido_de_fondo_cuadrado = mean(h(lim_superior:end))^2;
+    for i=1:length(s_cuadrado)
+        distancia_temporal = (lim_superior - i)/fs;
+        s(i) = s_cuadrado(i) - nivel_ruido_de_fondo_cuadrado * distancia_temporal;
+    end
 end
