@@ -1,6 +1,6 @@
 %Los decaimientos son positivos, ejemplo: 0  y 10 para calcular EDT, 5 y 35 para calcular T30
 
-function s = obtener_segmento_de_curva(s_db,decaimiento_inicial,decaimiento_final)
+function varargout = obtener_segmento_de_curva(s_db,decaimiento_inicial,decaimiento_final)
 
      %{
         Primero, eliminamos la parte de la curva que no es util
@@ -12,13 +12,13 @@ function s = obtener_segmento_de_curva(s_db,decaimiento_inicial,decaimiento_fina
         me aseguro que produzcan una pérdida despreciable.
     
     %}
+    longitud = length(s_db);
 
-    s_db = eliminar_techo_constante(s_db,10,10^-6);
-    
     %Eliminamos por izquierda
     if (decaimiento_inicial > 0)
        s_db = eliminar_n_db(s_db, decaimiento_inicial); 
     end
+    longitud_eliminada = longitud - length(s_db);
     
     decaimiento_requerido = decaimiento_final - decaimiento_inicial;
     [y_max,x_max] = max(s_db);
@@ -48,4 +48,9 @@ function s = obtener_segmento_de_curva(s_db,decaimiento_inicial,decaimiento_fina
         lo que resta a la derecha    
     %}
     
-    s = s_db(x_max:i-1);
+    if (nargout == 1) 
+        varargout{1} = s_db(x_max:i-1);
+    elseif (nargout == 2)
+        varargout{1} = longitud_eliminada + x_max;
+        varargout{2} = longitud_eliminada + i-1;
+    end

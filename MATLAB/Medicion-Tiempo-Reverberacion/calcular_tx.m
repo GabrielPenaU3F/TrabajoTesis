@@ -20,7 +20,7 @@ function [tx, r_xy] = calcular_tx(s_db, fs, t, graficar)
     if (t == 10) 
         s_db = obtener_segmento_de_curva(s_db,0,10);
     elseif (t == 60)
-        s_db = obtener_segmento_de_curva(s_db,5,25);
+        s_db = obtener_segmento_de_curva(s_db,5,35);
     else
         s_db = obtener_segmento_de_curva(s_db,5,t+5);
     end

@@ -40,7 +40,7 @@ function i = encontrar_limite_respuesta_impulsional(varargin)
                     padding = zeros(1, (j + n + semiancho_ventana) - length(h));
                     data_j_mas_n = h(j + n - (semiancho_ventana + 1):end);
                     promedio_j = mean(h(j - (semiancho_ventana + 1):j + semiancho_ventana));
-                    promedio_j_mas_n = mean(cat(2,data_j_mas_n,padding));
+                    promedio_j_mas_n = mean(cat(2,data_j_mas_n,padding);
                 else
                     promedio_j = mean(h(j - (semiancho_ventana + 1):j + semiancho_ventana));
                     promedio_j_mas_n = mean(h(j + n - (semiancho_ventana + 1):j + n + semiancho_ventana));
