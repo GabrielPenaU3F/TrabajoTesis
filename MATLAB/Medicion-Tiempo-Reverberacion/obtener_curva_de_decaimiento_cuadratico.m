@@ -10,8 +10,22 @@ hasta el final de la señal.
 
 function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
    
+    %{
+    h_filt = aplicar_filtro_media_movil(abs(h), 50);
+    h_db = 10*real(log10(h_filt./max(h_filt)));
+    t = 0:1/fs:length(h_db)/fs - 1/fs;
+    curva_modelo = @(b,x)(10.^(-b*x));
+    coef_iniciales = 1;
+    coef = lsqcurvefit(curva_modelo,coef_iniciales, t(1:length(t)), h_db(1:length(h_db)), 10^-18);
+    curva = 10.^(-coef*t);
+    plot(t, h_db);
+    hold on;
+    plot(t, curva, 'LineWidth', 2);
+    s=2;
+    %}
+
     h_cuadrado_original = h.^2;
-    h_hilbert = abs(hilbert(abs(h)));
+    h_hilbert = abs(hilbert(h));
     %h_cuadrado = abs(hilbert(h_cuadrado_original));
     h_cuadrado = h_hilbert.^2;
     lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_cuadrado, fs);
@@ -23,7 +37,6 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     for i=2:lim_superior
         s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado(i-1)*dx;
     end
-
     %Calculamos el ruido de fondo sobre la respuesta impulsional original,
     %ya que la envolvente de Hilbert tiene una réplica del pico inicial
     %al final de la señal y esta destruye el cálculo.
