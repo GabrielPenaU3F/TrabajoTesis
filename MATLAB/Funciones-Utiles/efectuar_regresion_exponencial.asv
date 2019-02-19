@@ -1,6 +1,0 @@
-function [A, rho] = efectuar_regresion_exponencial(x, y)
-
-        z = log(y);
-        [pendiente, ordenada] = efectuar_regresio
-
-end

@@ -30,8 +30,8 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     coef_ajuste = max(h)/max(h_suave);
     h_suave = h_suave.*coef_ajuste;
     %h_cuadrado = abs(hilbert(h_cuadrado_original));
-    h_cuadrado = h_suave.^2;
-    lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_cuadrado, fs);
+    h_cuadrado = h.^2;
+    lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_suave.^2, fs);
     c_corr = calcular_termino_de_correccion(h_suave, fs, lim_superior);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
     
@@ -45,7 +45,7 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     %ya que la envolvente de Hilbert tiene una réplica del pico inicial
     %al final de la señal y esta destruye el cálculo.
     s_cuadrado = sustraer_ruido_de_fondo(s_cuadrado, h_cuadrado, fs, lim_superior);
-    s_cuadrado = s_cuadrado + c_corr*max(h);
+    s_cuadrado = s_cuadrado + c_corr;
     
 end
 
@@ -68,8 +68,8 @@ function s = sustraer_ruido_de_fondo(s_cuadrado, h, fs, lim_superior)
     end
 end
 
-function c_corr_norm = calcular_termino_de_correccion(h, fs, lim_superior)
-    c_corr_norm = 0;
+function c_corr = calcular_termino_de_correccion(h, fs, lim_superior)
+    c_corr = 0;
     if (lim_superior < length(h))
         h_db = 10*real(log10(h./max(h)));
         nivel_limite = h_db(lim_superior);
@@ -80,6 +80,7 @@ function c_corr_norm = calcular_termino_de_correccion(h, fs, lim_superior)
         y = h(muestra_inicial:muestra_final);
         [A, rho] = efectuar_regresion_exponencial(t,y);
         
+        %{
         t = 0:1/fs:length(h)/fs - 1/fs;
         exponencial = A*exp(rho.*t);
         exp_db = 10*log10(exponencial./max(exponencial));
@@ -87,7 +88,8 @@ function c_corr_norm = calcular_termino_de_correccion(h, fs, lim_superior)
         plot(t,h,t,exponencial);
         figure;
         plot(t,h_db,t,exp_db);
+        %}
         
-        c_corr_norm = (A^2/(2*rho))*exp(2*rho*lim_superior/fs);
+        c_corr = (A^2/(2*rho))*exp(2*rho*lim_superior/fs);
     end
 end
