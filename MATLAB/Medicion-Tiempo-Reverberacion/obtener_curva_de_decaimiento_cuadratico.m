@@ -25,7 +25,7 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     %}
 
     h_cuadrado_original = h.^2;
-    h_hilbert = abs(hilbert(h));
+    h_hilbert = abs(hilbert(abs(h)));
     %h_cuadrado = abs(hilbert(h_cuadrado_original));
     h_cuadrado = h_hilbert.^2;
     lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_cuadrado, fs);
