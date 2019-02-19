@@ -22,7 +22,7 @@ class MedirRespuestaImpulsionalAction:
 
     def medir_por_mls(self):
         n_bits = 17
-        fs = 44100
+        fs = 48000
         periodos = 8
         # Estos parámetros podrían eventualmente modificarse
         senal_mls = GeneradorMLS().generar_senal_mls(n_bits, periodos, fs)
