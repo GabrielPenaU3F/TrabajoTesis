@@ -25,12 +25,11 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     %}
 
     h_cuadrado_original = h.^2;
-    %h_hilbert = abs(hilbert(abs(h)));
-    h_suave = aplicar_filtro_media_movil(h,100);
+    h_suave = aplicar_filtro_me(hilbert(abs(h)));
     %h_cuadrado = abs(hilbert(h_cuadrado_original));
     h_cuadrado = h_suave.^2;
     lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_cuadrado, fs);
-    c_corr = calcular_termino_de_correccion(h_suave, fs, lim_superior);
+    c_corr = calcular_termino_de_correccion(h, fs, lim_superior);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
     
     dx = 1/fs;
@@ -38,11 +37,10 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     for i=2:lim_superior
         s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado(i-1)*dx;
     end
-    %Si se utiliza la trasnformada de Hilbert, se calcula 
-    %el ruido de fondo sobre la respuesta impulsional original,
+    %Calculamos el ruido de fondo sobre la respuesta impulsional original,
     %ya que la envolvente de Hilbert tiene una réplica del pico inicial
     %al final de la señal y esta destruye el cálculo.
-    s_cuadrado = sustraer_ruido_de_fondo(s_cuadrado, h_cuadrado, fs, lim_superior);
+    s_cuadrado = sustraer_ruido_de_fondo(s_cuadrado, h_cuadrado_original, fs, lim_superior);
     s_cuadrado = s_cuadrado + c_corr;
     
 end
@@ -69,7 +67,7 @@ end
 function c_corr = calcular_termino_de_correccion(h, fs, lim_superior)
     c_corr = 0;
     if (lim_superior < length(h))
-        h_db = 10*real(log10(h./max(h)));
+        h_db = 20*real(log10(h./max(h)));
         nivel_limite = h_db(lim_superior);
         decaimiento_final = abs(nivel_limite)-10;
         decaimiento_inicial = abs(nivel_limite)-30;
@@ -85,11 +83,11 @@ function c_corr = calcular_termino_de_correccion(h, fs, lim_superior)
         end
         rho = numerador_min_cuadrados/denominador_min_cuadrados;
 
-        
+        %{
         t = 0:1/fs:length(h)/fs - 1/fs;
         exponencial = exp(-rho.*t);
         plot(t,h,t,exponencial);
-        
+        %}
 
         c_corr = (1/(2*rho))*exp(-2*rho*lim_superior/fs);
     end
