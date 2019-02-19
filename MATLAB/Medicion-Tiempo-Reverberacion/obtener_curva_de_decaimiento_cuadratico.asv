@@ -18,12 +18,22 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     c_corr = calcular_termino_de_correccion(h, fs, lim_superior);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
     
+    %{
     dx = 1/fs;
     s_cuadrado(1) = integrar_array(h_cuadrado, lim_superior, dx);
     for i=2:lim_superior
         s_cuadrado(i) = s_cuadrado(i-1) - h_cuadrado(i-1)*dx;
     end
-
+    %}
+    
+    energia_total = calcular_energia(h_cuadrado, 1/fs, 1, lim_superior);
+    for i=1:length(s_cuadrado)
+        energia_acumulada = 0;
+        for j=1:i
+            energia_acumulada = energia_acumulada + h_cuadrado(j)/fs;
+        end
+        s_cuadrado(i) = 
+    end
     %Calculamos el ruido de fondo sobre la respuesta impulsional original,
     %ya que la envolvente de Hilbert tiene una réplica del pico inicial
     %al final de la señal y esta destruye el cálculo.

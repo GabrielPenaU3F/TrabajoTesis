@@ -11,7 +11,7 @@ function lim = estimar_limite_superior_de_integracion_de_schroeder(h, fs)
 
     n = 20;
     semiancho_ventana = 10;
-    epsilon = 10^-5;
+    epsilon = 2*10^-10;
     umbral_inicial = encontrar_limite_respuesta_impulsional(h, n, epsilon, semiancho_ventana);
     if (umbral_inicial < length(h))
         h_abs = abs(h); %Porque queremos encontrar una 'recta envolvente'

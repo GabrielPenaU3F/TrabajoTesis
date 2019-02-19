@@ -6,8 +6,8 @@
     y puede mejorarse posteriormente mediante otros métodos
     Los parámetros n y epsilon representan lo mismo que en la función
     de eliminar un techo constante.
-    A prueba y error, elegi 2*10^-8 como el epsilon que mejor se
-    ajustaba a mi respuesta impulsional de prueba con n=10, 
+    A prueba y error, elegi 2*10^-10 como el epsilon que mejor se
+    ajustaba a mi respuesta impulsional de prueba con n=20, s=10, 
     utilizando el método de promedios.
     Aumentar el epsilon, correrá el límite a la izquierda, mientras que
     disminuirlo lo correrá hacia la derecha.
