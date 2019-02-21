@@ -14,14 +14,14 @@ rt60_3 = calcular_t60(s_db_3,fs);
 rt60_6 = calcular_t60(s_db_6,fs);
 rt60_12 = calcular_t60(s_db_12,fs);
 figure;
-plot(t_3, h_db_3);
+plot(t_3(1:48001), h_db_3(1:48001));
 hold on;
 plot(t_s_3, s_db_3, 'LineWidth', 2);
 figure;
-plot(t_6, h_db_6)
+plot(t_6(1:48001), h_db_6(1:48001))
 hold on;
 plot(t_s_6, s_db_6, 'LineWidth', 2);
 figure;
-plot(t_12, h_db_12);
+plot(t_12(1:48001), h_db_12(1:48001));
 hold on;
 plot(t_s_12, s_db_12, 'LineWidth', 2);
