@@ -9,20 +9,6 @@ hasta el final de la señal.
 %}
 
 function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
-   
-    %{
-    h_filt = aplicar_filtro_media_movil(abs(h), 50);
-    h_db = 10*real(log10(h_filt./max(h_filt)));
-    t = 0:1/fs:length(h_db)/fs - 1/fs;
-    curva_modelo = @(b,x)(10.^(-b*x));
-    coef_iniciales = 1;
-    coef = lsqcurvefit(curva_modelo,coef_iniciales, t(1:length(t)), h_db(1:length(h_db)), 10^-18);
-    curva = 10.^(-coef*t);
-    plot(t, h_db);
-    hold on;
-    plot(t, curva, 'LineWidth', 2);
-    s=2;
-    %}
 
     h_cuadrado_original = h.^2;
     %h_hilbert = abs(hilbert(abs(h)));

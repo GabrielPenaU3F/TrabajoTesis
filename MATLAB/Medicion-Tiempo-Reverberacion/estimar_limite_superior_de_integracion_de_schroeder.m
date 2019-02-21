@@ -9,8 +9,8 @@ function lim = estimar_limite_superior_de_integracion_de_schroeder(h, fs)
         entre las mismas.
     %}
 
-    n = 20;
-    semiancho_ventana = 10;
+    n = 40;
+    semiancho_ventana = 20;
     epsilon = 10^-13;
     umbral_inicial = encontrar_limite_respuesta_impulsional(h, n, epsilon, semiancho_ventana);
     if (umbral_inicial < length(h))
