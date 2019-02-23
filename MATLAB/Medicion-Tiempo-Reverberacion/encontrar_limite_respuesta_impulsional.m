@@ -38,9 +38,10 @@ function i = encontrar_limite_respuesta_impulsional(varargin)
                     promedio_j_mas_n = mean(h(j+n-(semiancho_ventana+1):j+n+semiancho_ventana));
                 elseif (j + n + semiancho_ventana > length(h))
                     padding = zeros(1, (j + n + semiancho_ventana) - length(h));
-                    data_j_mas_n = h(j + n - (semiancho_ventana + 1):end);
-                    promedio_j = mean(h(j - (semiancho_ventana + 1):j + semiancho_ventana));
-                    promedio_j_mas_n = mean(cat(2,data_j_mas_n,padding));
+                    h_padded = cat(2,h,padding);
+                    data_j_mas_n = h_padded(j + n - (semiancho_ventana + 1):end);
+                    promedio_j = mean(h_padded(j - (semiancho_ventana + 1):j + semiancho_ventana));
+                    promedio_j_mas_n = mean(data_j_mas_n);
                 else
                     promedio_j = mean(h(j - (semiancho_ventana + 1):j + semiancho_ventana));
                     promedio_j_mas_n = mean(h(j + n - (semiancho_ventana + 1):j + n + semiancho_ventana));
