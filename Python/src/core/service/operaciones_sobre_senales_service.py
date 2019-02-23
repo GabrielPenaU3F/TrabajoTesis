@@ -1,8 +1,8 @@
 import math
 import numpy
 
-from src.domain.senal_en_frecuencia import SenalEnFrecuencia
-from src.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.senal_en_frecuencia import SenalEnFrecuencia
+from src.core.domain.senal_en_tiempo import SenalEnTiempo
 from src.exception.excepciones import AlineacionException
 
 

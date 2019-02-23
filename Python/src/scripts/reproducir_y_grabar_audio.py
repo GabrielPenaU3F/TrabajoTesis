@@ -1,7 +1,7 @@
 import numpy
 
-from src.domain.generadores_de_senales.generador_mls import GeneradorMLS
-from src.domain.lectograbador_de_audio import LectograbadorDeAudio
+from src.core.domain.generadores_de_senales.generador_mls import GeneradorMLS
+from src.core.domain.lectograbador_de_audio import LectograbadorDeAudio
 
 fs = 44100
 datos = list(10*numpy.random.normal(0, 1, 441000))

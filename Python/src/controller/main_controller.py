@@ -1,8 +1,8 @@
 import numpy
 
 from src.core.provider.action_provider import ActionProvider
-from src.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
-from src.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
+from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
+from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
 from src.view.instrucciones_view import InstruccionesView
 
 

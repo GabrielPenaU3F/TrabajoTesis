@@ -1,5 +1,5 @@
 from src.core.provider.service_provider import ServiceProvider
-from src.domain.senal_audio import SenalAudio
+from src.core.domain.senal_audio import SenalAudio
 from src.exception.excepciones import AlineacionException
 
 

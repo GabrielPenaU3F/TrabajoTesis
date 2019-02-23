@@ -1,6 +1,6 @@
 import numpy
 import sounddevice
-from src.domain.senal_audio import SenalAudio
+from src.core.domain.senal_audio import SenalAudio
 
 
 class LectograbadorDeAudio:

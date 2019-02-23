@@ -1,4 +1,4 @@
-from src.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.senal_en_tiempo import SenalEnTiempo
 
 
 class RecortarSegmentoDeSenalEntreAmplitudesAction:

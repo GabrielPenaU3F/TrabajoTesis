@@ -1,9 +1,9 @@
 import math
 import unittest
 
-from src.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
-from src.domain.senal_audio import SenalAudio
-from src.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
+from src.core.domain.senal_audio import SenalAudio
+from src.core.domain.senal_en_tiempo import SenalEnTiempo
 from src.core.provider.action_provider import ActionProvider
 
 

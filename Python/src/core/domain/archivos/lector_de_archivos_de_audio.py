@@ -3,7 +3,7 @@ from tkinter import filedialog
 import numpy
 
 from src.exception.excepciones import IOException
-from src.domain.senal_audio import SenalAudio
+from src.core.domain.senal_audio import SenalAudio
 
 
 class LectorDeArchivosDeAudio:

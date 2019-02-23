@@ -1,8 +1,8 @@
 import unittest
 
 from src.core.provider.action_provider import ActionProvider
-from src.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
-from src.domain.senal_audio import SenalAudio, AlineacionException
+from src.core.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
+from src.core.domain.senal_audio import SenalAudio, AlineacionException
 
 
 class AlinearSenalesTest(unittest.TestCase):

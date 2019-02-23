@@ -4,7 +4,7 @@ import numpy
 import math
 
 from src.core.provider.action_provider import ActionProvider
-from src.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.senal_en_tiempo import SenalEnTiempo
 
 
 class TestEliminarSegmentoInicialConstante(unittest.TestCase):

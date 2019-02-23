@@ -2,7 +2,7 @@ import math
 
 import numpy
 
-from src.domain.senal_audio import SenalAudio
+from src.core.domain.senal_audio import SenalAudio
 
 
 class GeneradorSenoidal():

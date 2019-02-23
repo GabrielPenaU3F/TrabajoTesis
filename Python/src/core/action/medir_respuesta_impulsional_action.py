@@ -2,8 +2,8 @@ import math
 
 import numpy
 
-from src.domain.generadores_de_senales.generador_mls import GeneradorMLS
-from src.domain.lectograbador_de_audio import LectograbadorDeAudio
+from src.core.domain.generadores_de_senales.generador_mls import GeneradorMLS
+from src.core.domain.lectograbador_de_audio import LectograbadorDeAudio
 
 
 class MedirRespuestaImpulsionalAction:
@@ -33,7 +33,7 @@ class MedirRespuestaImpulsionalAction:
         senal_grabada_sin_latencia = self.eliminar_latencia_action.execute(senal_mls, audio, 0.100)
         senal_grabada_ponderada = self.ponderar_periodos_mls_action.execute(senal_grabada_sin_latencia, n_bits)
 
-        respuesta_impulsional = list(numpy.correlate(periodo_mls_generado, senal_grabada_ponderada, "full"))
+        respuesta_impulsional = list(numpy.correlate(senal_grabada_ponderada, periodo_mls_generado, "full"))
         return respuesta_impulsional
 
     # TODO: Implementar metodo ESS
