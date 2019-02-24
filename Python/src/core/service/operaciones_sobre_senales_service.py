@@ -78,7 +78,7 @@ class OperacionesSobreSenalesService:
         for i in range(posicion_inicial_truncada):
             nuevos_valores.pop(0)
 
-        nuevo_dominio = list(numpy.arange(0, len(nuevos_valores)*Ts, Ts))
+        nuevo_dominio = list(numpy.linspace(0, len(nuevos_valores)*Ts, len(nuevos_valores), endpoint=False))
         return SenalEnTiempo(nuevo_dominio, nuevos_valores)
 
     def calcular_heuristico(self, valores_referencia, valores_con_latencia):

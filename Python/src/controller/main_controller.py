@@ -18,10 +18,9 @@ class MainController:
 
     def on_efectuar_medicion(self):
         respuesta_impulsional = self.medir_respuesta_impulsional_action.execute(self.view.radiob_metodo_var.get())
-        fs = 44100
-        longitud_temporal = len(respuesta_impulsional)/fs
-        dominio_temporal = numpy.linspace(0, longitud_temporal, len(respuesta_impulsional), endpoint=False)
-        self.view.graficar_respuesta_impulsional(dominio_temporal, respuesta_impulsional)
+        self.respuesta_impulsional = respuesta_impulsional
+        self.view.graficar_respuesta_impulsional(
+            respuesta_impulsional.get_dominio_temporal(), respuesta_impulsional.get_valores())
 
     # TODO: Terminar estos dos métodos. Falta definir el formato de los archivos
 

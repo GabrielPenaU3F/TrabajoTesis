@@ -2,7 +2,6 @@ from tkinter import *
 from src.controller.main_controller import MainController
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
-import matplotlib
 
 class MainView:
 
@@ -120,6 +119,7 @@ class MainView:
         self.frame_graf_rta_impulsional.grid(row=0, column=0)
         self.label_graf_respuesta_impulsional = Label(self.frame_graf_rta_impulsional)
         self.label_graf_respuesta_impulsional.pack()
+        self.construir_plot_respuesta_impulsional()
 
         self.frame_graf_curva_decaimiento = Frame(self.frame_graficas)
         self.frame_graf_curva_decaimiento.config(width=500, height=300, borderwidth=2, relief="groove")
@@ -127,6 +127,18 @@ class MainView:
         self.frame_graf_curva_decaimiento.grid(row=0, column=1)
         self.label_graf_curva_decaimiento = Label(self.frame_graf_curva_decaimiento)
         self.label_graf_curva_decaimiento.pack()
+
+    def construir_plot_respuesta_impulsional(self):
+        self.figura_ri = Figure(figsize=(5, 5), dpi=100)
+        self.plot_ri = self.figura_ri.add_subplot(1, 1, 1)
+
+        self.canvas_ri = FigureCanvasTkAgg(self.figura_ri, master=self.label_graf_respuesta_impulsional)
+        self.canvas_ri.draw()
+        self.canvas_ri.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
+
+        toolbar = NavigationToolbar2Tk(self.canvas_ri, self.root)
+        toolbar.update()
+        self.canvas_ri.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 
     def construir_frame_titulos(self):
 
@@ -190,14 +202,5 @@ class MainView:
         return root
 
     def graficar_respuesta_impulsional(self, dominio_temporal, respuesta_impulsional):
-        figura = Figure(figsize=(5, 5), dpi=100)
-        subplot = figura.add_subplot(111)
-        subplot.plot(dominio_temporal, respuesta_impulsional)
-
-        canvas = FigureCanvasTkAgg(figura, master=self.label_graf_respuesta_impulsional)
-        canvas.draw()
-        canvas.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
-
-        toolbar = NavigationToolbar2Tk(canvas, self.root)
-        toolbar.update()
-        canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+        self.plot_ri.cla()
+        self.plot_ri.plot(dominio_temporal, respuesta_impulsional)
