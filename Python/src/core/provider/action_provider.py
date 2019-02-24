@@ -1,3 +1,4 @@
+from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMediaMovilAction
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
 from src.core.action.eliminar_latencia_action import EliminarLatenciaAction
 from src.core.action.eliminar_segmento_inicial_constante_action import EliminarSegmentoInicialConstanteAction
@@ -20,6 +21,7 @@ class ActionProvider:
     eliminar_latencia_action = None
     ponderar_periodos_mls_action = None
     medir_respuesta_impulsional_action = None
+    aplicar_filtro_media_movil_action = None
 
     @classmethod
     def provide_recortar_segmento_de_senal_entre_amplitudes_action(cls):
@@ -83,4 +85,11 @@ class ActionProvider:
             cls.realizar_convolucion_action = RealizarConvolucionAction()
 
         return cls.realizar_convolucion_action
+
+    @classmethod
+    def provide_aplicar_filtro_media_movil_action(cls):
+        if cls.aplicar_filtro_media_movil_action is None:
+            cls.aplicar_filtro_media_movil_action = AplicarFiltroMediaMovilAction()
+
+        return cls.aplicar_filtro_media_movil_action
 

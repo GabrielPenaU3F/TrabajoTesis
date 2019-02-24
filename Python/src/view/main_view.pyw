@@ -147,7 +147,6 @@ class MainView:
 
         toolbar = NavigationToolbar2Tk(self.canvas_ri, self.frame_toolbar_rta_impulsional)
         toolbar.update()
-        self.canvas_ri.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 
     def construir_plot_curva_decaimiento(self):
         self.figura_cd = Figure(figsize=(5, 5), dpi=100)
@@ -158,7 +157,6 @@ class MainView:
 
         toolbar = NavigationToolbar2Tk(self.canvas_cd, self.frame_toolbar_curva_decaimiento)
         toolbar.update()
-        self.canvas_cd.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 
     def construir_frame_titulos(self):
 
