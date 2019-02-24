@@ -119,7 +119,12 @@ class MainView:
         self.frame_graf_rta_impulsional.grid(row=0, column=0)
         self.label_graf_respuesta_impulsional = Label(self.frame_graf_rta_impulsional)
         self.label_graf_respuesta_impulsional.pack()
+        self.frame_toolbar_rta_impulsional = Frame(self.frame_graficas)
+        self.frame_toolbar_rta_impulsional.config(width=500, height=40, borderwidth=2)
+        self.frame_toolbar_rta_impulsional.pack_propagate(False)
+        self.frame_toolbar_rta_impulsional.grid(row=1, column=0)
         self.construir_plot_respuesta_impulsional()
+
 
         self.frame_graf_curva_decaimiento = Frame(self.frame_graficas)
         self.frame_graf_curva_decaimiento.config(width=500, height=300, borderwidth=2, relief="groove")
@@ -127,18 +132,33 @@ class MainView:
         self.frame_graf_curva_decaimiento.grid(row=0, column=1)
         self.label_graf_curva_decaimiento = Label(self.frame_graf_curva_decaimiento)
         self.label_graf_curva_decaimiento.pack()
+        self.frame_toolbar_curva_decaimiento = Frame(self.frame_graficas)
+        self.frame_toolbar_curva_decaimiento.config(width=500, height=40, borderwidth=2)
+        self.frame_toolbar_curva_decaimiento.pack_propagate(False)
+        self.frame_toolbar_curva_decaimiento.grid(row=1, column=1)
+        self.construir_plot_curva_decaimiento()
 
     def construir_plot_respuesta_impulsional(self):
         self.figura_ri = Figure(figsize=(5, 5), dpi=100)
         self.plot_ri = self.figura_ri.add_subplot(1, 1, 1)
 
         self.canvas_ri = FigureCanvasTkAgg(self.figura_ri, master=self.label_graf_respuesta_impulsional)
-        self.canvas_ri.draw()
         self.canvas_ri.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
 
-        toolbar = NavigationToolbar2Tk(self.canvas_ri, self.root)
+        toolbar = NavigationToolbar2Tk(self.canvas_ri, self.frame_toolbar_rta_impulsional)
         toolbar.update()
         self.canvas_ri.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+
+    def construir_plot_curva_decaimiento(self):
+        self.figura_cd = Figure(figsize=(5, 5), dpi=100)
+        self.plot_cd = self.figura_cd.add_subplot(1, 1, 1)
+
+        self.canvas_cd = FigureCanvasTkAgg(self.figura_cd, master=self.label_graf_curva_decaimiento)
+        self.canvas_cd.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
+
+        toolbar = NavigationToolbar2Tk(self.canvas_cd, self.frame_toolbar_curva_decaimiento)
+        toolbar.update()
+        self.canvas_cd.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 
     def construir_frame_titulos(self):
 
@@ -204,3 +224,4 @@ class MainView:
     def graficar_respuesta_impulsional(self, dominio_temporal, respuesta_impulsional):
         self.plot_ri.cla()
         self.plot_ri.plot(dominio_temporal, respuesta_impulsional)
+        self.canvas_ri.draw()
