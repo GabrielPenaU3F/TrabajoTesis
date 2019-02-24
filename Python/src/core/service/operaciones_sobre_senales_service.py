@@ -1,5 +1,6 @@
 import math
 import numpy
+from scipy import signal
 
 from src.core.domain.senal_en_frecuencia import SenalEnFrecuencia
 from src.core.domain.senal_en_tiempo import SenalEnTiempo
@@ -92,4 +93,10 @@ class OperacionesSobreSenalesService:
             diferencia = abs(valores_referencia[i] - valores_con_latencia[i])
             heuristico += diferencia
         return heuristico
+
+    def realizar_convolucion(self, senal_1, senal_2):
+        convolucion = list(signal.fftconvolve(senal_1.get_valores(), senal_2.get_valores(), 'full'))
+        fs = 1/(senal_1.get_dominio_temporal()[1] - senal_1.get_dominio_temporal()[0])
+        dominio_temporal = numpy.arange(0, len(convolucion)/fs, 1/fs)
+        return SenalEnTiempo(dominio_temporal, convolucion)
 

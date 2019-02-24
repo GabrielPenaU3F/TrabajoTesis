@@ -6,7 +6,7 @@ function valor_eficaz = calcular_potencia_eficaz(data, Ts, t_comienzo, periodo)
 
     if (t_comienzo > T_duracion_total) 
         fprintf('El tiempo de inicio del periodo excede la duracion del audio %.4f \n', T_duracion_total);
-    elseif (t_final > T_duracion_total) 
+    elseif (t_final > T_duracion_total + 1) 
         fprintf('El periodo indicado excede la duracion del audio \n');
     elseif (periodo < Ts)
         fprintf('El periodo indicado es mas corto que el periodo de muestreo \n');

@@ -3,6 +3,7 @@ from src.core.action.eliminar_latencia_action import EliminarLatenciaAction
 from src.core.action.eliminar_segmento_inicial_constante_action import EliminarSegmentoInicialConstanteAction
 from src.core.action.medir_respuesta_impulsional_action import MedirRespuestaImpulsionalAction
 from src.core.action.ponderar_periodos_mls_action import PonderarPeriodosMLSAction
+from src.core.action.realizar_convolucion_action import RealizarConvolucionAction
 from src.core.action.recortar_segmento_de_senal_en_tiempo_action import RecortarSegmentoDeSenalEnTiempoAction
 from src.core.action.recortar_segmento_de_senal_entre_amplitudes_action import RecortarSegmentoDeSenalEntreAmplitudesAction
 from src.core.action.transformar_fourier_action import TransformarFourierAction
@@ -10,6 +11,7 @@ from src.core.action.transformar_fourier_action import TransformarFourierAction
 
 class ActionProvider:
 
+    realizar_convolucion_action = None
     recortar_segmento_de_senal_entre_amplitudes_action = None
     recortar_segmento_de_senal_en_tiempo_action = None
     transformar_fourier_action = None
@@ -74,4 +76,11 @@ class ActionProvider:
             cls.medir_respuesta_impulsional_action = MedirRespuestaImpulsionalAction()
 
         return cls.medir_respuesta_impulsional_action
+
+    @classmethod
+    def provide_realizar_convolucion_action(cls):
+        if cls.realizar_convolucion_action is None:
+            cls.realizar_convolucion_action = RealizarConvolucionAction()
+
+        return cls.realizar_convolucion_action
 
