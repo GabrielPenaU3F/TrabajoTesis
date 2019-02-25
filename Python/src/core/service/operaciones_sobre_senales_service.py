@@ -97,6 +97,11 @@ class OperacionesSobreSenalesService:
     def realizar_convolucion(self, senal_1, senal_2):
         convolucion = list(signal.fftconvolve(senal_1.get_valores(), senal_2.get_valores(), 'full'))
         fs = 1/(senal_1.get_dominio_temporal()[1] - senal_1.get_dominio_temporal()[0])
-        dominio_temporal = numpy.arange(0, len(convolucion)/fs, 1/fs)
+        dominio_temporal = numpy.linspace(0, len(convolucion)/fs, len(convolucion))
         return SenalEnTiempo(dominio_temporal, convolucion)
 
+    def realizar_correlacion(self, senal_1, senal_2):
+        correlacion = list(signal.correlate(senal_1.get_valores(), senal_2.get_valores(), 'full'))
+        fs = 1/(senal_1.get_dominio_temporal()[1] - senal_1.get_dominio_temporal()[0])
+        dominio_temporal = numpy.linspace(0, len(correlacion)/fs, len(correlacion))
+        return SenalEnTiempo(dominio_temporal, correlacion)

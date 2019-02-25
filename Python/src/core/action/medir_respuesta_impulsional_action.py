@@ -19,6 +19,7 @@ class MedirRespuestaImpulsionalAction:
         self.eliminar_latencia_action = ActionProvider.provide_eliminar_latencia_action()
         self.ponderar_periodos_mls_action = ActionProvider.provide_ponderar_periodos_mls_action()
         self.realizar_convolucion_action = ActionProvider.provide_realizar_convolucion_action()
+        self.realizar_correlacion_action = ActionProvider.provide_realizar_correlacion_action()
 
     def execute(self, metodo):
         return self.metodos_de_medicion.get(metodo)()
@@ -35,9 +36,14 @@ class MedirRespuestaImpulsionalAction:
         # Una ventana de 100ms debería bastar
         senal_grabada_sin_latencia = self.eliminar_latencia_action.execute(senal_mls, audio, 0.100)
         senal_grabada_ponderada = self.ponderar_periodos_mls_action.execute(senal_grabada_sin_latencia, n_bits)
+        dominio_temporal = numpy.linspace(
+            0, len(senal_grabada_ponderada)/fs, len(senal_grabada_ponderada))
 
-        respuesta_impulsional = list(numpy.correlate(senal_grabada_ponderada, periodo_mls_generado, "full"))
-        respuesta_impulsional_lineal = respuesta_impulsional[respuesta_impulsional.index(max(respuesta_impulsional)):]
+        respuesta_impulsional = self.realizar_correlacion_action.execute(
+            SenalEnTiempo(dominio_temporal, senal_grabada_ponderada),
+            SenalEnTiempo(dominio_temporal, periodo_mls_generado)).get_valores()
+        respuesta_impulsional_lineal = respuesta_impulsional[respuesta_impulsional.index(
+            max(respuesta_impulsional)):]
         dominio_temporal = numpy.linspace(
             0, len(respuesta_impulsional_lineal)/fs, len(respuesta_impulsional_lineal), endpoint=False)
 
