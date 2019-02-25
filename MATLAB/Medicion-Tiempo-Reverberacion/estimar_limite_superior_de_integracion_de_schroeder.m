@@ -12,8 +12,8 @@ function lim = estimar_limite_superior_de_integracion_de_schroeder(h, fs)
     n = 40;
     semiancho_ventana = 20;
     %epsilon = 5*10^-7; %Valor adecuado para la medición MLS con un solo filtro
-    epsilon = 5*10^-5;  %Valor adecuado para la medición MLS con doble filtro
-    %epsilon = 5*10^-10; %Valor adecuado para la medición ESS
+    %epsilon = 5*10^-5;  %Valor adecuado para la medición MLS con doble filtro
+    epsilon = 5*10^-10; %Valor adecuado para la medición ESS
     umbral_inicial = encontrar_limite_respuesta_impulsional(h, n, epsilon, semiancho_ventana);
     if (umbral_inicial < length(h))
         h_abs = abs(h); %Porque queremos encontrar una 'recta envolvente'

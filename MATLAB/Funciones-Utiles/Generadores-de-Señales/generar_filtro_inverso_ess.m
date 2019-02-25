@@ -9,7 +9,7 @@ function h = generar_filtro_inverso_ess(fs, T, f1, f2)
  
             h(t) = s_i(t)/k
 
-        Donde s_i(t) es la señal ESS invertida en el tiempo, y k es como
+        Donde s_i(t) es la señal ESS invertida en el tiempo, y k es comodelta = conv(x,fi);
         sigue
 
             k = exp(tR/T)

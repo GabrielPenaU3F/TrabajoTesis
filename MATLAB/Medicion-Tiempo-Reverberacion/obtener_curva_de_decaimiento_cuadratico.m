@@ -12,12 +12,9 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
 
     h_cuadrado_original = h.^2;
     %h_hilbert = abs(hilbert(abs(h)));
-    h_suave = aplicar_filtro_media_movil(h,100);
-    coef_ajuste = max(h)/max(h_suave);
-    h_suave = h_suave.*coef_ajuste;
+    h_suave = aplicar_filtro_media_movil(h, 100);
     %h_cuadrado = abs(hilbert(h_cuadrado_original));
-    %h_cuadrado = h.^2;
-    h_cuadrado = calcular_envolvente_energetica(h,fs,100);
+    h_cuadrado = h.^2;
     lim_superior = estimar_limite_superior_de_integracion_de_schroeder(h_suave.^2, fs);
     c_corr = calcular_termino_de_correccion(h_suave, fs, lim_superior);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
