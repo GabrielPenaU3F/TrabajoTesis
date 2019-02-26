@@ -17,8 +17,10 @@ function varargout = obtener_segmento_de_curva(s_db,decaimiento_inicial,decaimie
     %Eliminamos por izquierda
     if (decaimiento_inicial > 0)
        s_db = eliminar_n_db(s_db, decaimiento_inicial); 
+       longitud_eliminada = longitud - length(s_db);
+    else
+       longitud_eliminada = 0;
     end
-    longitud_eliminada = longitud - length(s_db);
     
     decaimiento_requerido = decaimiento_final - decaimiento_inicial;
     [y_max,x_max] = max(s_db);
