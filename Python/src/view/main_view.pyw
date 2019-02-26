@@ -63,26 +63,6 @@ class MainView:
         self.entry_t60_30.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
         self.entry_t60_30.grid(row=3, column=1, padx=(10, 0))
 
-        self.label_rxy = Label(self.frame_resultados)
-        self.label_rxy.config(text="r")
-        self.label_rxy.grid(row=4, column=0)
-        self.entry_rxy = Entry(self.frame_resultados)
-        self.entry_rxy.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
-        self.entry_rxy.grid(row=4, column=1, padx=(10, 0))
-
-        self.label_xi = Label(self.frame_resultados)
-        self.label_xi.config(text="ξ")
-        self.label_xi.grid(row=5, column=0)
-        self.entry_xi = Entry(self.frame_resultados)
-        self.entry_xi.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
-        self.entry_xi.grid(row=5, column=1, padx=(10, 0))
-
-        self.label_C = Label(self.frame_resultados)
-        self.label_C.config(text="C")
-        self.label_C.grid(row=6, column=0)
-        self.entry_C = Entry(self.frame_resultados)
-        self.entry_C.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
-        self.entry_C.grid(row=6, column=1, padx=(10, 0))
 
     def construir_frame_medicion(self):
 

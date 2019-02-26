@@ -27,3 +27,9 @@ class FiltradoImposibleException(Exception):
     def __init__(self, message):
         super().__init__(message)
 
+
+class RegresionException(Exception):
+
+    def __init__(self, message):
+        super().__init__(message)
+

@@ -17,25 +17,28 @@ class StringRepository:
                                     "Se recomienda que el micrófono se encuentre a al menos dos metros de " \
                                     "la fuente de sonido y a al menos un metro del suelo, " \
                                     "preferentemente en la localización usual de los oyentes.\n\n"\
-                                    "PARÁMETROS DE LINEALIDAD:\n" \
-                                    "Los tres valores adicionales son parámetros representativos " \
-                                    "del carácter lineal de la curva de decaimiento, definidos " \
-                                    "en la norma ISO 3382-2.\n" \
-                                    "El valor r es el coeficiente de correlación lineal. Si " \
-                                    "difiere mucho de -1, la medición no se considera buena.\n" \
-                                    "El valor ξ es el parámetro de no-linealidad de la curva. " \
-                                    "Indica cuanto se aleja la curva, en pormilaje, " \
-                                    "de la linealidad perfecta. Se consideran buenos valores " \
-                                    "de 0 a 5‰.\n" \
-                                    "El valor C es el parámetro de curvatura. Mide, en porcentaje, " \
-                                    "cuan diferentes son los tiempos T20 y T30. Valores típicos son " \
-                                    "de 0 a 5%.\n" \
                                     "Mejorar la calidad de la medición en términos de linealidad " \
                                     "requiere mejorar el hardware utilizado (altavoces, tarjetas " \
                                     "de audio, micrófonos).\n\n" \
                                     "BANDAS DE FRECUENCIA:\n" \
                                     "También pueden visualizarse los resultados por banda " \
-                                    "de frecuencia, tanto de octava como de tercio de octava." \
+                                    "de frecuencia, tanto de octava como de tercio de octava, en la " \
+                                    "Vista Detallada."
+
+
+        self.string_parametros_linealidad = "PARÁMETROS DE LINEALIDAD:\n" \
+                                            "Los tres valores adicionales son parámetros representativos " \
+                                            "del carácter lineal de la curva de decaimiento, definidos " \
+                                            "en la norma ISO 3382-2.\n" \
+                                            "El valor r es el coeficiente de correlación lineal. Si " \
+                                            "difiere mucho de -1, la medición no se considera buena.\n" \
+                                            "El valor ξ es el parámetro de no-linealidad de la curva. " \
+                                            "Indica cuanto se aleja la curva, en pormilaje, " \
+                                            "de la linealidad perfecta. Se consideran buenos valores " \
+                                            "de 0 a 5‰.\n" \
+                                            "El valor C es el parámetro de curvatura. Mide, en porcentaje, " \
+                                            "cuan diferentes son los tiempos T20 y T30. Valores típicos son " \
+                                            "de 0 a 5%.\n" \
 
 
     def get_string_instrucciones(self):
