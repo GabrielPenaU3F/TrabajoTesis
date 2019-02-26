@@ -126,3 +126,6 @@ class SenalAudio:
     def get_indice_en_t(self, t):
         return self.senal_en_tiempo.get_indice_en_t(t)
 
+    def get_senal_en_db(self):
+        return self.senal_en_tiempo.get_senal_en_db()
+

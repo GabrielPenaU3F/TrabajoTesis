@@ -9,11 +9,14 @@ from src.core.action.realizar_convolucion_action import RealizarConvolucionActio
 from src.core.action.realizar_correlacion_action import RealizarCorrelacionAction
 from src.core.action.recortar_segmento_de_senal_en_tiempo_action import RecortarSegmentoDeSenalEnTiempoAction
 from src.core.action.recortar_segmento_de_senal_entre_amplitudes_action import RecortarSegmentoDeSenalEntreAmplitudesAction
+from src.core.action.transformar_a_escala_logaritmica_normalizada_action import \
+    TransformarAEscalaLogaritmicaNormalizadaAction
 from src.core.action.transformar_fourier_action import TransformarFourierAction
 
 
 class ActionProvider:
 
+    transformar_a_escala_logaritmica_normalizada_action = None
     realizar_correlacion_action = None
     realizar_convolucion_action = None
     recortar_segmento_de_senal_entre_amplitudes_action = None
@@ -110,4 +113,11 @@ class ActionProvider:
             cls.integrar_senal_action = IntegrarSenalAction()
 
         return cls.integrar_senal_action
+
+    @classmethod
+    def provide_transformar_a_escala_logaritmica_normalizada_action(cls):
+        if cls.transformar_a_escala_logaritmica_normalizada_action is None:
+            cls.transformar_a_escala_logaritmica_normalizada_action = TransformarAEscalaLogaritmicaNormalizadaAction()
+
+        return cls.transformar_a_escala_logaritmica_normalizada_action
 
