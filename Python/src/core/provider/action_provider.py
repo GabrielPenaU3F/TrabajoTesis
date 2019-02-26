@@ -2,6 +2,7 @@ from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMedia
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
 from src.core.action.eliminar_latencia_action import EliminarLatenciaAction
 from src.core.action.eliminar_segmento_inicial_constante_action import EliminarSegmentoInicialConstanteAction
+from src.core.action.integrar_senal_action import IntegrarSenalAction
 from src.core.action.medir_respuesta_impulsional_action import MedirRespuestaImpulsionalAction
 from src.core.action.ponderar_periodos_mls_action import PonderarPeriodosMLSAction
 from src.core.action.realizar_convolucion_action import RealizarConvolucionAction
@@ -24,6 +25,7 @@ class ActionProvider:
     ponderar_periodos_mls_action = None
     medir_respuesta_impulsional_action = None
     aplicar_filtro_media_movil_action = None
+    integrar_senal_action = None
 
     @classmethod
     def provide_recortar_segmento_de_senal_entre_amplitudes_action(cls):
@@ -101,4 +103,11 @@ class ActionProvider:
             cls.realizar_correlacion_action = RealizarCorrelacionAction()
 
         return cls.realizar_correlacion_action
+
+    @classmethod
+    def provide_integrar_senal_action(cls):
+        if cls.integrar_senal_action is None:
+            cls.integrar_senal_action = IntegrarSenalAction()
+
+        return cls.integrar_senal_action
 

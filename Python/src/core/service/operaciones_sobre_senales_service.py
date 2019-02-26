@@ -105,3 +105,13 @@ class OperacionesSobreSenalesService:
         fs = 1/(senal_1.get_dominio_temporal()[1] - senal_1.get_dominio_temporal()[0])
         dominio_temporal = numpy.linspace(0, len(correlacion)/fs, len(correlacion))
         return SenalEnTiempo(dominio_temporal, correlacion)
+
+    def integrar_senal(self, senal, indice_inicio, indice_fin):
+        dx = senal.get_dominio_temporal()[1] - senal.get_dominio_temporal()[0]
+        valores = senal.get_valores()
+        integral = 0
+        rango = indice_fin - indice_inicio
+        for i in range(rango):
+            integral += valores[indice_inicio + i] * dx
+
+        return integral

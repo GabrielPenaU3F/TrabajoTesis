@@ -145,4 +145,36 @@ class TestSenalAudio(unittest.TestCase):
 
         self.assertAlmostEqual(math.pi, senoide.get_energia_total(), int(math.pow(10, -7)))
 
+    def test_que_el_indice_en_t_cero_sea_cero(self):
+        fs = 48000
+        dominio_temporal = numpy.linspace(0, 1, 48000, endpoint=False)
+        y = [1 for i in range(len(dominio_temporal))]
+        senal = SenalAudio(fs, dominio_temporal, y)
+
+        self.assertEqual(0, senal.get_indice_en_t(0))
+
+    def test_que_el_indice_en_t_uno_menos_Ts_sea_fs_menos_Ts(self):
+        fs = 10
+        dominio_temporal = numpy.linspace(0, 1, fs, endpoint=False)
+        y = [1 for i in range(len(dominio_temporal))]
+        senal = SenalAudio(fs, dominio_temporal, y)
+
+        self.assertEqual(fs, senal.get_indice_en_t(1 - 1/fs))
+
+    def test_que_el_indice_en_t_cero_coma_55_sea_5(self):
+        fs = 10
+        dominio_temporal = numpy.linspace(0, 1, fs, endpoint=False)
+        y = [1 for i in range(len(dominio_temporal))]
+        senal = SenalAudio(fs, dominio_temporal, y)
+
+        self.assertEqual(5, senal.get_indice_en_t(0.55))
+
+    def test_que_no_pueda_obtener_el_indice_de_una_senal_en_donde_no_esta_definida(self):
+        fs = 48000
+        dominio_temporal = numpy.linspace(0, 1, 48000, endpoint=False)
+        y = [1 for i in range(len(dominio_temporal))]
+        senal = SenalAudio(fs, dominio_temporal, y)
+
+        self.assertRaises(IndiceSenalException, senal.get_indice_en_t, 3)
+
 

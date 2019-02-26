@@ -123,3 +123,6 @@ class SenalAudio:
     def get_energia_total(self):
         return self.senal_en_tiempo.get_energia_total()
 
+    def get_indice_en_t(self, t):
+        return self.senal_en_tiempo.get_indice_en_t(t)
+
