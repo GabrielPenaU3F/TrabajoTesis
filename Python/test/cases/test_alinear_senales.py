@@ -32,7 +32,7 @@ class AlinearSenalesTest(unittest.TestCase):
         self.assertListEqual(senal.get_valores(), senal_resultante)
 
     def test_que_alinee_correctamente_una_senal_de_10_segundos_y_su_version_con_pequeno_ruido_antes(self):
-        fs = 44100
+        fs = 48000
         frecuencia = 200
         senoide = GeneradorSenoidal().generar_senoide(fs, 10, frecuencia, 1, 0)
         ruido = [0.001, -0.001, 0.003, 0.002, 0.01]
@@ -43,7 +43,7 @@ class AlinearSenalesTest(unittest.TestCase):
         self.assertListEqual(senoide.get_valores(), senal_resultante)
 
     def test_que_no_modifique_senales_ya_alineadas(self):
-        fs = 44100
+        fs = 48000
         frecuencia = 200
         senoide = GeneradorSenoidal().generar_senoide(fs, 10, frecuencia, 1, 0)
         senoide_a_truncar = GeneradorSenoidal().generar_senoide(fs, 10, frecuencia, 1, 0)
@@ -53,7 +53,7 @@ class AlinearSenalesTest(unittest.TestCase):
         self.assertListEqual(senoide.get_valores(), senal_resultante)
 
     def test_que_lance_excepcion_si_la_ventana_es_mas_larga_que_alguna_senal(self):
-        fs = 44100
+        fs = 48000
         frecuencia = 200
         senoide = GeneradorSenoidal().generar_senoide(fs, 2, frecuencia, 1, 0)
         senoide_a_truncar = GeneradorSenoidal().generar_senoide(fs, 2, frecuencia, 1, 0)

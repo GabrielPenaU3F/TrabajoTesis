@@ -31,7 +31,7 @@ function [lim, pendiente, ordenada_al_origen] = estimar_limite_superior_por_meto
     %Paso 6
     h_cuadrado_nuevo = aplicar_filtro_media_movil(h_cuadrado_db, longitud_intervalo);
     
-    for i=0:15
+    for i=0:5
         
         %Paso 7
         porcentaje_minimo_ri = 10;

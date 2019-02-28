@@ -7,7 +7,7 @@ from src.core.domain.generadores_de_senales.generador_mls import GeneradorMLS
 class MLSTest(unittest.TestCase):
 
     def test_que_la_senal_mls_solo_tenga_unos_y_menos_unos(self):
-        fs = 44100
+        fs = 48000
         n_bits = 17
         periodos = 8
         senal_mls = GeneradorMLS().generar_senal_mls(n_bits, periodos, fs)
@@ -19,7 +19,7 @@ class MLSTest(unittest.TestCase):
         self.assertEqual(0, cuenta)
 
     def test_que_la_longitud_de_un_periodo_sea_la_esperada(self):
-        fs = 44100
+        fs = 48000
         n_bits = 17
         periodos = 1
         senal_mls = GeneradorMLS().generar_senal_mls(n_bits, periodos, fs)
@@ -28,7 +28,7 @@ class MLSTest(unittest.TestCase):
         self.assertEqual(longitud_esperada, senal_mls.get_longitud())
 
     def test_que_la_longitud_de_ocho_periodos_sea_la_esperada(self):
-        fs = 44100
+        fs = 48000
         n_bits = 17
         periodos = 8
         senal_mls = GeneradorMLS().generar_senal_mls(n_bits, periodos, fs)

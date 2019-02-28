@@ -15,7 +15,7 @@ class PonderarMLSTest(unittest.TestCase):
         cls.ponderar_periodos_mls_action = ActionProvider.provide_ponderar_periodos_mls_action()
 
     def test_que_la_longitud_de_la_senal_ponderada_con_los_periodos_intactos_sea_correcta(self):
-        fs = 44100
+        fs = 48000
         n_bits = 17
         periodos = 8
         senal_mls = GeneradorMLS().generar_senal_mls(n_bits, periodos, fs)
@@ -25,7 +25,7 @@ class PonderarMLSTest(unittest.TestCase):
         self.assertEqual(longitud_esperada, len(valores_ponderados))
 
     def test_que_la_longitud_de_la_senal_ponderada_con_algunas_muestras_menos_sea_correcta(self):
-        fs = 44100
+        fs = 48000
         n_bits = 17
         periodos = 8
         valores_mls = GeneradorMLS().generar_senal_mls(n_bits, periodos, fs).get_valores().copy()

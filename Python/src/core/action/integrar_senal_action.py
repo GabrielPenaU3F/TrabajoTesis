@@ -6,5 +6,5 @@ class IntegrarSenalAction:
     def __init__(self):
         self.operaciones_service = ServiceProvider.provide_operaciones_sobre_senales_service()
 
-    def execute(self, senal, indice_inicio, indice_fin):
-        return self.operaciones_service.integrar_senal(senal, indice_inicio, indice_fin)
+    def execute(self, senal, t_inicio, t_fin):
+        return self.operaciones_service.integrar_senal(senal, t_inicio, t_fin)

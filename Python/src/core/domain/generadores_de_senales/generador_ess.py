@@ -3,7 +3,6 @@ import math
 import numpy
 
 from src.core.domain.senal_audio import SenalAudio
-from src.core.domain.senal_en_tiempo import SenalEnTiempo
 
 
 class GeneradorESS:
@@ -68,4 +67,4 @@ class GeneradorESS:
             k = math.exp(t * R / duracion)
             filtro.append(ess_invertida[t] / k)
 
-        return SenalEnTiempo(dominio_temporal, filtro)
+        return SenalAudio(fs, dominio_temporal, filtro)

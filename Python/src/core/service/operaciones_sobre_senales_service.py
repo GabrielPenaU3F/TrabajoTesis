@@ -2,8 +2,9 @@ import math
 import numpy
 from scipy import signal
 
-from src.core.domain.senal_en_frecuencia import SenalEnFrecuencia
-from src.core.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.contenido_frecuencial import ContenidoFrecuencial
+from src.core.domain.punto_senal_frecuencia import PuntoSenalFrecuencia
+from src.core.domain.senal_audio import SenalAudio
 from src.exception.excepciones import AlineacionException
 
 
@@ -13,34 +14,29 @@ class OperacionesSobreSenalesService:
         from src.core.provider.service_provider import ServiceProvider
         self.operaciones_sobre_arrays_service = ServiceProvider.provide_operaciones_sobre_arrays_service()
 
-    def transformar_fourier(self, senal_en_tiempo, fs):
-        valores_tiempo = senal_en_tiempo.get_valores()
-        duracion = len(valores_tiempo) / fs
-        espaciado_en_frecuencia = 1 / duracion
-        dominio_frecuencial = list(numpy.arange(0, fs, espaciado_en_frecuencia))
+    def transformar_fourier(self, senal):
+        fs = senal.get_fs()
+        valores_tiempo = senal.get_valores()
+        dominio_frecuencial = list(numpy.linspace(0, fs, len(valores_tiempo), endpoint=False))
         valores_frecuencia = numpy.fft.fft(valores_tiempo)
-        return SenalEnFrecuencia(dominio_frecuencial, valores_frecuencia)
+        return ContenidoFrecuencial(
+            [PuntoSenalFrecuencia(dominio_frecuencial[i], valores_frecuencia[i])
+             for i in range(len(dominio_frecuencial))])
 
-    def evaluar_diferencias_finitas_hacia_adelante(self, senal_en_tiempo):
-        valores = senal_en_tiempo.get_valores()
+    def evaluar_diferencias_finitas_hacia_adelante(self, senal):
+        valores = senal.get_valores()
         valores.append(0)  # Para que la señal derivada tenga la misma longitud que la original
         valores_derivados = []
         for i in range(len(valores) - 1):
             diferencia_finita = valores[i+1] - valores[i]
             valores_derivados.append(diferencia_finita)
-        return SenalEnTiempo(senal_en_tiempo.get_dominio_temporal(), valores_derivados)
+        return SenalAudio(senal.get_fs(), senal.get_dominio_temporal(), valores_derivados)
 
-    def calcular_periodo_muestral(self, senal_en_tiempo):
-        return senal_en_tiempo.get_dominio_temporal()[1] - senal_en_tiempo.get_dominio_temporal()[0]
-
-    def calcular_energia_total_de_senal(self, senal_en_tiempo):
-        Ts = self.calcular_periodo_muestral(senal_en_tiempo)
-        return self.calcular_energia_total(senal_en_tiempo.get_valores(), Ts)
-
-    def calcular_energia_total(self, valores, Ts):
+    def calcular_energia_total_de_senal(self, senal):
         energia = 0
-        for valor in valores:
-            energia += math.pow(valor, 2) * Ts
+        dx = 1/senal.get_fs()
+        for valor in senal.get_valores():
+            energia += math.pow(valor, 2) * dx
         return energia
 
 
@@ -56,8 +52,9 @@ class OperacionesSobreSenalesService:
     duración del mismo. Ya que las latencias producidas en la grabación
     son mínimas, esto no resultará problemático.
     '''
-    def eliminar_latencia_entre_senales(self, senal_de_referencia, senal_con_latencia, Ts, ventana_en_segundos):
+    def eliminar_latencia_entre_senales(self, senal_de_referencia, senal_con_latencia, ventana_en_segundos):
 
+        Ts = 1/senal_de_referencia.get_fs()
         ventana_en_cantidad_de_muestras = int(ventana_en_segundos/Ts)
         if ventana_en_cantidad_de_muestras > self.operaciones_sobre_arrays_service.obtener_longitud_del_array_mas_corto(
                 senal_de_referencia.get_valores(), senal_con_latencia.get_valores()):
@@ -79,7 +76,7 @@ class OperacionesSobreSenalesService:
             nuevos_valores.pop(0)
 
         nuevo_dominio = list(numpy.linspace(0, len(nuevos_valores)*Ts, len(nuevos_valores), endpoint=False))
-        return SenalEnTiempo(nuevo_dominio, nuevos_valores)
+        return SenalAudio(1/Ts, nuevo_dominio, nuevos_valores)
 
     def calcular_heuristico(self, valores_referencia, valores_con_latencia):
         heuristico = 0
@@ -96,22 +93,34 @@ class OperacionesSobreSenalesService:
 
     def realizar_convolucion(self, senal_1, senal_2):
         convolucion = list(signal.fftconvolve(senal_1.get_valores(), senal_2.get_valores(), 'full'))
-        fs = 1/(senal_1.get_dominio_temporal()[1] - senal_1.get_dominio_temporal()[0])
-        dominio_temporal = numpy.linspace(0, len(convolucion)/fs, len(convolucion))
-        return SenalEnTiempo(dominio_temporal, convolucion)
+        fs = senal_1.get_fs()
+        dominio_temporal = numpy.linspace(0, len(convolucion)/fs, len(convolucion), endpoint=False)
+        return SenalAudio(fs, dominio_temporal, convolucion)
 
     def realizar_correlacion(self, senal_1, senal_2):
         correlacion = list(signal.correlate(senal_1.get_valores(), senal_2.get_valores(), 'full'))
-        fs = 1/(senal_1.get_dominio_temporal()[1] - senal_1.get_dominio_temporal()[0])
-        dominio_temporal = numpy.linspace(0, len(correlacion)/fs, len(correlacion))
-        return SenalEnTiempo(dominio_temporal, correlacion)
+        fs = senal_1.get_fs()
+        dominio_temporal = numpy.linspace(0, len(correlacion)/fs, len(correlacion), endpoint=False)
+        return SenalAudio(dominio_temporal, correlacion)
 
-    def integrar_senal(self, senal, indice_inicio, indice_fin):
-        dx = senal.get_dominio_temporal()[1] - senal.get_dominio_temporal()[0]
+    def integrar_senal(self, senal, t_inicio, t_fin):
+        dx = 1/senal.get_fs()
         valores = senal.get_valores()
         integral = 0
-        rango = indice_fin - indice_inicio
-        for i in range(rango):
-            integral += valores[indice_inicio + i] * dx
+        senal_recortada = self.recortar_en_tiempo(senal, t_inicio, t_fin)
+        for i in range(senal_recortada.get_longitud()):
+            integral += valores[i] * dx
 
         return integral
+
+    def recortar_en_tiempo(self, senal, t_inicio, t_fin):
+        dominio_temporal = senal.get_dominio_temporal()
+        valores = senal.get_valores()
+        nuevo_dominio = []
+        nuevos_valores = []
+        for i in range(len(dominio_temporal)):
+            if t_inicio <= dominio_temporal[i] <= t_fin:
+                nuevo_dominio.append(dominio_temporal[i])
+                nuevos_valores.append(valores[i])
+
+        return SenalAudio(senal.get_fs(), nuevo_dominio, nuevos_valores)

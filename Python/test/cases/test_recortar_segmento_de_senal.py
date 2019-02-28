@@ -1,9 +1,11 @@
 import math
 import unittest
+from time import time
+
+import numpy
 
 from src.core.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
 from src.core.domain.senal_audio import SenalAudio
-from src.core.domain.senal_en_tiempo import SenalEnTiempo
 from src.core.provider.action_provider import ActionProvider
 
 
@@ -35,19 +37,37 @@ class TestRecortarSegmentoDeSenal(unittest.TestCase):
 
         self.assertListEqual(valores_esperados, senal_entre_1_y_2.get_valores())
 
-    def test_que_recorte_correctamente_una_escalera_entre_2_y_5(self):
-        dominio = [0, 1, 2, 3, 4, 5, 6, 7]
+    def test_que_recorte_correctamente_una_escalera_entre_amplitudes_2_y_5(self):
+        fs = 8
+        dominio = numpy.linspace(0, 1, 8, endpoint=False)
         valores = [0, 1, 2, 3, 4, 5, 6, 7]
-        senal_en_tiempo = SenalEnTiempo(dominio, valores)
+        senal = SenalAudio(fs, dominio, valores)
 
-        self.assertListEqual([2, 3, 4, 5], TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(senal_en_tiempo, 2, 5).get_dominio_temporal())
-        self.assertListEqual([2, 3, 4, 5], TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(senal_en_tiempo, 2, 5).get_valores())
+        self.assertListEqual([2, 3, 4, 5],
+                             TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(senal, 2, 5).get_valores())
 
     def test_que_recorte_correctamente_una_escalera_entre_menos3_y_menos8(self):
-        dominio = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        fs = 11
+        dominio = numpy.linspace(0, 1, 11, endpoint=None)
         valores = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
-        senal_en_tiempo = SenalEnTiempo(dominio, valores)
+        senal = SenalAudio(fs, dominio, valores)
 
-        self.assertListEqual([3, 4, 5, 6, 7, 8], TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(senal_en_tiempo, -8, -3).get_dominio_temporal())
-        self.assertListEqual([-3, -4, -5, -6, -7, -8], TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(senal_en_tiempo, -8, -3).get_valores())
+        numpy.testing.assert_almost_equal([3/11, 4/11, 5/11, 6/11, 7/11, 8/11],
+                                          TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(
+                                              senal, -8, -3).get_dominio_temporal(), decimal=10)
+        self.assertListEqual([-3, -4, -5, -6, -7, -8],
+                             TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(
+                                 senal, -8, -3).get_valores())
 
+    def test_que_recorte_en_amplitud_una_senal_larga_en_un_tiempo_adecuado(self):
+        fs = 48000
+        dominio = numpy.linspace(0, 3, fs*3, endpoint=False)
+        valores = numpy.linspace(0, 100000, fs*3, endpoint=False)
+        senal_larga = SenalAudio(fs, dominio, valores)
+
+        t_inicio = time()
+        TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(senal_larga, 10000, 30000)
+        t_fin = time()
+
+        t_procesamiento = t_fin - t_inicio
+        self.assertEqual(True, t_procesamiento < 1)

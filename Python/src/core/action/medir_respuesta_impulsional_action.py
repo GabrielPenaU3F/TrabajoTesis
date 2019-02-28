@@ -5,7 +5,7 @@ import numpy
 from src.core.domain.generadores_de_senales.generador_ess import GeneradorESS
 from src.core.domain.generadores_de_senales.generador_mls import GeneradorMLS
 from src.core.domain.lectograbador_de_audio import LectograbadorDeAudio
-from src.core.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.senal_audio import SenalAudio
 
 
 class MedirRespuestaImpulsionalAction:
@@ -21,12 +21,11 @@ class MedirRespuestaImpulsionalAction:
         self.realizar_convolucion_action = ActionProvider.provide_realizar_convolucion_action()
         self.realizar_correlacion_action = ActionProvider.provide_realizar_correlacion_action()
 
-    def execute(self, metodo):
-        return self.metodos_de_medicion.get(metodo)()
+    def execute(self, metodo, fs):
+        return self.metodos_de_medicion.get(metodo)(fs)
 
-    def medir_por_mls(self):
+    def medir_por_mls(self, fs):
         n_bits = 17
-        fs = 48000
         periodos = 8
 
         senal_mls = GeneradorMLS().generar_senal_mls(n_bits, periodos, fs)
@@ -40,17 +39,16 @@ class MedirRespuestaImpulsionalAction:
             0, len(senal_grabada_ponderada)/fs, len(senal_grabada_ponderada))
 
         respuesta_impulsional = self.realizar_correlacion_action.execute(
-            SenalEnTiempo(dominio_temporal, senal_grabada_ponderada),
-            SenalEnTiempo(dominio_temporal, periodo_mls_generado)).get_valores()
+            SenalAudio(fs, dominio_temporal, senal_grabada_ponderada),
+            SenalAudio(fs, dominio_temporal, periodo_mls_generado)).get_valores()
         respuesta_impulsional_lineal = respuesta_impulsional[respuesta_impulsional.index(
             max(respuesta_impulsional)):]
         dominio_temporal = numpy.linspace(
             0, len(respuesta_impulsional_lineal)/fs, len(respuesta_impulsional_lineal), endpoint=False)
 
-        return SenalEnTiempo(dominio_temporal, respuesta_impulsional_lineal)
+        return SenalAudio(fs, dominio_temporal, respuesta_impulsional_lineal)
 
-    def medir_por_ess(self):
-        fs = 48000
+    def medir_por_ess(self, fs):
         duracion = 6
         frecuencia_inicial = 20
         frecuencia_final = 22050
@@ -63,4 +61,4 @@ class MedirRespuestaImpulsionalAction:
         valores = respuesta_impulsional.get_valores()
         valores_lineales = valores[valores.index(max(valores)):]
         dominio_temporal = list(numpy.linspace(0, len(valores_lineales)/fs, len(valores_lineales), endpoint=False))
-        return SenalEnTiempo(dominio_temporal, valores_lineales)
+        return SenalAudio(fs, dominio_temporal, valores_lineales)

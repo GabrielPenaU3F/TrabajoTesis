@@ -21,7 +21,7 @@ class ESSTest(unittest.TestCase):
         senal_ess = GeneradorESS().generar_senal_ess(fs, duracion, f1, f2)
         filtro_inverso = GeneradorESS().generar_filtro_inverso_ess(fs, duracion, f1, f2)
 
-        delta = ESSTest.realizar_convolucion_action.execute(senal_ess.get_senal_en_tiempo(), filtro_inverso).get_valores()
+        delta = ESSTest.realizar_convolucion_action.execute(senal_ess, filtro_inverso).get_valores()
         max_delta = max(delta)
         maximos = 0
         nulos = 0

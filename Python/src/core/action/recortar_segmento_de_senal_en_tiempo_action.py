@@ -1,7 +1,10 @@
-from src.core.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.provider.service_provider import ServiceProvider
 
 
 class RecortarSegmentoDeSenalEnTiempoAction:
+
+    def __init__(self):
+        self.operaciones_service = ServiceProvider.provide_operaciones_sobre_senales_service()
 
     '''
     Existe siempre la posibilidad de que los tiempos elegidos para recortar
@@ -10,17 +13,9 @@ class RecortarSegmentoDeSenalEnTiempoAction:
     los dos tiempos muestreados más cercanos a los solicitados que se encuentren
     dentro del intervalo considerado. Esto ocasionará que se pierda información.
     Con una frecuencia de muestreo mayor, menos información se perderá. Con los
-    44100Hz estándar de procesamiento de audio, perder 1/44100 de información
+    48000Hz estándar de procesamiento de audio, perder 1/48000 de información
     temporal es prácticamente insignificante.
     '''
-    def execute(self, senal_en_tiempo, tiempo_inicio, tiempo_final):
-        dominio_temporal = senal_en_tiempo.get_dominio_temporal()
-        nuevo_dominio = []
-        nuevos_valores = []
-        for t in dominio_temporal:
-            if not (t < tiempo_inicio or t > tiempo_final):
-                nuevo_dominio.append(t)
-                nuevos_valores.append(senal_en_tiempo.get_valor_en(t))
-
-        return SenalEnTiempo(nuevo_dominio, nuevos_valores)
+    def execute(self, senal, t_inicio, t_final):
+        return self.operaciones_service.recortar_en_tiempo(senal, t_inicio, t_final)
 

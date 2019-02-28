@@ -203,3 +203,8 @@ class MainView:
         self.plot_ri.cla()
         self.plot_ri.plot(dominio_temporal, respuesta_impulsional)
         self.canvas_ri.draw()
+
+    def graficar_curva_decaimiento(self, dominio_temporal, curva_decaimiento):
+        self.plot_cd.cla()
+        self.plot_cd.plot(dominio_temporal, curva_decaimiento)
+        self.canvas_cd.draw()

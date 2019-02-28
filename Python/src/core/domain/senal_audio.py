@@ -1,6 +1,7 @@
 import math
 
-from src.core.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.contenido_temporal import ContenidoTemporal
+from src.core.domain.punto_senal_tiempo import PuntoSenalTiempo
 from src.exception.excepciones import *
 
 
@@ -14,8 +15,8 @@ class SenalAudio:
             self.longitud = len(valores)
             self.duracion = self.longitud/fs
             self.fs = fs
-            dominio_temporal = self.construir_dominio_temporal(fs, self.longitud)
-            self.senal_en_tiempo = SenalEnTiempo(dominio_temporal, valores)
+            dominio_temporal = self.construir_dominio_temporal(fs, len(valores))
+            self.contenido_temporal = self.construir_senal(fs, dominio_temporal, valores)
 
         elif len(args) == 3:
             fs = args[0]
@@ -25,11 +26,12 @@ class SenalAudio:
             self.longitud = len(valores)
             self.duracion = self.longitud/fs
             self.fs = fs
-            self.senal_en_tiempo = SenalEnTiempo(dominio_temporal, valores)
+            self.contenido_temporal = self.construir_senal(fs, dominio_temporal, valores)
 
         else: raise CantidadDeParametrosException("La señal de audio puede recibir únicamente 2 o 3 parámetros")
 
-        self.senal_en_frecuencia = None
+        self.contenido_frecuencial = None
+        self.energia_total = None
 
     def validar_parametros(self, fs, dominio_temporal, valores):
         if len(dominio_temporal) != len(valores):
@@ -62,27 +64,24 @@ class SenalAudio:
         return self.longitud
 
     def get_dominio_temporal(self):
-        return self.senal_en_tiempo.get_dominio_temporal()
+        return self.contenido_temporal.get_dominio_temporal()
 
     def get_valores(self):
-        return self.senal_en_tiempo.get_valores()
-
-    def get_senal_en_tiempo(self):
-        return self.senal_en_tiempo
+        return self.contenido_temporal.get_valores()
 
     def get_modulos_frecuencia(self):
-        if self.senal_en_frecuencia is None:
+        if self.contenido_frecuencial is None:
             from src.core.provider.action_provider import ActionProvider
             accion_transformar = ActionProvider.provide_transformar_fourier_action()
-            self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
-        return self.senal_en_frecuencia.get_modulo_valores()
+            self.contenido_frecuencial = accion_transformar.execute(self)
+        return self.contenido_frecuencial.get_modulos()
 
     def get_fases_frecuencia(self):
-        if self.senal_en_frecuencia is None:
+        if self.contenido_frecuencial is None:
             from src.core.provider.action_provider import ActionProvider
             accion_transformar = ActionProvider.provide_transformar_fourier_action()
-            self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
-        return self.senal_en_frecuencia.get_fase_valores()
+            self.contenido_frecuencial = accion_transformar.execute(self)
+        return self.contenido_frecuencial.get_fase_valores()
 
     '''
     Se observa en este método que la señal se modela como un valor constante
@@ -90,12 +89,7 @@ class SenalAudio:
     de cada intervalo. Es decir, un retenedor de orden cero (ZOH).
     '''
     def get_valor_en(self, t):
-        if self.senal_en_tiempo.contiene(t): return self.senal_en_tiempo.get(t)
-        return self.obtener_valor_inmediato_anterior(t)
-
-    def obtener_valor_inmediato_anterior(self, t):
-        for k in self.senal_en_tiempo.get_dominio_temporal():
-            if (k + 1/self.fs) > t: return self.get_valor_en(k)
+        return self.contenido_temporal.get_valor_en(t)
 
 
     '''
@@ -114,18 +108,22 @@ class SenalAudio:
         return True
 
     def get_dominio_frecuencial(self):
-        if self.senal_en_frecuencia is None:
+        if self.contenido_frecuencial is None:
             from src.core.provider.action_provider import ActionProvider
             accion_transformar = ActionProvider.provide_transformar_fourier_action()
-            self.senal_en_frecuencia = accion_transformar.execute(self.senal_en_tiempo, self.fs)
-        return self.senal_en_frecuencia.get_dominio_frecuencial()
+            self.contenido_frecuencial = accion_transformar.execute(self)
+        return self.contenido_frecuencial.get_dominio_frecuencial()
 
     def get_energia_total(self):
-        return self.senal_en_tiempo.get_energia_total()
+        if self.energia_total is None:
+            from src.core.provider.action_provider import ActionProvider
+            self.energia_total = ActionProvider.provide_calcular_energia_total_action().execute(self)
+        return self.energia_total
 
-    def get_indice_en_t(self, t):
-        return self.senal_en_tiempo.get_indice_en_t(t)
+    def construir_senal(self, fs, dominio_temporal, valores):
+        senal = []
+        for i in range(len(valores)):
+            senal.append(PuntoSenalTiempo(dominio_temporal[i], valores[i]))
+        return ContenidoTemporal(senal)
 
-    def get_senal_en_db(self):
-        return self.senal_en_tiempo.get_senal_en_db()
 

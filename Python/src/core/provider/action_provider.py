@@ -1,9 +1,13 @@
 from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMediaMovilAction
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
+from src.core.action.diferenciar_senal_action import DiferenciarSenalAction
 from src.core.action.eliminar_latencia_action import EliminarLatenciaAction
 from src.core.action.eliminar_segmento_inicial_constante_action import EliminarSegmentoInicialConstanteAction
+from src.core.action.estimar_limite_superior_por_metodo_de_lundeby_action import \
+    EstimarLimiteSuperiorPorMetodoDeLundebyAction
 from src.core.action.integrar_senal_action import IntegrarSenalAction
 from src.core.action.medir_respuesta_impulsional_action import MedirRespuestaImpulsionalAction
+from src.core.action.obtener_curva_de_decaimiento_action import ObtenerCurvaDeDecaimientoAction
 from src.core.action.ponderar_periodos_mls_action import PonderarPeriodosMLSAction
 from src.core.action.realizar_convolucion_action import RealizarConvolucionAction
 from src.core.action.realizar_correlacion_action import RealizarCorrelacionAction
@@ -16,6 +20,8 @@ from src.core.action.transformar_fourier_action import TransformarFourierAction
 
 class ActionProvider:
 
+    diferenciar_senal_action = None
+    estimar_limite_superior_por_metodo_de_lundeby_action = None
     transformar_a_escala_logaritmica_normalizada_action = None
     realizar_correlacion_action = None
     realizar_convolucion_action = None
@@ -29,6 +35,7 @@ class ActionProvider:
     medir_respuesta_impulsional_action = None
     aplicar_filtro_media_movil_action = None
     integrar_senal_action = None
+    obtener_curva_de_decaimiento_action = None
 
     @classmethod
     def provide_recortar_segmento_de_senal_entre_amplitudes_action(cls):
@@ -121,3 +128,23 @@ class ActionProvider:
 
         return cls.transformar_a_escala_logaritmica_normalizada_action
 
+    @classmethod
+    def provide_estimar_limite_superior_por_metodo_de_lundeby_action(cls):
+        if cls.estimar_limite_superior_por_metodo_de_lundeby_action is None:
+            cls.estimar_limite_superior_por_metodo_de_lundeby_action = EstimarLimiteSuperiorPorMetodoDeLundebyAction()
+
+        return cls.estimar_limite_superior_por_metodo_de_lundeby_action
+
+    @classmethod
+    def provide_obtener_curva_de_decaimiento_action(cls):
+        if cls.obtener_curva_de_decaimiento_action is None:
+            cls.obtener_curva_de_decaimiento_action = ObtenerCurvaDeDecaimientoAction()
+
+        return cls.obtener_curva_de_decaimiento_action
+
+    @classmethod
+    def provide_diferenciar_senal_action(cls):
+        if cls.diferenciar_senal_action is None:
+            cls.diferenciar_senal_action = DiferenciarSenalAction()
+
+        return cls.diferenciar_senal_action

@@ -1,13 +1,13 @@
 import numpy
 
-from src.core.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.senal_audio import SenalAudio
 
 
 class TransformarAEscalaLogaritmicaNormalizadaAction:
 
     def execute(self, senal):
-        dominio_temporal = senal.get_dominio_temporal().copy()
-        valores = senal.get_valores()
-        valores_norm = [valores[i] / max(valores) for i in range(len(valores))]
+        valores_senal = senal.get_valores()
+        valor_max = max(valores_senal)
+        valores_norm = [valores_senal[i] / valor_max for i in range(len(valores_senal))]
         valores_db = 20 * numpy.log10(valores_norm)
-        return SenalEnTiempo(dominio_temporal, valores_db)
+        return SenalAudio(senal.get_fs(), senal.get_dominio_temporal(), valores_db)

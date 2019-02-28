@@ -9,8 +9,8 @@ class GeneradorSenoidal():
 
     def generar_valores_senoide(self, longitud, fs):
         dominio_temporal = []
-        for t in range(longitud):
-            dominio_temporal.append(t / fs)
+        for n in range(longitud):
+            dominio_temporal.append(n / fs)
         valores = []
         for t in dominio_temporal:
             valores.append(math.sin(t))

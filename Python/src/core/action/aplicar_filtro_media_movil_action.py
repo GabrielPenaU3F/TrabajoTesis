@@ -1,7 +1,7 @@
 import numpy
 from scipy import signal
 
-from src.core.domain.senal_en_tiempo import SenalEnTiempo
+from src.core.domain.senal_audio import SenalAudio
 from src.exception.excepciones import FiltradoImposibleException
 
 
@@ -18,4 +18,4 @@ class AplicarFiltroMediaMovilAction:
         kernel = numpy.ones(longitud) / longitud
         dominio_temporal = senal.get_dominio_temporal().copy()
         valores = senal.get_valores()
-        return SenalEnTiempo(dominio_temporal, list(signal.fftconvolve(valores, kernel, 'same')))
+        return SenalAudio(senal.get_fs(), dominio_temporal, list(signal.fftconvolve(valores, kernel, 'same')))
