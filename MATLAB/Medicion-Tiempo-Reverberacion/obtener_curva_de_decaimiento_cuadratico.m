@@ -16,7 +16,7 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     %h_cuadrado = abs(hilbert(h_cuadrado_original));
     h_cuadrado = h.^2;
     [lim_superior, pendiente, ordenada_al_origen] = estimar_limite_superior_por_metodo_de_lundeby(h, fs);
-    c_corr = calcular_termino_de_correccion(h_suave, fs, lim_superior, ordenada_al_origen);
+    c_corr = calcular_termino_de_correccion(h_suave, fs, lim_superior, pendiente);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
     
     dx = 1/fs;
@@ -52,9 +52,9 @@ function s = sustraer_ruido_de_fondo(s_cuadrado, h, fs, lim_superior)
     end
 end
 
-function c_corr = calcular_termino_de_correccion(h, fs, lim_superior, ordenada_al_origen)
+function c_corr = calcular_termino_de_correccion(h, fs, lim_superior, pendiente)
    N = calcular_energia(h, 1/fs, lim_superior, length(h)) / ((length(h) - lim_superior) / fs);
-   B = ordenada_al_origen;
+   B = pendiente;
    tiempo_truncado = calcular_tiempo_muestra(lim_superior, fs);
    A = log(N / B) / tiempo_truncado;
    c_corr = - (B / A) * exp(A * tiempo_truncado);

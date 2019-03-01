@@ -3,6 +3,7 @@ import math
 import numpy
 
 from src.core.domain.estimacion_lundeby import EstimacionLundeby
+from src.core.domain.senal_audio import SenalAudio
 from src.core.provider.service_provider import ServiceProvider
 from src.exception.excepciones import LundebyException
 
@@ -19,25 +20,25 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
         self.recortar_en_amplitud_action = ActionProvider.provide_recortar_segmento_de_senal_entre_amplitudes_action()
         self.calcular_energia_total_action = ActionProvider.provide_calcular_energia_total_action()
 
-    def execute(self, respuesta_impulsional, fs):
+    def execute(self, respuesta_impulsional):
 
-        from src.core.domain.senal_en_tiempo import SenalEnTiempo
+        fs = respuesta_impulsional.get_fs()
         h = respuesta_impulsional.get_valores()
-        t = respuesta_impulsional.get_dominio_temporal().copy()
-        duracion = t[-1]
+        t = respuesta_impulsional.get_dominio_temporal()
+        duracion = respuesta_impulsional.get_duracion()
         h_cuadrado = numpy.power(h, 2)
 
         # Paso 1: se pasa un filtro de media móvil y se pasa h a escala logarítmica
         longitud_filtro = round(0.030 * fs)  # 30ms, parametro ajustable
-        h_cuadrado_suave = self.aplicar_filtro_media_movil_action.execute(SenalEnTiempo(t, h_cuadrado), longitud_filtro)
-        h_cuadrado_db = self.transformar_a_escala_logaritmica_normalizada_action.execute(h_cuadrado_suave.get_valores())
-        senal_h_cuadrado_db = SenalEnTiempo(t, h_cuadrado_db)
+        h_cuadrado_suave = self.aplicar_filtro_media_movil_action.execute(
+            SenalAudio(fs, t, h_cuadrado), longitud_filtro)
+        h_cuadrado_db = self.transformar_a_escala_logaritmica_normalizada_action.execute(h_cuadrado_suave)
+        senal_h_cuadrado_db = SenalAudio(fs, t, h_cuadrado_db.get_valores())
 
         # Paso 2: se estima el nivel de ruido de fondo
         porcentaje_de_senal_que_es_cola = 10  # 10%, parametro ajustable
-        muestras_cola = round(len(h_cuadrado_db) * porcentaje_de_senal_que_es_cola / 100)
-        inicio_cola = len(h_cuadrado_db) - muestras_cola
-        cola = self.recortar_en_tiempo_action.execute(senal_h_cuadrado_db, inicio_cola/fs, duracion)
+        tiempo_cola = round(senal_h_cuadrado_db.get_duracion() * porcentaje_de_senal_que_es_cola / 100)
+        cola = self.recortar_en_tiempo_action.execute(senal_h_cuadrado_db, duracion - tiempo_cola, duracion)
         nivel_de_ruido_de_fondo = numpy.mean(cola.get_valores())
 
         # Paso 3: buscar la recta de regresión de la región con ordenada 0 por encima del ruido de fondo
@@ -49,14 +50,13 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
 
         # Paso 4: determinar el punto de cruce entre la recta y el ruido de fondo
         t_cruce = nivel_de_ruido_de_fondo / recta_regresion.get_pendiente()
-        muestra_cruce = senal_h_cuadrado_db.get_indice_en_t(t_cruce)
 
         # Paso 5: determinar una nueva ventana para el filtro de media móvil, dividiendo la región de decaimiento
         # en varios intervalos
         valor_en_el_cruce = senal_h_cuadrado_db.get_valor_en(t_cruce)
         cantidad_de_intervalos_cada_10_db_de_decaimiento = 5  # Parametro ajustable
         cantidad_intervalos = math.floor(abs(valor_en_el_cruce) * cantidad_de_intervalos_cada_10_db_de_decaimiento / 10)
-        longitud_filtro = math.floor(muestra_cruce / cantidad_intervalos)
+        longitud_filtro = math.floor(t_cruce * fs / cantidad_intervalos)
 
         # Paso 6: aplicar el nuevo filtro
         senal_h_cuadrado_db_filtrada = self.aplicar_filtro_media_movil_action.execute(
@@ -77,13 +77,13 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
                     senal_h_cuadrado_db_filtrada.get_valor_en(minimo_t_posible), valor_en_el_cruce, margen_de_db):
 
                 senal_nivel_ruido_de_fondo = self.recortar_en_tiempo_action.execute(
-                    senal_h_cuadrado_db_filtrada, minimo_t_posible, senal_h_cuadrado_db_filtrada.get_final())
+                    senal_h_cuadrado_db_filtrada, minimo_t_posible, senal_h_cuadrado_db_filtrada.get_duracion())
 
             else:
                 t_cruce_preliminar = self.encontrar_punto_de_cruce_preliminar(
                     senal_h_cuadrado_db_filtrada, valor_en_el_cruce, margen_de_db)
                 senal_nivel_ruido_de_fondo = self.recortar_en_tiempo_action.execute(
-                    senal_h_cuadrado_db_filtrada, t_cruce_preliminar, senal_h_cuadrado_db_filtrada.get_final())
+                    senal_h_cuadrado_db_filtrada, t_cruce_preliminar, senal_h_cuadrado_db_filtrada.get_duracion())
 
             nivel_de_ruido_de_fondo = numpy.mean(senal_nivel_ruido_de_fondo.get_valores())
 
@@ -97,25 +97,27 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
             recta_decaimiento = self.estadistica_service.efectuar_regresion_lineal(
                 curva_decaimiento_tardio.get_dominio_temporal(), curva_decaimiento_tardio.get_valores())
 
-            import matplotlib.pyplot as plt
-            t_dec_tardio = numpy.linspace(
-                0, curva_decaimiento_tardio.get_final(), len(curva_decaimiento_tardio.get_valores()), endpoint=False)
-            plt.plot(t_dec_tardio, curva_decaimiento_tardio.get_valores(), 'r')
-            plt.show()
-
             # Paso 9:
             t_cruce = (nivel_de_ruido_de_fondo - recta_decaimiento.get_ordenada()) / recta_decaimiento.get_pendiente()
 
         if t_cruce > duracion: raise LundebyException("El tiempo de truncado es mayor a la duración de la señal")
         # Cálculo del término de corrección
-        ri_cuadrada = SenalEnTiempo(t, h_cuadrado)
-        senal_ruido_de_fondo = self.recortar_en_tiempo_action.execute(ri_cuadrada, t_cruce, duracion)
-        N = self.calcular_energia_total_action.execute(senal_ruido_de_fondo)
-        B = recta_decaimiento.get_ordenada()
-        A = math.log(N / B) / t_cruce
-        c_corr = - (B / A) * math.exp(A * t_cruce)
+        c_corr = self.calcular_coeficiente_de_correccion(fs, SenalAudio(fs, t, h_cuadrado), recta_decaimiento, t, t_cruce)
 
         return EstimacionLundeby(t_cruce, c_corr)
+
+    def calcular_coeficiente_de_correccion(self, fs, h_cuadrado, recta_decaimiento, dominio_temporal, t_cruce):
+        '''
+        ri_cuadrada = SenalAudio(fs, dominio_temporal, h_cuadrado)
+        senal_ruido_de_fondo = self.recortar_en_tiempo_action.execute(ri_cuadrada, t_cruce, ri_cuadrada.get_duracion())
+        N = self.calcular_energia_total_action.execute(senal_ruido_de_fondo)
+        B = recta_decaimiento.get_pendiente()
+        A = math.log(N / B) / t_cruce
+        c_corr = - (B / A) * math.exp(A * t_cruce)
+        return c_corr
+        '''
+        # TODO: la corrección que propone Lundeby no es correcta. Implementar la del otro paper.
+        return 0
 
     def se_eliminaria_mas_del_90_porciento_de_ri(self, valor_minimo, valor_en_el_cruce, margen_de_db):
         return valor_minimo < valor_en_el_cruce + margen_de_db

@@ -101,7 +101,7 @@ class OperacionesSobreSenalesService:
         correlacion = list(signal.correlate(senal_1.get_valores(), senal_2.get_valores(), 'full'))
         fs = senal_1.get_fs()
         dominio_temporal = numpy.linspace(0, len(correlacion)/fs, len(correlacion), endpoint=False)
-        return SenalAudio(dominio_temporal, correlacion)
+        return SenalAudio(fs, dominio_temporal, correlacion)
 
     def integrar_senal(self, senal, t_inicio, t_fin):
         dx = 1/senal.get_fs()

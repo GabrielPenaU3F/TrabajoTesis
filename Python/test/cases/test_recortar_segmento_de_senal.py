@@ -71,3 +71,16 @@ class TestRecortarSegmentoDeSenal(unittest.TestCase):
 
         t_procesamiento = t_fin - t_inicio
         self.assertEqual(True, t_procesamiento < 1)
+
+    def test_que_recorte_correctamente_entre_3_y_5_una_senal_que_sube_y_luego_baja(self):
+        fs = 11
+        dominio = numpy.linspace(0, 1, 11, endpoint=None)
+        valores = [0, 1, 2, 3, 4, 4, 4, 5, 6, 4, 4]
+        senal = SenalAudio(fs, dominio, valores)
+
+        numpy.testing.assert_almost_equal([3/11, 4/11, 5/11, 6/11, 7/11],
+                                          TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(
+                                              senal, 3, 5).get_dominio_temporal(), decimal=10)
+        self.assertListEqual([3, 4, 4, 4, 5],
+                             TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(
+                                 senal, 3, 5).get_valores())

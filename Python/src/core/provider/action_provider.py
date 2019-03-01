@@ -1,5 +1,6 @@
 from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMediaMovilAction
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
+from src.core.action.calcular_raiz_cuadrada_de_senal_en_db_action import CalcularRaizCuadradaDeSenalEnDbAction
 from src.core.action.diferenciar_senal_action import DiferenciarSenalAction
 from src.core.action.eliminar_latencia_action import EliminarLatenciaAction
 from src.core.action.eliminar_segmento_inicial_constante_action import EliminarSegmentoInicialConstanteAction
@@ -20,6 +21,7 @@ from src.core.action.transformar_fourier_action import TransformarFourierAction
 
 class ActionProvider:
 
+    calcular_raiz_cuadrada_de_senal_en_db_action = None
     diferenciar_senal_action = None
     estimar_limite_superior_por_metodo_de_lundeby_action = None
     transformar_a_escala_logaritmica_normalizada_action = None
@@ -148,3 +150,10 @@ class ActionProvider:
             cls.diferenciar_senal_action = DiferenciarSenalAction()
 
         return cls.diferenciar_senal_action
+
+    @classmethod
+    def provide_calcular_raiz_cuadrada_de_senal_en_db_action(cls):
+        if cls.calcular_raiz_cuadrada_de_senal_en_db_action is None:
+            cls.calcular_raiz_cuadrada_de_senal_en_db_action = CalcularRaizCuadradaDeSenalEnDbAction()
+
+        return cls.calcular_raiz_cuadrada_de_senal_en_db_action

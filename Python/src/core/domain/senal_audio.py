@@ -38,6 +38,7 @@ class SenalAudio:
             raise ValidacionParametrosSenalException("El dominio y los valores tienen longitudes distintas")
         elif sorted(dominio_temporal) != dominio_temporal:
             raise ValidacionParametrosSenalException("El dominio temporal ingresado no es válido")
+
         elif self.validar_congruencia_fs_y_dominio_temporal(fs, dominio_temporal) is False:
             raise ValidacionParametrosSenalException("La frecuencia de muestreo y el dominio temporal ingresados son "
                                                      "incongruentes")
@@ -100,11 +101,14 @@ class SenalAudio:
     def obtener_t_inmediato_siguiente(self, t):
         for k in self.senal_en_tiempo.get_dominio_temporal():
             if (t - 1/self.fs) < k: return k
+
     '''
 
     def validar_congruencia_fs_y_dominio_temporal(self, fs, dominio_temporal):
         for t in range(1, len(dominio_temporal)):
-            if ((dominio_temporal[t] - dominio_temporal[t-1]) - 1/fs) >= 1/fs/math.pow(10, 6): return False
+            # Tolerancia ajustable
+            if not abs((dominio_temporal[t] - dominio_temporal[t - 1]) - (1/fs)) < math.pow(10, -1)/fs:
+                return False
         return True
 
     def get_dominio_frecuencial(self):

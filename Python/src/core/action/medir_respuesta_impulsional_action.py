@@ -36,7 +36,7 @@ class MedirRespuestaImpulsionalAction:
         senal_grabada_sin_latencia = self.eliminar_latencia_action.execute(senal_mls, audio, 0.100)
         senal_grabada_ponderada = self.ponderar_periodos_mls_action.execute(senal_grabada_sin_latencia, n_bits)
         dominio_temporal = numpy.linspace(
-            0, len(senal_grabada_ponderada)/fs, len(senal_grabada_ponderada))
+            0, len(senal_grabada_ponderada)/fs, len(senal_grabada_ponderada), endpoint=False)
 
         respuesta_impulsional = self.realizar_correlacion_action.execute(
             SenalAudio(fs, dominio_temporal, senal_grabada_ponderada),

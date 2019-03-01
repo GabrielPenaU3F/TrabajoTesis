@@ -62,9 +62,9 @@ class FiltroMediaMovilTest(unittest.TestCase):
                           FiltroMediaMovilTest.aplicar_filtro_media_movil_action.execute, senal_prueba, 111)
 
     def test_que_el_filtro_de_la_media_movil_filtre_correctamente_una_senal_de_prueba(self):
-        fs = 1
+        fs = 10
         valores_prueba = [2, 3, 1, 5, 2, 1, 1, 7, 2, 6]
-        dominio_temporal = numpy.linspace(0, 9, 10, endpoint=False)
+        dominio_temporal = numpy.linspace(0, 1, 10, endpoint=False)
         senal_prueba = SenalAudio(fs, dominio_temporal, valores_prueba)
         senal_filtrada = FiltroMediaMovilTest.aplicar_filtro_media_movil_action.execute(senal_prueba, 3)
         valores_filtrados = senal_filtrada.get_valores()
