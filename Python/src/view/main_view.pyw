@@ -27,7 +27,10 @@ class MainView:
 
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
+        self.actualizar()
+
         self.root.mainloop()
+
 
     def construir_frame_resultados(self):
 
@@ -215,3 +218,10 @@ class MainView:
         self.edt_var.set(edt)
         self.t20_var.set(t20)
         self.t30_var.set(t30)
+
+    def after(self, tiempo, funcion):
+        self.root.after(tiempo, funcion)
+
+    def actualizar(self):
+        self.controller.actualizar()
+        self.root.after(1000, self.actualizar)
