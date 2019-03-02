@@ -20,20 +20,13 @@ class ObtenerCurvaDeDecaimientoAction:
         h = respuesta_impulsional.get_valores()
         estimacion = self.estimar_por_metodo_lundeby_action.execute(respuesta_impulsional)
         t_limite = estimacion.get_limite()
-        c_corr = estimacion.get_termino_correccion()
         h_cuadrado = numpy.power(h, 2)
 
         senal_h_cuadrado = SenalAudio(fs, t, h_cuadrado)
         s_cuadrado = self.calcular_integrar_de_schroeder(senal_h_cuadrado, fs, t_limite)
-        s_cuadrado = self.aplicar_termino_de_correccion(c_corr, s_cuadrado)
         s_db_cuadrado = self.transformar_a_db.execute(s_cuadrado)
         s_db = self.calcular_raiz_cuadrada_de_senal_en_db_action.execute(s_db_cuadrado)
         return s_db
-
-
-    def aplicar_termino_de_correccion(self, c_corr, s_cuadrado):
-        valores = s_cuadrado.get_valores()
-        return SenalAudio(s_cuadrado.get_fs(), s_cuadrado.get_dominio_temporal(), [valores[i] + c_corr for i in range(len(valores))])
 
     def calcular_integrar_de_schroeder(self, senal_h_cuadrado, fs, t_limite):
         t = senal_h_cuadrado.get_dominio_temporal()

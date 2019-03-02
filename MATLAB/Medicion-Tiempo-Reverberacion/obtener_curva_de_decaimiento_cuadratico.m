@@ -14,9 +14,10 @@ function s_cuadrado = obtener_curva_de_decaimiento_cuadratico(h, fs)
     %h_hilbert = abs(hilbert(abs(h)));
     h_suave = aplicar_filtro_media_movil(h, 100);
     %h_cuadrado = abs(hilbert(h_cuadrado_original));
-    h_cuadrado = h.^2;
     [lim_superior, pendiente, ordenada_al_origen] = estimar_limite_superior_por_metodo_de_lundeby(h, fs);
-    c_corr = calcular_termino_de_correccion(h_suave, fs, lim_superior, pendiente);
+    h_sin_ruido = sustraer_ruido_de_fondo(h, fs, lim_superior);
+    h_cuadrado = h_sin_ruido.^2;
+    c_corr = calcular_termino_de_correccion(h_suave, fs);
     s_cuadrado = 0:1/fs:lim_superior/fs - 1/fs;
     
     dx = 1/fs;
@@ -42,20 +43,41 @@ function integral = integrar_array(x, lim_superior, dx)
     
 end
 
-function s = sustraer_ruido_de_fondo(s_cuadrado, h, fs, lim_superior)
-    
-    s = 0:1/fs:length(s_cuadrado)/fs - 1/fs;
-    nivel_ruido_de_fondo_cuadrado = mean(h(lim_superior:end))^2;
-    for i=1:length(s_cuadrado)
-        distancia_temporal = (lim_superior - i)/fs;
-        s(i) = s_cuadrado(i) - nivel_ruido_de_fondo_cuadrado * distancia_temporal;
+function h_sin_ruido = sustraer_ruido_de_fondo(h, fs, lim_superior)
+  
+    h_sin_ruido = 0:1/fs:length(h)/fs - 1/fs;
+    ruido_de_fondo = mean(abs(h(lim_superior:end)));
+    for i=1:length(h)
+        if (h(i) > 0)
+            h_sin_ruido(i) = h(i) - ruido_de_fondo;
+        elseif (h(i) < 0)
+            h_sin_ruido(i) = h(i) + ruido_de_fondo;
+        end
     end
 end
 
-function c_corr = calcular_termino_de_correccion(h, fs, lim_superior, pendiente)
+function c_corr = calcular_termino_de_correccion(h, fs)
+
+   exponencial = @(x,xdata)(x(1)*exp(-x(2)*xdata)+x(3));
+   x0 = [1,1,0];
+   t = 0:1/fs:length(h)/fs - 1/fs;
+   parametros = lsqcurvefit(exponencial,x0,t,abs(h));
+   amplitud = parametros(1);
+   tasa_decaimiento = parametros(2);
+   ruido = parametros(3);
+   
+   %{
+   z = amplitud * exp(-tasa.*t) + ruido;
+   plot(t,h,t,z);
+   %}
+   tiempo_truncado_modelo = -(log(ruido/amplitud))/tasa_decaimiento;
+   c_corr = (1/(2*tasa_decaimiento))*exp(-2*tasa_decaimiento*tiempo_truncado_modelo);
+   
+   %{
    N = calcular_energia(h, 1/fs, lim_superior, length(h)) / ((length(h) - lim_superior) / fs);
    B = pendiente;
    tiempo_truncado = calcular_tiempo_muestra(lim_superior, fs);
    A = log(N / B) / tiempo_truncado;
    c_corr = - (B / A) * exp(A * tiempo_truncado);
+   %}
 end

@@ -1,8 +1,5 @@
 import math
-
 import numpy
-
-from src.core.domain.estimacion_lundeby import EstimacionLundeby
 from src.core.domain.senal_audio import SenalAudio
 from src.core.provider.service_provider import ServiceProvider
 from src.exception.excepciones import LundebyException
@@ -101,23 +98,8 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
             t_cruce = (nivel_de_ruido_de_fondo - recta_decaimiento.get_ordenada()) / recta_decaimiento.get_pendiente()
 
         if t_cruce > duracion: raise LundebyException("El tiempo de truncado es mayor a la duración de la señal")
-        # Cálculo del término de corrección
-        c_corr = self.calcular_coeficiente_de_correccion(fs, SenalAudio(fs, t, h_cuadrado), recta_decaimiento, t, t_cruce)
 
-        return EstimacionLundeby(t_cruce, c_corr)
-
-    def calcular_coeficiente_de_correccion(self, fs, h_cuadrado, recta_decaimiento, dominio_temporal, t_cruce):
-        '''
-        ri_cuadrada = SenalAudio(fs, dominio_temporal, h_cuadrado)
-        senal_ruido_de_fondo = self.recortar_en_tiempo_action.execute(ri_cuadrada, t_cruce, ri_cuadrada.get_duracion())
-        N = self.calcular_energia_total_action.execute(senal_ruido_de_fondo)
-        B = recta_decaimiento.get_pendiente()
-        A = math.log(N / B) / t_cruce
-        c_corr = - (B / A) * math.exp(A * t_cruce)
-        return c_corr
-        '''
-        # TODO: la corrección que propone Lundeby no es correcta. Implementar la del otro paper.
-        return 0
+        return t_cruce
 
     def se_eliminaria_mas_del_90_porciento_de_ri(self, valor_minimo, valor_en_el_cruce, margen_de_db):
         return valor_minimo < valor_en_el_cruce + margen_de_db

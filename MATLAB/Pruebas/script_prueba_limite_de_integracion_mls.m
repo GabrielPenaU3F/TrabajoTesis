@@ -8,6 +8,6 @@ t60 = calcular_t60(s_db, fs);
 t20 = calcular_t20(s_db, fs);
 h_db = 20*real(log10(h_lineal./max(h_lineal)));
 figure;
-plot(t(1:24001), h_db(1:24001));
+plot(t, h_db);
 hold on;
 plot(t_s, s_db);
