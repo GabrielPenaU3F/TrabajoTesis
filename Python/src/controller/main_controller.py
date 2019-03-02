@@ -1,5 +1,6 @@
-import numpy
+from concurrent.futures.thread import ThreadPoolExecutor
 
+from src.core.domain.medicion import Medicion
 from src.core.provider.action_provider import ActionProvider
 from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
 from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
@@ -23,29 +24,42 @@ class MainController:
 
     def on_efectuar_medicion(self):
 
+        try:
+            executor = ThreadPoolExecutor(5)
+            future = executor.submit(self.medir)
+
+            if future.done():
+                medicion = future.result()
+
+                self.respuesta_impulsional = medicion.get_respuesta_impulsional()
+                self.mostrar_medicion_en_vista(medicion)
+
+        except LundebyException:
+            self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
+
+    def medir(self):
+
         fs = 48000
 
         respuesta_impulsional = self.medir_respuesta_impulsional_action.execute(self.view.radiob_metodo_var.get(), fs)
-        self.respuesta_impulsional = respuesta_impulsional
+        curva_decaimiento = self.obtener_curva_decaimiento_action.execute(respuesta_impulsional, fs)
+        edt = self.calcular_rt_action.execute(curva_decaimiento, rt='EDT')
+        t20 = self.calcular_rt_action.execute(curva_decaimiento, rt='T20')
+        t30 = self.calcular_rt_action.execute(curva_decaimiento, rt='T30')
+
+        return Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30)
+
+    def mostrar_medicion_en_vista(self, medicion):
+
         self.view.graficar_respuesta_impulsional(
-            respuesta_impulsional.get_dominio_temporal(), respuesta_impulsional.get_valores())
+            medicion.get_respuesta_impulsional().get_dominio_temporal(),
+            medicion.get_respuesta_impulsional().get_valores())
 
-        try:
-            curva_decaimiento = self.obtener_curva_decaimiento_action.execute(respuesta_impulsional, fs)
-            self.view.graficar_curva_decaimiento(
-                curva_decaimiento.get_dominio_temporal(), curva_decaimiento.get_valores())
+        self.view.graficar_curva_decaimiento(
+            medicion.get_curva_decaimiento().get_dominio_temporal(),
+            medicion.get_curva_decaimiento().get_valores())
 
-            edt = self.calcular_rt_action.execute(curva_decaimiento, rt='EDT')
-            t20 = self.calcular_rt_action.execute(curva_decaimiento, rt='T20')
-            t30 = self.calcular_rt_action.execute(curva_decaimiento, rt='T30')
-
-            self.view.mostrar_tiempos_de_reverberacion(edt, t20, t30)
-            
-        except LundebyException:
-            self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
-            
-
-
+        self.view.mostrar_tiempos_de_reverberacion(medicion.get_edt(), medicion.get_t20(), medicion.get_t30())
 
     # TODO: Terminar estos dos métodos. Falta definir el formato de los archivos
 
