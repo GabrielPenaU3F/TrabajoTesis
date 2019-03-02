@@ -4,7 +4,7 @@ from src.core.provider.service_provider import ServiceProvider
 class RecortarSegmentoDeSenalEnTiempoAction:
 
     def __init__(self):
-        self.operaciones_service = ServiceProvider.provide_operaciones_sobre_senales_service()
+        self.recortar_service = ServiceProvider.provide_recortar_senales_service()
 
     '''
     Existe siempre la posibilidad de que los tiempos elegidos para recortar
@@ -17,5 +17,5 @@ class RecortarSegmentoDeSenalEnTiempoAction:
     temporal es prácticamente insignificante.
     '''
     def execute(self, senal, t_inicio, t_final):
-        return self.operaciones_service.recortar_en_tiempo(senal, t_inicio, t_final)
+        return self.recortar_service.recortar_en_tiempo(senal, t_inicio, t_final)
 

@@ -11,7 +11,7 @@ class RegresionLinealTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.estadistica_service = ServiceProvider.provice_estadistica_service()
+        cls.estadistica_service = ServiceProvider.provide_estadistica_service()
 
     def test_que_los_parametros_estimados_sean_1_y_2(self):
 

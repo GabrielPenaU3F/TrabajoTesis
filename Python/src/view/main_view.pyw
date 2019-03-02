@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import messagebox
+
 from src.controller.main_controller import MainController
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
@@ -38,30 +40,27 @@ class MainView:
         self.label_edt = Label(self.frame_resultados)
         self.label_edt.config(text="EDT:")
         self.label_edt.grid(row=0, column=0)
+        self.edt_var = StringVar()
         self.entry_edt = Entry(self.frame_resultados)
-        self.entry_edt.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
+        self.entry_edt.config(relief="sunken", borderwidth=2, state=DISABLED, width=10, textvariable=self.edt_var)
         self.entry_edt.grid(row=0, column=1, padx=(10, 0))
 
         self.label_t20 = Label(self.frame_resultados)
         self.label_t20.config(text="T20:")
         self.label_t20.grid(row=1, column=0)
+        self.t20_var = StringVar()
         self.entry_t20 = Entry(self.frame_resultados)
-        self.entry_t20.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
+        self.entry_t20.config(relief="sunken", borderwidth=2, state=DISABLED, width=10, textvariable=self.t20_var)
         self.entry_t20.grid(row=1, column=1, padx=(10, 0))
 
         self.label_t30 = Label(self.frame_resultados)
         self.label_t30.config(text="T30:")
         self.label_t30.grid(row=2, column=0)
+        self.t30_var = StringVar()
         self.entry_t30 = Entry(self.frame_resultados)
-        self.entry_t30.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
+        self.entry_t30.config(relief="sunken", borderwidth=2, state=DISABLED, width=10, textvariable=self.t30_var)
         self.entry_t30.grid(row=2, column=1, padx=(10, 0))
 
-        self.label_t60_30 = Label(self.frame_resultados)
-        self.label_t60_30.config(text="T60(30):")
-        self.label_t60_30.grid(row=3, column=0)
-        self.entry_t60_30 = Entry(self.frame_resultados)
-        self.entry_t60_30.config(relief="sunken", borderwidth=2, state=DISABLED, width=10)
-        self.entry_t60_30.grid(row=3, column=1, padx=(10, 0))
 
 
     def construir_frame_medicion(self):
@@ -208,3 +207,11 @@ class MainView:
         self.plot_cd.cla()
         self.plot_cd.plot(dominio_temporal, curva_decaimiento)
         self.canvas_cd.draw()
+
+    def mostrar_error_lundeby(self, mensaje):
+        messagebox.showerror("Error", mensaje)
+
+    def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
+        self.edt_var.set(edt)
+        self.t20_var.set(t20)
+        self.t30_var.set(t30)

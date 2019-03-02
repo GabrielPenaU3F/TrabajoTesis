@@ -13,6 +13,7 @@ class OperacionesSobreSenalesService:
     def __init__(self):
         from src.core.provider.service_provider import ServiceProvider
         self.operaciones_sobre_arrays_service = ServiceProvider.provide_operaciones_sobre_arrays_service()
+        self.recortar_service = ServiceProvider.provide_recortar_senales_service()
 
     def transformar_fourier(self, senal):
         fs = senal.get_fs()
@@ -107,20 +108,8 @@ class OperacionesSobreSenalesService:
         dx = 1/senal.get_fs()
         valores = senal.get_valores()
         integral = 0
-        senal_recortada = self.recortar_en_tiempo(senal, t_inicio, t_fin)
+        senal_recortada = self.recortar_service.recortar_en_tiempo(senal, t_inicio, t_fin)
         for i in range(senal_recortada.get_longitud()):
             integral += valores[i] * dx
 
         return integral
-
-    def recortar_en_tiempo(self, senal, t_inicio, t_fin):
-        dominio_temporal = senal.get_dominio_temporal()
-        valores = senal.get_valores()
-        nuevo_dominio = []
-        nuevos_valores = []
-        for i in range(len(dominio_temporal)):
-            if t_inicio <= dominio_temporal[i] <= t_fin:
-                nuevo_dominio.append(dominio_temporal[i])
-                nuevos_valores.append(valores[i])
-
-        return SenalAudio(senal.get_fs(), nuevo_dominio, nuevos_valores)

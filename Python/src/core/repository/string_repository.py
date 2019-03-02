@@ -40,6 +40,14 @@ class StringRepository:
                                             "cuan diferentes son los tiempos T20 y T30. Valores típicos son " \
                                             "de 0 a 5%.\n" \
 
+        self.string_error_lundeby = "Lo sentimos, se ha producido un error\n" \
+                                    " durante la estimación de la curva de\n" \
+                                    " decaimiento. Por favor, intente repetir \n" \
+                                    "la medición nuevamente."
+
 
     def get_string_instrucciones(self):
         return self.string_instrucciones
+
+    def get_mensaje_error_lundeby(self):
+        return self.string_error_lundeby

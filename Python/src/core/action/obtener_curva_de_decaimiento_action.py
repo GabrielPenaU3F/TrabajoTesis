@@ -18,8 +18,7 @@ class ObtenerCurvaDeDecaimientoAction:
 
         t = respuesta_impulsional.get_dominio_temporal()
         h = respuesta_impulsional.get_valores()
-        estimacion = self.estimar_por_metodo_lundeby_action.execute(respuesta_impulsional)
-        t_limite = estimacion.get_limite()
+        t_limite = self.estimar_por_metodo_lundeby_action.execute(respuesta_impulsional)
         h_cuadrado = numpy.power(h, 2)
 
         senal_h_cuadrado = SenalAudio(fs, t, h_cuadrado)

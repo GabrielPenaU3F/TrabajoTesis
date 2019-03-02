@@ -1,6 +1,7 @@
 from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMediaMovilAction
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
 from src.core.action.calcular_raiz_cuadrada_de_senal_en_db_action import CalcularRaizCuadradaDeSenalEnDbAction
+from src.core.action.calcular_rt_action import CalcularRTAction
 from src.core.action.diferenciar_senal_action import DiferenciarSenalAction
 from src.core.action.eliminar_latencia_action import EliminarLatenciaAction
 from src.core.action.eliminar_segmento_inicial_constante_action import EliminarSegmentoInicialConstanteAction
@@ -38,6 +39,7 @@ class ActionProvider:
     aplicar_filtro_media_movil_action = None
     integrar_senal_action = None
     obtener_curva_de_decaimiento_action = None
+    calcular_rt_action = None
 
     @classmethod
     def provide_recortar_segmento_de_senal_entre_amplitudes_action(cls):
@@ -157,3 +159,10 @@ class ActionProvider:
             cls.calcular_raiz_cuadrada_de_senal_en_db_action = CalcularRaizCuadradaDeSenalEnDbAction()
 
         return cls.calcular_raiz_cuadrada_de_senal_en_db_action
+
+    @classmethod
+    def provide_calcular_rt_action(cls):
+        if cls.calcular_rt_action is None:
+            cls.calcular_rt_action = CalcularRTAction()
+
+        return cls.calcular_rt_action
