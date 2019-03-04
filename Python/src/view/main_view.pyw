@@ -27,7 +27,7 @@ class MainView:
 
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
-        self.actualizar()
+        self.refrescar()
 
         self.root.mainloop()
 
@@ -88,8 +88,8 @@ class MainView:
         self.boton_guardar_archivo = Button(self.frame_medicion, text="Guardar archivo", command=self.controller.on_guardar_archivo)
         self.boton_guardar_archivo.grid(row=0, column=5, padx=10)
 
-        boton_ver_por_bandas = Button(self.frame_boton_derecha, text="Vista detallada", state=DISABLED)
-        boton_ver_por_bandas.pack(padx=(10, 0))
+        self.boton_vista_detallada = Button(self.frame_boton_derecha, text="Vista detallada", state=DISABLED)
+        self.boton_vista_detallada.pack(padx=(10, 0))
 
     def construir_frame_graficas(self):
 
@@ -222,6 +222,6 @@ class MainView:
     def after(self, tiempo, funcion):
         self.root.after(tiempo, funcion)
 
-    def actualizar(self):
+    def refrescar(self):
         self.controller.actualizar()
-        self.root.after(1000, self.actualizar)
+        self.root.after(1000, self.refrescar)

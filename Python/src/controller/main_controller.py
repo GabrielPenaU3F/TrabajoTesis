@@ -1,27 +1,28 @@
-import queue
 import threading
-from concurrent.futures.thread import ThreadPoolExecutor
 
-from src.core.domain.medicion import Medicion
-from src.core.provider.action_provider import ActionProvider
+from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
 from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
 from src.core.provider.repository_provider import RepositoryProvider
+from src.core.provider.subject_provider import SubjectProvider
 from src.exception.excepciones import LundebyException
+from src.messages.mensaje import Mensaje
 from src.view.instrucciones_view import InstruccionesView
+from src.view.pantalla_espera_view import PantallaEsperaView
 
 
 class MainController:
 
     def __init__(self, view):
-        self.medicion = None
-        self.view = view
         self.string_repository = RepositoryProvider.provide_string_repository()
-        self.medir_respuesta_impulsional_action = ActionProvider.provide_medir_respuesta_impulsional_action()
-        self.obtener_curva_decaimiento_action = ActionProvider.provide_obtener_curva_de_decaimiento_action()
-        self.calcular_rt_action = ActionProvider.provide_calcular_rt_action()
-        self.thread_queue = queue.Queue()
+        self.medicion = None
+        self.pantalla_espera = None
+        self.view = view
+        self.medidor = MedidorAcustico()
+        self.thread_queue = RepositoryProvider.provide_queue_repository().get_queue_general()
         self.thread_medicion = threading.Thread()
+        self.procesador_mensajes = RepositoryProvider.provide_procesador_mensajes_repository().get_procesador_mensajes()
+        self.cierre_pantalla_espera_subject = SubjectProvider.provide_cierre_pantalla_espera_subject()
 
     def on_mostrar_instrucciones(self):
         InstruccionesView()
@@ -29,25 +30,12 @@ class MainController:
     def on_efectuar_medicion(self):
 
         metodo_medicion = self.view.radiob_metodo_var.get()
-        try:
-            #self.mylabel.config(text='Running loop')
-            self.thread_medicion = threading.Thread(target=self.medir, args=(metodo_medicion,))
-            self.thread_medicion.start()
 
+        try:
+            self.medidor.medir(metodo_medicion)
+            self.lanzar_pantalla_espera()
         except LundebyException:
             self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
-
-    def medir(self, metodo):
-
-        fs = 48000
-
-        respuesta_impulsional = self.medir_respuesta_impulsional_action.execute(metodo, fs)
-        curva_decaimiento = self.obtener_curva_decaimiento_action.execute(respuesta_impulsional, fs)
-        edt = self.calcular_rt_action.execute(curva_decaimiento, rt='EDT')
-        t20 = self.calcular_rt_action.execute(curva_decaimiento, rt='T20')
-        t30 = self.calcular_rt_action.execute(curva_decaimiento, rt='T30')
-
-        self.thread_queue.put(Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30))
 
     def mostrar_medicion_en_vista(self):
 
@@ -73,8 +61,19 @@ class MainController:
 
     def actualizar(self):
         if not self.thread_queue.empty():
-            self.medicion = self.thread_queue.get()
-            self.mostrar_medicion_en_vista()
+            mensaje = self.thread_queue.get()
+            metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
+            metodo_a_ejecutar(mensaje)
+
+    def lanzar_pantalla_espera(self):
+        PantallaEsperaView()
+
+    def finalizar_medicion(self, mensaje):
+        self.medicion = mensaje.get_contenido()
+        self.mostrar_medicion_en_vista()
+        self.thread_queue.task_done()
+        mensaje_cerrar_pantalla_espera = Mensaje("CerrarPantallaEspera")
+        self.cierre_pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
 
 
 
