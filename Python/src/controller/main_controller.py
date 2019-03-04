@@ -33,8 +33,9 @@ class MainController:
 
         try:
             self.medidor.medir(metodo_medicion)
+            self.bloquear_controles()
             self.lanzar_pantalla_espera()
-        except LundebyException:
+        except Exception:
             self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
 
     def mostrar_medicion_en_vista(self):
@@ -74,6 +75,13 @@ class MainController:
         self.thread_queue.task_done()
         mensaje_cerrar_pantalla_espera = Mensaje("CerrarPantallaEspera")
         self.cierre_pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
+        self.desbloquear_controles()
+
+    def bloquear_controles(self):
+        self.view.bloquear_controles()
+
+    def desbloquear_controles(self):
+        self.view.desbloquear_controles()
 
 
 

@@ -225,3 +225,19 @@ class MainView:
     def refrescar(self):
         self.controller.actualizar()
         self.root.after(1000, self.refrescar)
+
+    def bloquear_controles(self):
+        self.boton_cargar_archivo.config(state=DISABLED)
+        self.boton_guardar_archivo.config(state=DISABLED)
+        self.boton_medir.config(state=DISABLED)
+        self.boton_vista_detallada.config(state=DISABLED)
+        self.radiob_ess.config(state=DISABLED)
+        self.radiob_mls.config(state=DISABLED)
+
+    def desbloquear_controles(self):
+        self.boton_cargar_archivo.config(state=NORMAL)
+        self.boton_guardar_archivo.config(state=NORMAL)
+        self.boton_medir.config(state=NORMAL)
+        self.boton_vista_detallada.config(state=NORMAL)
+        self.radiob_ess.config(state=NORMAL)
+        self.radiob_mls.config(state=NORMAL)
