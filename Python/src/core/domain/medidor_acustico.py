@@ -3,6 +3,7 @@ import threading
 from src.core.domain.medicion import Medicion
 from src.core.provider.action_provider import ActionProvider
 from src.core.provider.repository_provider import RepositoryProvider
+from src.exception.excepciones import LundebyException
 from src.messages.mensaje import Mensaje
 
 
@@ -21,15 +22,20 @@ class MedidorAcustico:
 
     def ejecutar_thread_medicion(self, metodo):
 
-        fs = 48000
-        respuesta_impulsional = self.medir_respuesta_impulsional_action.execute(metodo, fs)
-        curva_decaimiento = self.obtener_curva_decaimiento_action.execute(respuesta_impulsional, fs)
-        edt = self.calcular_rt_action.execute(curva_decaimiento, rt='EDT')
-        t20 = self.calcular_rt_action.execute(curva_decaimiento, rt='T20')
-        t30 = self.calcular_rt_action.execute(curva_decaimiento, rt='T30')
+        try:
+            fs = 48000
+            respuesta_impulsional = self.medir_respuesta_impulsional_action.execute(metodo, fs)
+            curva_decaimiento = self.obtener_curva_decaimiento_action.execute(respuesta_impulsional, fs)
+            edt = self.calcular_rt_action.execute(curva_decaimiento, rt='EDT')
+            t20 = self.calcular_rt_action.execute(curva_decaimiento, rt='T20')
+            t30 = self.calcular_rt_action.execute(curva_decaimiento, rt='T30')
 
-        medicion = Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30)
+            medicion = Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30)
 
-        mensaje = Mensaje("MedicionCompleta", medicion)
-        self.thread_queue.put(mensaje)
-        return None
+            mensaje = Mensaje("MedicionCompleta", medicion)
+            self.thread_queue.put(mensaje)
+            return None
+        except LundebyException:
+            mensaje = Mensaje("LundebyException")
+            self.thread_queue.put(mensaje)
+            return None

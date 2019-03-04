@@ -30,13 +30,9 @@ class MainController:
     def on_efectuar_medicion(self):
 
         metodo_medicion = self.view.radiob_metodo_var.get()
-
-        try:
-            self.medidor.medir(metodo_medicion)
-            self.bloquear_controles()
-            self.lanzar_pantalla_espera()
-        except Exception:
-            self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
+        self.medidor.medir(metodo_medicion)
+        self.bloquear_controles()
+        self.lanzar_pantalla_espera()
 
     def mostrar_medicion_en_vista(self):
 
@@ -73,9 +69,17 @@ class MainController:
         self.medicion = mensaje.get_contenido()
         self.mostrar_medicion_en_vista()
         self.thread_queue.task_done()
+        self.restaurar_pantalla_principal()
+
+    def restaurar_pantalla_principal(self):
         mensaje_cerrar_pantalla_espera = Mensaje("CerrarPantallaEspera")
         self.cierre_pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
         self.desbloquear_controles()
+
+    def mostrar_error_lundeby(self, mensaje):
+        self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
+        self.thread_queue.task_done()
+        self.restaurar_pantalla_principal()
 
     def bloquear_controles(self):
         self.view.bloquear_controles()
