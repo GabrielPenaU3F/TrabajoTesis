@@ -5,7 +5,6 @@ from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArc
 from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
-from src.exception.excepciones import LundebyException
 from src.messages.mensaje import Mensaje
 from src.view.instrucciones_view import InstruccionesView
 from src.view.pantalla_espera_view import PantallaEsperaView
@@ -22,7 +21,7 @@ class MainController:
         self.thread_queue = RepositoryProvider.provide_queue_repository().get_queue_general()
         self.thread_medicion = threading.Thread()
         self.procesador_mensajes = RepositoryProvider.provide_procesador_mensajes_repository().get_procesador_mensajes()
-        self.cierre_pantalla_espera_subject = SubjectProvider.provide_cierre_pantalla_espera_subject()
+        self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
 
     def on_mostrar_instrucciones(self):
         InstruccionesView()
@@ -73,7 +72,7 @@ class MainController:
 
     def restaurar_pantalla_principal(self):
         mensaje_cerrar_pantalla_espera = Mensaje("CerrarPantallaEspera")
-        self.cierre_pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
+        self.pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
         self.desbloquear_controles()
 
     def mostrar_error_lundeby(self, mensaje):
