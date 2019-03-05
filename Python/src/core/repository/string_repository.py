@@ -6,7 +6,8 @@ class StringRepository:
                                     "La aplicación medirá la respuesta impulsional " \
                                     "de la sala y a partir de ella calculará la " \
                                     "curva de decaimiento del sonido y los tiempos " \
-                                    "de reverberación EDT, T20, T30 y T60(30) respectivamente.\n\n" \
+                                    "de reverberación EDT, T20 y T30 tal como están, " \
+                                    "definidos en las normas ISO 3382-1 y 3382-2.\n\n" \
                                     "MEDICIÓN:\n" \
                                     "La respuesta impulsional puede medirse utilizando dos métodos: " \
                                     "el MLS (secuencia pseudoaleatoria) y el ESS (senoide con frecuencia" \

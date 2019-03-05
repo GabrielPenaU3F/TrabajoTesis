@@ -47,7 +47,8 @@ class MainView:
         self.label_edt.grid(row=0, column=0, pady=(0, 5))
         self.edt_var = StringVar()
         self.label_res_edt = Label(self.frame_resultados)
-        self.label_res_edt.config(relief="sunken", bg="#becbff", borderwidth=2, width=10, textvariable=self.edt_var)
+        self.label_res_edt.config(relief="sunken", bg="#becbff", borderwidth=2, width=10, textvariable=self.edt_var,
+                                  fg='black')
         self.label_res_edt.grid(row=0, column=1, padx=(10, 0), pady=(0, 5))
 
         self.label_t20 = Label(self.frame_resultados)
@@ -55,7 +56,8 @@ class MainView:
         self.label_t20.grid(row=1, column=0, pady=(0, 5))
         self.t20_var = StringVar()
         self.label_res_t20 = Label(self.frame_resultados)
-        self.label_res_t20.config(relief="sunken", borderwidth=2, bg="#becbff", width=10, textvariable=self.t20_var)
+        self.label_res_t20.config(relief="sunken", borderwidth=2, bg="#becbff", width=10, textvariable=self.t20_var,
+                                  fg='black')
         self.label_res_t20.grid(row=1, column=1, padx=(10, 0), pady=(0, 5))
 
         self.label_t30 = Label(self.frame_resultados)
@@ -63,7 +65,8 @@ class MainView:
         self.label_t30.grid(row=2, column=0, pady=(0, 5))
         self.t30_var = StringVar()
         self.label_res_t30 = Label(self.frame_resultados)
-        self.label_res_t30.config(relief="sunken", borderwidth=2, bg="#becbff", width=10, textvariable=self.t30_var)
+        self.label_res_t30.config(relief="sunken", borderwidth=2, bg="#becbff", width=10, textvariable=self.t30_var,
+                                  fg='black')
         self.label_res_t30.grid(row=2, column=1, padx=(10, 0), pady=(0, 5))
 
 
