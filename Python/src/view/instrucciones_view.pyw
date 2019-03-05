@@ -25,12 +25,11 @@ class InstruccionesView:
         self.root.mainloop()
 
     def construir_root(self):
-        root = Tk()
+        root = Toplevel()
         root.withdraw()  # Inmediatamente despues de la creación, oculto la ventana
         # ----- Configuracion del root ------
         root.title("Instrucciones")
         root.iconbitmap("../resources/icons/mic_icon.ico")
-        root.tk_setPalette(background='#f4f3f3')
         root.resizable(False, False)
         return root
 

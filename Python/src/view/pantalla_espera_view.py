@@ -26,7 +26,6 @@ class PantallaEsperaView:
         # ----- Configuracion del root ------
         root.title("Midiendo")
         root.iconbitmap("../resources/icons/mic_icon.ico")
-        root.tk_setPalette(background='#f4f3f3')
         root.resizable(False, False)
         return root
 
