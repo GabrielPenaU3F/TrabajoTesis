@@ -1,4 +1,5 @@
-from tkinter import *;
+from tkinter import *
+from tkinter import ttk
 
 from src.controller.instrucciones_controller import InstruccionesController
 from src.core.provider.repository_provider import RepositoryProvider
@@ -48,5 +49,5 @@ class InstruccionesView:
 
     def construir_boton_aceptar(self):
         self.boton_aceptar = Button(self.main_frame)
-        self.boton_aceptar.config(text="Aceptar", command=self.controller.on_aceptar)
+        self.boton_aceptar.config(text="Aceptar", command=self.controller.on_aceptar, bg="#5e0606")
         self.boton_aceptar.grid(row=1, column=0, pady=(20, 0))

@@ -1,4 +1,5 @@
-from tkinter import Tk, Frame, Toplevel, Label
+import tkinter
+from tkinter import Tk, Frame, Toplevel, Label, ttk
 from tkinter.ttk import Progressbar
 
 from src.controller.pantalla_espera_controller import PantallaEsperaController
@@ -35,13 +36,14 @@ class PantallaEsperaView:
         self.label_midiendo.config(text="Midiendo. Por favor espere", pady=20, padx=20, font=("Helvetica", 10))
         self.label_midiendo.grid(row=0, column=0)
 
-        self.pg_frame = Frame(self.main_frame)
-        self.pg_frame.config(borderwidth=2, padx=20, pady=20)
-        self.pg_frame.grid(row=1, column=0)
-        self.progressbar = Progressbar(self.pg_frame)
+        self.pb_frame = Frame(self.main_frame)
+        self.pb_frame.config(borderwidth=2, padx=20, pady=20)
+        self.pb_frame.grid(row=1, column=0)
+        self.progressbar = Progressbar(self.pb_frame)
         self.progressbar.config(mode="indeterminate")
         self.progressbar.pack()
         self.progressbar.start(10)
+
 
     def construir_main_frame(self):
         self.main_frame = Frame(self.root)
