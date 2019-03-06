@@ -70,20 +70,27 @@ class SenalAudio:
     def get_valores(self):
         return self.contenido_temporal.get_valores()
 
+    def get_dominio_frecuencial(self):
+        self.construir_contenido_frecuencial()
+        return self.contenido_frecuencial.get_dominio_frecuencial()
+
     def get_modulos_frecuencia(self):
-        if self.contenido_frecuencial is None:
-            from src.core.provider.action_provider import ActionProvider
-            accion_transformar = ActionProvider.provide_transformar_fourier_action()
-            self.contenido_frecuencial = accion_transformar.execute(self)
+        self.construir_contenido_frecuencial()
         return self.contenido_frecuencial.get_modulos()
 
     def get_fases_frecuencia(self):
+        self.construir_contenido_frecuencial()
+        return self.contenido_frecuencial.get_fase_valores()
+
+    def construir_contenido_frecuencial(self):
         if self.contenido_frecuencial is None:
             from src.core.provider.action_provider import ActionProvider
             accion_transformar = ActionProvider.provide_transformar_fourier_action()
             self.contenido_frecuencial = accion_transformar.execute(self)
-        return self.contenido_frecuencial.get_fase_valores()
 
+    def get_modulo_frecuencia_en(self, f):
+        self.construir_contenido_frecuencial()
+        return self.contenido_frecuencial.get_valor_en(f)
     '''
     Se observa en este método que la señal se modela como un valor constante
     entre muestra y muestra, con amplitud igual a la muestra de la izquierda
@@ -91,6 +98,7 @@ class SenalAudio:
     '''
     def get_valor_en(self, t):
         return self.contenido_temporal.get_valor_en(t)
+
 
 
     '''
@@ -110,13 +118,6 @@ class SenalAudio:
             if not abs((dominio_temporal[t] - dominio_temporal[t - 1]) - (1/fs)) < math.pow(10, -1)/fs:
                 return False
         return True
-
-    def get_dominio_frecuencial(self):
-        if self.contenido_frecuencial is None:
-            from src.core.provider.action_provider import ActionProvider
-            accion_transformar = ActionProvider.provide_transformar_fourier_action()
-            self.contenido_frecuencial = accion_transformar.execute(self)
-        return self.contenido_frecuencial.get_dominio_frecuencial()
 
     def get_energia_total(self):
         if self.energia_total is None:

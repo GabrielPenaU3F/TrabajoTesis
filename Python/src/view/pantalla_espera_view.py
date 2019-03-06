@@ -28,6 +28,7 @@ class PantallaEsperaView:
         root.title("Midiendo")
         root.iconbitmap("../resources/icons/mic_icon.ico")
         root.resizable(False, False)
+        root.geometry("250x150")
         return root
 
     def construir_progressbar_frame(self):
@@ -40,15 +41,15 @@ class PantallaEsperaView:
         self.pb_frame.config(borderwidth=2, padx=20, pady=20)
         self.pb_frame.grid(row=1, column=0)
         self.progressbar = Progressbar(self.pb_frame)
-        self.progressbar.config(mode="indeterminate")
+        self.progressbar.config(mode="indeterminate", length=150)
         self.progressbar.pack()
         self.progressbar.start(10)
 
 
     def construir_main_frame(self):
         self.main_frame = Frame(self.root)
-        self.main_frame.config(width=300, height=100, borderwidth=2, relief="groove")
-        self.main_frame.pack()
+        self.main_frame.config()
+        self.main_frame.pack(pady=10)
 
     def cerrar(self):
         self.root.destroy()

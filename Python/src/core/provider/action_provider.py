@@ -1,4 +1,5 @@
 from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMediaMovilAction
+from src.core.action.aplicar_filtro_pasabanda_action import AplicarFiltroPasabandaAction
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
 from src.core.action.calcular_raiz_cuadrada_de_senal_en_db_action import CalcularRaizCuadradaDeSenalEnDbAction
 from src.core.action.calcular_rt_action import CalcularRTAction
@@ -40,6 +41,7 @@ class ActionProvider:
     integrar_senal_action = None
     obtener_curva_de_decaimiento_action = None
     calcular_rt_action = None
+    aplicar_filtro_pasabanda_action = None
 
     @classmethod
     def provide_recortar_segmento_de_senal_entre_amplitudes_action(cls):
@@ -166,3 +168,10 @@ class ActionProvider:
             cls.calcular_rt_action = CalcularRTAction()
 
         return cls.calcular_rt_action
+
+    @classmethod
+    def provide_aplicar_filtro_pasabanda_action(cls):
+        if cls.aplicar_filtro_pasabanda_action is None:
+            cls.aplicar_filtro_pasabanda_action = AplicarFiltroPasabandaAction()
+
+        return cls.aplicar_filtro_pasabanda_action
