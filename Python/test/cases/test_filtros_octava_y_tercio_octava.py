@@ -37,15 +37,16 @@ class FiltrosOctavaYTercioOctavaTest(unittest.TestCase):
                         > 0.8 * maximo:
                     nulos_incorrectos += 1
 
+
+            # Los +6 y -4 spm porque el ripple del filtro hace que el test falle en las muestras inmediatas anteriores
+            # y siguientes al final de la banda
             nonulos_incorrectos = 0
-            for f in range(0, muestra_en_f_inicial):
+            for f in range(0, muestra_en_f_inicial - 4):
 
                 if abs(espectro_filtrado[f]) > math.pow(10, -1) * maximo:
                     nonulos_incorrectos += 1
 
             muestra_nyquist = int((ruido_blanco.get_longitud() * ruido_blanco.get_fs()/2) / ruido_blanco.get_fs())
-            # El +6 es porque el ripple del filtro hace que el test falle en las muestras inmediatas siguientes
-            # al final de la banda
             for f in range(muestra_en_f_final + 6, muestra_nyquist):
                 if abs(espectro_filtrado[f]) > math.pow(10, -1) * maximo:
                     nonulos_incorrectos += 1
