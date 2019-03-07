@@ -26,7 +26,6 @@ class FiltroPasabandaTest(unittest.TestCase):
         senal = SenalAudio(fs, t, valores)
         maximo_original = max(senal.get_modulos_frecuencia())
         senal_filtrada = FiltroPasabandaTest.aplicar_filtro_pasabanda_action.execute(senal, 50, 150)
-        espectro_filtrado = senal_filtrada.get_modulos_frecuencia()
 
         numpy.testing.assert_allclose(senal_filtrada.get_modulo_frecuencia_en(100), maximo_original, rtol=math.pow(10, -2))
         numpy.testing.assert_allclose(senal_filtrada.get_modulo_frecuencia_en(1000), 0, atol=maximo_original*math.pow(10, -3))

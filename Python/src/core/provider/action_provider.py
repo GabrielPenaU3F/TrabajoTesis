@@ -1,3 +1,4 @@
+from src.core.action.aplicar_filtro_A_action import AplicarFiltroAAction
 from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMediaMovilAction
 from src.core.action.aplicar_filtro_pasabanda_action import AplicarFiltroPasabandaAction
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
@@ -23,6 +24,7 @@ from src.core.action.transformar_fourier_action import TransformarFourierAction
 
 class ActionProvider:
 
+    aplicar_filtro_A_action = None
     calcular_raiz_cuadrada_de_senal_en_db_action = None
     diferenciar_senal_action = None
     estimar_limite_superior_por_metodo_de_lundeby_action = None
@@ -175,3 +177,10 @@ class ActionProvider:
             cls.aplicar_filtro_pasabanda_action = AplicarFiltroPasabandaAction()
 
         return cls.aplicar_filtro_pasabanda_action
+
+    @classmethod
+    def provide_aplicar_filtro_A_action(cls):
+        if cls.aplicar_filtro_A_action is None:
+            cls.aplicar_filtro_A_action = AplicarFiltroAAction()
+
+        return cls.aplicar_filtro_A_action
