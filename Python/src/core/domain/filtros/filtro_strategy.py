@@ -49,7 +49,3 @@ class ZPKStrategy(Strategy):
             'ba': signal.tf2zpk,
             'sos': signal.sos2zpk,
         }
-
-
-class KernelStrategy:
-    pass

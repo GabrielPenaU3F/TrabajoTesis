@@ -1,7 +1,6 @@
 import math
 
 import numpy
-from scipy import signal
 
 from src.exception.excepciones import FiltroException
 from src.core.domain.filtros.filtro_strategy import *
@@ -19,7 +18,6 @@ class Filtro:
             "ba": NumDemStrategy(),
             "sos": SOSStrategy(),
             "zpk": ZPKStrategy(),
-            "kernel": KernelStrategy()
         }
         if not self.strategies_transformacion_output.__contains__(representacion_output):
             raise FiltroException("Representación inválida")
@@ -60,7 +58,7 @@ class Filtro:
         ]
         k = 1.2588*math.pow(12200, 2)*math.pow(2*math.pi, 2)
         zeros_digital, polos_digital, k_digital = signal.bilinear_zpk(zeros, polos, k, self.fs)
-        return self.strategies_transformacion_output.get("ba").\
+        return self.strategies_transformacion_output.get(self.representacion_output).\
             generar_output_filtro(zeros_digital, polos_digital, k_digital, input='zpk')
 
     def construir_filtro(self, args, tipo):
