@@ -4,7 +4,7 @@ import numpy
 
 from src.core.domain.senal_audio import SenalAudio
 from src.core.provider.action_provider import ActionProvider
-from src.exception.excepciones import FiltradoImposibleException
+from src.exception.excepciones import FiltroException
 
 
 class FiltroMediaMovilTest(unittest.TestCase):
@@ -58,7 +58,7 @@ class FiltroMediaMovilTest(unittest.TestCase):
         dominio_temporal = numpy.linspace(0, 99, 100, endpoint=False)
         senal_prueba = SenalAudio(fs, dominio_temporal, valores_prueba)
 
-        self.assertRaises(FiltradoImposibleException,
+        self.assertRaises(FiltroException,
                           FiltroMediaMovilTest.aplicar_filtro_media_movil_action.execute, senal_prueba, 111)
 
     def test_que_el_filtro_de_la_media_movil_filtre_correctamente_una_senal_de_prueba(self):

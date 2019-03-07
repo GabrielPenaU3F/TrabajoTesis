@@ -21,8 +21,8 @@ class RuidoTest(unittest.TestCase):
         sigma = 1
         ruido_blanco = RuidoTest.generador_ruido.generar_ruido_blanco(48000, 6, mu, sigma)
 
-        numpy.testing.assert_almost_equal(mean(ruido_blanco.get_valores()), 0, decimal=3)
-        numpy.testing.assert_almost_equal(std(ruido_blanco.get_valores()), 1, decimal=3)
+        numpy.testing.assert_almost_equal(mean(ruido_blanco.get_valores()), 0, decimal=2)
+        numpy.testing.assert_almost_equal(std(ruido_blanco.get_valores()), 1, decimal=2)
 
     def test_que_el_espectro_del_ruido_blanco_sea_no_nulo_en_toda_f(self):
 

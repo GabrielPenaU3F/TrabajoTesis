@@ -24,10 +24,10 @@ class Filtro:
         self.representacion_output = representacion_output
         self.filtro = self.construir_filtro(args, tipo=tipo)
 
-
     def construir_filtro_chebyshev_tipo_2(self, args):
-        f_inferior = args[0]
-        f_superior = args[1]
+        banda = args[0]
+        f_inferior = banda.get_frecuencia_inicial()
+        f_superior = banda.get_frecuencia_final()
         margen = 0.5  # Parámetro ajustable, en Hz
         frec_nyquist = self.fs / 2
         margen_norm = margen / frec_nyquist

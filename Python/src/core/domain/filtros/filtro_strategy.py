@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from scipy import signal
 
 
-class Strategy(ABC):
+class FiltroStrategy(ABC):
 
     transformaciones = {}
 
@@ -15,7 +15,7 @@ class Strategy(ABC):
         pass
 
 
-class NumDemStrategy(Strategy):
+class NumDemStrategy(FiltroStrategy):
 
     def __init__(self):
         self.transformaciones = self.generar_transformaciones()
@@ -27,7 +27,7 @@ class NumDemStrategy(Strategy):
         }
 
 
-class SOSStrategy(Strategy):
+class SOSStrategy(FiltroStrategy):
 
     def __init__(self):
         self.transformaciones = self.generar_transformaciones()
@@ -39,7 +39,7 @@ class SOSStrategy(Strategy):
         }
 
 
-class ZPKStrategy(Strategy):
+class ZPKStrategy(FiltroStrategy):
 
     def __init__(self):
         self.transformaciones = self.generar_transformaciones()

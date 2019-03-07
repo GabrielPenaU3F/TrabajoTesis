@@ -5,6 +5,7 @@ import numpy
 from matplotlib import pyplot
 from scipy import signal
 
+from src.core.domain.banda_de_frecuencia import BandaDeFrecuencia
 from src.core.domain.generadores_de_senales.generador_ruido import GeneradorRuido
 from src.core.domain.senal_audio import SenalAudio
 from src.core.provider.action_provider import ActionProvider
@@ -25,14 +26,17 @@ class FiltroPasabandaTest(unittest.TestCase):
         valores = numpy.sin(2*numpy.pi*100*t) + numpy.sin(2*numpy.pi*1000*t)
         senal = SenalAudio(fs, t, valores)
         maximo_original = max(senal.get_modulos_frecuencia())
-        senal_filtrada = FiltroPasabandaTest.aplicar_filtro_pasabanda_action.execute(senal, 50, 150)
+        senal_filtrada = FiltroPasabandaTest.aplicar_filtro_pasabanda_action.execute(senal, BandaDeFrecuencia(50, 150))
 
-        numpy.testing.assert_allclose(senal_filtrada.get_modulo_frecuencia_en(100), maximo_original, rtol=math.pow(10, -2))
-        numpy.testing.assert_allclose(senal_filtrada.get_modulo_frecuencia_en(1000), 0, atol=maximo_original*math.pow(10, -3))
+        numpy.testing.assert_allclose(senal_filtrada.get_modulo_frecuencia_en(100),
+                                      maximo_original, rtol=math.pow(10, -2))
+        numpy.testing.assert_allclose(senal_filtrada.get_modulo_frecuencia_en(1000),
+                                      0, atol=maximo_original*math.pow(10, -3))
 
     def test_que_una_senal_de_ruido_blanco_se_filtre_correctamente_entre_100_y_1000_hertz(self):
         ruido_blanco = GeneradorRuido().generar_ruido_blanco(48000, 3, 0, 1)
-        ruido_filtrado = FiltroPasabandaTest.aplicar_filtro_pasabanda_action.execute(ruido_blanco, 100, 1000)
+        ruido_filtrado = FiltroPasabandaTest.aplicar_filtro_pasabanda_action.\
+            execute(ruido_blanco, BandaDeFrecuencia(100, 1000))
         espectro_ruido = ruido_blanco.get_modulos_frecuencia()
         espectro_filtrado = ruido_filtrado.get_modulos_frecuencia()
 
