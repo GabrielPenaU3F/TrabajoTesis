@@ -1,10 +1,6 @@
-import math
-
-import numpy
-from matplotlib import pyplot
 from scipy import signal
 
-from src.core.domain.filtro import Filtro
+from src.core.domain.filtros.filtro import Filtro
 from src.core.domain.senal_audio import SenalAudio
 
 
@@ -13,7 +9,7 @@ class AplicarFiltroPasabandaAction:
     def execute(self, senal, f_inferior, f_superior):
 
         fs = senal.get_fs()
-        filtro = Filtro(f_inferior, f_superior, fs=fs, tipo='Cheby2', representacion='sos')
+        filtro = Filtro(f_inferior, f_superior, fs=fs, tipo='Cheby2', representacion_output='sos')
 
 
         ''' Plotear la respuesta en frecuencia del filtro:

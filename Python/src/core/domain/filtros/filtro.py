@@ -4,19 +4,26 @@ import numpy
 from scipy import signal
 
 from src.exception.excepciones import FiltroException
+from src.core.domain.filtros.filtro_strategy import *
 
 
 class Filtro:
 
-    def __init__(self, *args, fs, tipo, representacion):
+    def __init__(self, *args, fs, tipo, representacion_output):
         self.fs = fs
         self.tipos_filtro = {
             "Cheby2": self.construir_filtro_chebyshev_tipo_2,
             "A": self.construir_filtro_A
         }
-        self.representaciones = ["ba", "sos", "zpk", "kernel"]
-        if not self.representaciones.__contains__(representacion): raise FiltroException("Representación inválida")
-        self.representacion = representacion
+        self.strategies_transformacion_output = {
+            "ba": NumDemStrategy(),
+            "sos": SOSStrategy(),
+            "zpk": ZPKStrategy(),
+            "kernel": KernelStrategy()
+        }
+        if not self.strategies_transformacion_output.__contains__(representacion_output):
+            raise FiltroException("Representación inválida")
+        self.representacion_output = representacion_output
         self.filtro = self.construir_filtro(args, tipo=tipo)
 
 
@@ -40,8 +47,7 @@ class Filtro:
         orden = caract_filtro[0]  # Mínimo orden de filtro necesario
         wnat = caract_filtro[1]  # Frecuencia natural Chebyshev del filtro
 
-        if self.representacion == "sos":
-            return signal.cheby2(orden + 1, 60, wnat, btype='bandpass', output='sos')
+        return signal.cheby2(orden + 1, 60, wnat, btype='bandpass', output=self.representacion_output)
 
     def construir_filtro_A(self, args):
         zeros = [0, 0, 0, 0]
@@ -54,8 +60,8 @@ class Filtro:
         ]
         k = 1.2588*math.pow(12200, 2)*math.pow(2*math.pi, 2)
         zeros_digital, polos_digital, k_digital = signal.bilinear_zpk(zeros, polos, k, self.fs)
-        if self.representacion == "ba":
-            return signal.zpk2tf(zeros_digital, polos_digital, k_digital)
+        return self.strategies_transformacion_output.get("ba").\
+            generar_output_filtro(zeros_digital, polos_digital, k_digital, input='zpk')
 
     def construir_filtro(self, args, tipo):
         return self.tipos_filtro.get(tipo)(args)
@@ -66,12 +72,12 @@ class Filtro:
     def get_respuesta_frecuencial(self, n):
 
         w, h = 0, 0
-        if self.representacion == "sos":
+        if self.representacion_output == "sos":
             w, h = signal.sosfreqz(sos=self.get_filtro(), worN=n)
-        elif self.representacion == "ba":
+        elif self.representacion_output == "ba":
             b, a = self.get_filtro()
             w, h = signal.freqz(b, a, worN=n)
-        elif self.representacion == "zpk":
+        elif self.representacion_output == "zpk":
             z, p, k = self.get_filtro()
             w, h = signal.freqz_zpk(z, p, k, worN=n)
 

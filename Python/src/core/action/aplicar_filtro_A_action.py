@@ -1,6 +1,6 @@
 from scipy import signal
 
-from src.core.domain.filtro import Filtro
+from src.core.domain.filtros.filtro import Filtro
 from src.core.domain.senal_audio import SenalAudio
 
 
