@@ -4,7 +4,8 @@ class ProcesadorMensajes:
         self.mensajes = {
             "MedicionCompleta": "finalizar_medicion",
             "CerrarPantallaEspera": "cerrar",
-            "LundebyException": "mostrar_error_lundeby"
+            "LundebyException": "mostrar_error_lundeby",
+            "ActivarBotonInstrucciones": "activar_boton_instrucciones"
         }
 
     def get_mensaje(self, clave_mensaje):

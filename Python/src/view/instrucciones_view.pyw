@@ -32,6 +32,7 @@ class InstruccionesView:
         root.title("Instrucciones")
         root.iconbitmap("../resources/icons/mic_icon.ico")
         root.resizable(False, False)
+        root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
         return root
 
     def construir_main_frame(self):

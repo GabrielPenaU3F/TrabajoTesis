@@ -7,6 +7,7 @@ from src.controller.main_controller import MainController
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
+
 class MainView:
 
     def __init__(self):
@@ -274,3 +275,9 @@ class MainView:
         self.sistema_ejes_cd.set_ylabel('Nivel (dB)')
         self.sistema_ejes_cd.set_xlim(left=0, auto=True)
         self.sistema_ejes_cd.set_ylim(bottom=-120, top=0, auto=True)
+
+    def desactivar_boton_instrucciones(self):
+        self.boton_instrucciones.config(command="")
+
+    def activar_boton_instrucciones(self):
+        self.boton_instrucciones.config(command=self.controller.on_mostrar_instrucciones)

@@ -22,8 +22,11 @@ class MainController:
         self.thread_medicion = threading.Thread()
         self.procesador_mensajes = RepositoryProvider.provide_procesador_mensajes_repository().get_procesador_mensajes()
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
+        self.pantalla_instrucciones_subject = SubjectProvider.provide_pantalla_instrucciones_subject()
+        self.pantalla_instrucciones_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
 
     def on_mostrar_instrucciones(self):
+        self.desactivar_boton_instrucciones()
         InstruccionesView()
 
     def on_efectuar_medicion(self):
@@ -85,6 +88,16 @@ class MainController:
 
     def desbloquear_controles(self):
         self.view.desbloquear_controles()
+
+    def desactivar_boton_instrucciones(self):
+        self.view.desactivar_boton_instrucciones()
+
+    def activar_boton_instrucciones(self):
+        self.view.activar_boton_instrucciones()
+
+    def procesar(self, mensaje):
+        metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
+        metodo_a_ejecutar()
 
 
 
