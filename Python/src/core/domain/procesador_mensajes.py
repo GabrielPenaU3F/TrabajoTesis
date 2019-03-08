@@ -5,7 +5,8 @@ class ProcesadorMensajes:
             "MedicionCompleta": "finalizar_medicion",
             "CerrarPantallaEspera": "cerrar",
             "LundebyException": "mostrar_error_lundeby",
-            "ActivarBotonInstrucciones": "activar_boton_instrucciones"
+            "ActivarBotonInstrucciones": "activar_boton_instrucciones",
+            "ActivarBotonVistaDetallada": "activar_boton_vista_detallada"
         }
 
     def get_mensaje(self, clave_mensaje):

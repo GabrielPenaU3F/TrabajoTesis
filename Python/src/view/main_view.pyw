@@ -103,7 +103,8 @@ class MainView:
         self.boton_guardar_archivo.grid(row=0, column=5, padx=10)
 
         self.boton_vista_detallada = Button(self.frame_boton_derecha)
-        self.boton_vista_detallada.config(text="Vista detallada", bg="#5e0606")
+        self.boton_vista_detallada.config(text="Vista detallada", bg="#5e0606",
+                                          command=self.controller.on_abrir_vista_detallada)
         self.boton_vista_detallada.pack(padx=(10, 0))
 
     def construir_frame_graficas(self):
@@ -281,3 +282,9 @@ class MainView:
 
     def activar_boton_instrucciones(self):
         self.boton_instrucciones.config(command=self.controller.on_mostrar_instrucciones)
+
+    def desactivar_boton_vista_detallada(self):
+        self.boton_vista_detallada.config(command="")
+
+    def activar_boton_vista_detallada(self):
+        self.boton_vista_detallada.config(command=self.controller.on_abrir_vista_detallada)

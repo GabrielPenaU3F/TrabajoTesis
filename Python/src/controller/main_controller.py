@@ -8,6 +8,7 @@ from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
 from src.view.instrucciones_view import InstruccionesView
 from src.view.pantalla_espera_view import PantallaEsperaView
+from src.view.vista_detallada_view import VistaDetalladaView
 
 
 class MainController:
@@ -24,6 +25,8 @@ class MainController:
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
         self.pantalla_instrucciones_subject = SubjectProvider.provide_pantalla_instrucciones_subject()
         self.pantalla_instrucciones_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
+        self.vista_detallada_subject = SubjectProvider.provide_vista_detallada_subject()
+        self.vista_detallada_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()
@@ -98,6 +101,16 @@ class MainController:
     def procesar(self, mensaje):
         metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
         metodo_a_ejecutar()
+
+    def on_abrir_vista_detallada(self):
+        self.desactivar_boton_vista_detallada()
+        VistaDetalladaView()
+
+    def desactivar_boton_vista_detallada(self):
+        self.view.desactivar_boton_vista_detallada()
+
+    def activar_boton_vista_detallada(self):
+        self.view.activar_boton_vista_detallada()
 
 
 
