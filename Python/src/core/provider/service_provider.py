@@ -1,4 +1,5 @@
 from src.core.service.estadistica_service import EstadisticaService
+from src.core.service.filtrado_pasabanda_service import FiltradoPasabandaService
 from src.core.service.operaciones_sobre_arrays_service import OperacionesSobreArraysService
 from src.core.service.operaciones_sobre_senales_service import OperacionesSobreSenalesService
 from src.core.service.recortar_senales_service import RecortarSenalesService
@@ -7,6 +8,7 @@ from src.core.service.rt_service import RTService
 
 class ServiceProvider:
 
+    filtrado_pasabanda_service = None
     recortar_senales_service = None
     estadistica_service = None
     operaciones_sobre_senales_service = None
@@ -52,3 +54,12 @@ class ServiceProvider:
             cls.recortar_senales_service = RecortarSenalesService()
 
         return cls.recortar_senales_service
+
+    @classmethod
+    def provide_filtrado_pasabanda_service(cls):
+
+        if cls.filtrado_pasabanda_service is None:
+            cls.filtrado_pasabanda_service = FiltradoPasabandaService()
+
+        return cls.filtrado_pasabanda_service
+

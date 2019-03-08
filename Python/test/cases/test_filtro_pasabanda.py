@@ -8,16 +8,16 @@ from scipy import signal
 from src.core.domain.banda_de_frecuencia import BandaDeFrecuencia
 from src.core.domain.generadores_de_senales.generador_ruido import GeneradorRuido
 from src.core.domain.senal_audio import SenalAudio
-from src.core.provider.action_provider import ActionProvider
+from src.core.provider.service_provider import ServiceProvider
 
 
 class FiltroPasabandaTest(unittest.TestCase):
 
-    aplicar_filtro_pasabanda_action = None
+    filtrado_pasabanda_service = None
 
     @classmethod
     def setUpClass(cls):
-        cls.aplicar_filtro_pasabanda_action = ActionProvider.provide_aplicar_filtro_pasabanda_action()
+        cls.filtrado_pasabanda_service = ServiceProvider.provide_filtrado_pasabanda_service()
 
 
     def test_que_una_suma_de_senoides_al_ser_filtradas_resulte_en_una_unica_senoide(self):
@@ -26,7 +26,8 @@ class FiltroPasabandaTest(unittest.TestCase):
         valores = numpy.sin(2*numpy.pi*100*t) + numpy.sin(2*numpy.pi*1000*t)
         senal = SenalAudio(fs, t, valores)
         maximo_original = max(senal.get_modulos_frecuencia())
-        senal_filtrada = FiltroPasabandaTest.aplicar_filtro_pasabanda_action.execute(senal, BandaDeFrecuencia(50, 150))
+        senal_filtrada = FiltroPasabandaTest.filtrado_pasabanda_service.aplicar_filtro_pasabanda\
+            (senal, 'Cheby2', 'sos', BandaDeFrecuencia(50, 150))
 
         numpy.testing.assert_allclose(senal_filtrada.get_modulo_frecuencia_en(100),
                                       maximo_original, rtol=math.pow(10, -2))
@@ -35,8 +36,8 @@ class FiltroPasabandaTest(unittest.TestCase):
 
     def test_que_una_senal_de_ruido_blanco_se_filtre_correctamente_entre_100_y_1000_hertz(self):
         ruido_blanco = GeneradorRuido().generar_ruido_blanco(48000, 3, 0, 1)
-        ruido_filtrado = FiltroPasabandaTest.aplicar_filtro_pasabanda_action.\
-            execute(ruido_blanco, BandaDeFrecuencia(100, 1000))
+        ruido_filtrado = FiltroPasabandaTest.filtrado_pasabanda_service.aplicar_filtro_pasabanda\
+            (ruido_blanco, 'Cheby2', 'sos', BandaDeFrecuencia(100, 1000))
         espectro_ruido = ruido_blanco.get_modulos_frecuencia()
         espectro_filtrado = ruido_filtrado.get_modulos_frecuencia()
 

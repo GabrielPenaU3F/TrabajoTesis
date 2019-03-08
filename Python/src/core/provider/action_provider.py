@@ -1,7 +1,6 @@
 from src.core.action.aplicar_filtro_A_action import AplicarFiltroAAction
 from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMediaMovilAction
 from src.core.action.aplicar_filtro_octava_action import AplicarFiltroOctavaAction
-from src.core.action.aplicar_filtro_pasabanda_action import AplicarFiltroPasabandaAction
 from src.core.action.aplicar_filtro_tercio_de_octava_action import AplicarFiltroTercioDeOctavaAction
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
 from src.core.action.calcular_raiz_cuadrada_de_senal_en_db_action import CalcularRaizCuadradaDeSenalEnDbAction
@@ -174,13 +173,6 @@ class ActionProvider:
             cls.calcular_rt_action = CalcularRTAction()
 
         return cls.calcular_rt_action
-
-    @classmethod
-    def provide_aplicar_filtro_pasabanda_action(cls):
-        if cls.aplicar_filtro_pasabanda_action is None:
-            cls.aplicar_filtro_pasabanda_action = AplicarFiltroPasabandaAction()
-
-        return cls.aplicar_filtro_pasabanda_action
 
     @classmethod
     def provide_aplicar_filtro_A_action(cls):

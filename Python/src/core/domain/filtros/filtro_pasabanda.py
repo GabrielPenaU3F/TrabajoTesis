@@ -67,17 +67,10 @@ class Filtro:
     def get_filtro(self):
         return self.filtro
 
-    def get_respuesta_frecuencial(self, n):
+    def get_respuesta_frecuencial(self, cantidad_muestras):
 
-        w, h = 0, 0
-        if self.representacion_output == "sos":
-            w, h = signal.sosfreqz(sos=self.get_filtro(), worN=n)
-        elif self.representacion_output == "ba":
-            b, a = self.get_filtro()
-            w, h = signal.freqz(b, a, worN=n)
-        elif self.representacion_output == "zpk":
-            z, p, k = self.get_filtro()
-            w, h = signal.freqz_zpk(z, p, k, worN=n)
-
+        filtro = self.get_filtro()
+        w, h = self.strategies_transformacion_output.get(self.representacion_output).\
+            get_respuesta_frecuencial(cantidad_muestras, filtro)
         db = 20 * numpy.log10(numpy.abs(h))
         return w, db

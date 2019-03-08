@@ -1,15 +1,14 @@
 from scipy import signal
 
-from src.core.domain.filtros.filtro import Filtro
+from src.core.domain.filtros.filtro_pasabanda import Filtro
 from src.core.domain.senal_audio import SenalAudio
 
 
-class AplicarFiltroPasabandaAction:
+class FiltradoPasabandaService:
 
-    def execute(self, senal, banda):
-
+    def aplicar_filtro_pasabanda(self, senal, tipo, output, banda):
         fs = senal.get_fs()
-        filtro = Filtro(banda, fs=fs, tipo='Cheby2', representacion_output='sos')
+        filtro = Filtro(banda, fs=fs, tipo=tipo, representacion_output=output)
 
 
         ''' Plotear la respuesta en frecuencia del filtro:
