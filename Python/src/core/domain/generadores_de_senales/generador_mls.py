@@ -1,6 +1,7 @@
 import math
 
 import numpy
+from scipy import signal
 
 from src.core.domain.senal_audio import SenalAudio
 
@@ -16,9 +17,5 @@ class GeneradorMLS:
         return SenalAudio(fs, valores)
 
     def generar_periodo(self, n_bits):
-        largo_periodo = int(math.pow(2, n_bits) - 1)
-        senal = numpy.random.randint(2, size=largo_periodo)
-        for i in range(len(senal)):
-            if senal[i] == 0:
-                senal[i] = -1
+        senal = signal.max_len_seq(n_bits)[0] * 2 - 1  # +1 and -1
         return list(senal.astype(dtype=numpy.float64))

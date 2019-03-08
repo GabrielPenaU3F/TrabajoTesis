@@ -1,5 +1,7 @@
 import math
 import numpy
+from matplotlib import pyplot
+
 from src.core.domain.senal_audio import SenalAudio
 from src.core.provider.service_provider import ServiceProvider
 from src.exception.excepciones import LundebyException
@@ -35,7 +37,7 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
 
             # Paso 2: se estima el nivel de ruido de fondo
             porcentaje_de_senal_que_es_cola = 10  # 10%, parametro ajustable
-            tiempo_cola = round(senal_h_cuadrado_db.get_duracion() * porcentaje_de_senal_que_es_cola / 100)
+            tiempo_cola = senal_h_cuadrado_db.get_duracion() * porcentaje_de_senal_que_es_cola / 100
             cola = self.recortar_en_tiempo_action.execute(senal_h_cuadrado_db, duracion - tiempo_cola, duracion)
             nivel_de_ruido_de_fondo = numpy.mean(cola.get_valores())
 
@@ -98,7 +100,11 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
                 # Paso 9:
                 t_cruce = (nivel_de_ruido_de_fondo - recta_decaimiento.get_ordenada()) / recta_decaimiento.get_pendiente()
 
-            if t_cruce > duracion: raise LundebyException("El tiempo de truncado es mayor a la duración de la señal")
+                if t_cruce > duracion:
+                    t_cruce = duracion
+
+                elif t_cruce < minimo_t_posible:
+                    t_cruce = minimo_t_posible
 
         except Exception:
             raise LundebyException("")
