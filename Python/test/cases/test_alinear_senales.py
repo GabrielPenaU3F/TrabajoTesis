@@ -1,3 +1,4 @@
+import time
 import unittest
 
 from src.core.provider.action_provider import ActionProvider
@@ -53,6 +54,7 @@ class AlinearSenalesTest(unittest.TestCase):
         self.assertListEqual(senoide.get_valores(), senal_resultante)
 
     def test_que_lance_excepcion_si_la_ventana_es_mas_larga_que_alguna_senal(self):
+
         fs = 48000
         frecuencia = 200
         senoide = GeneradorSenoidal().generar_senoide(fs, 2, frecuencia, 1, 0)
@@ -60,3 +62,4 @@ class AlinearSenalesTest(unittest.TestCase):
 
         self.assertRaises(AlineacionException, AlinearSenalesTest.eliminar_latencia_action.
                           execute, senoide, senoide_a_truncar, 5)
+

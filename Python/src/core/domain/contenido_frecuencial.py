@@ -23,11 +23,5 @@ class ContenidoFrecuencial:
     def get_fases(self):
         return [cmath.phase(z) for z in self.valores_complejos]
 
-    def get_valor_en(self, f):
-        for i in range(len(self.puntos_frecuenciales) - 1):
-
-            if self.puntos_frecuenciales[i].get_f() == f:
-                return self.puntos_frecuenciales[i].get_modulo()
-
-            elif self.puntos_frecuenciales[i+1].get_f() > f > self.puntos_frecuenciales[i].get_f():
-                return self.puntos_frecuenciales[i].get_modulo()
+    def get_muestra(self, muestra_correspondiente):
+        return self.valores_complejos[muestra_correspondiente]

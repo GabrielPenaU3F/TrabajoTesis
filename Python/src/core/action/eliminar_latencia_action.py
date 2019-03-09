@@ -18,7 +18,8 @@ class EliminarLatenciaAction:
                 senal_de_referencia.get_valores(), senal_con_latencia.get_valores()) * (1/fs)
         elif len(args) == 3:
             ventana_en_segundos = args[2]
-        else: raise AlineacionException("El método de eliminar latencia solo puede recibir dos o tres parámetros")
+        else:
+            raise AlineacionException("El método de eliminar latencia solo puede recibir dos o tres parámetros")
 
         return self.operaciones_sobre_senales_service.eliminar_latencia_entre_senales(
             senal_de_referencia, senal_con_latencia, ventana_en_segundos)

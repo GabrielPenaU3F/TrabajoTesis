@@ -16,7 +16,7 @@ class SenalAudio:
             self.duracion = self.longitud/fs
             self.fs = fs
             dominio_temporal = self.construir_dominio_temporal(fs, len(valores))
-            self.contenido_temporal = self.construir_senal(fs, dominio_temporal, valores)
+            self.contenido_temporal = self.construir_senal(dominio_temporal, valores)
 
         elif len(args) == 3:
             fs = args[0]
@@ -26,7 +26,7 @@ class SenalAudio:
             self.longitud = len(valores)
             self.duracion = self.longitud/fs
             self.fs = fs
-            self.contenido_temporal = self.construir_senal(fs, dominio_temporal, valores)
+            self.contenido_temporal = self.construir_senal(dominio_temporal, valores)
 
         else: raise CantidadDeParametrosException("La señal de audio puede recibir únicamente 2 o 3 parámetros")
 
@@ -90,14 +90,16 @@ class SenalAudio:
 
     def get_modulo_frecuencia_en(self, f):
         self.construir_contenido_frecuencial()
-        return self.contenido_frecuencial.get_valor_en(f)
+        muestra_correspondiente = math.floor(f * self.longitud / self.fs)
+        return abs(self.contenido_frecuencial.get_muestra(muestra_correspondiente))
     '''
     Se observa en este método que la señal se modela como un valor constante
     entre muestra y muestra, con amplitud igual a la muestra de la izquierda
     de cada intervalo. Es decir, un retenedor de orden cero (ZOH).
     '''
     def get_valor_en(self, t):
-        return self.contenido_temporal.get_valor_en(t)
+        muestra_correspondiente = math.floor(t * self.fs)
+        return self.contenido_temporal.get_muestra(muestra_correspondiente)
 
 
 
@@ -125,7 +127,7 @@ class SenalAudio:
             self.energia_total = ActionProvider.provide_calcular_energia_total_action().execute(self)
         return self.energia_total
 
-    def construir_senal(self, fs, dominio_temporal, valores):
+    def construir_senal(self, dominio_temporal, valores):
         senal = []
         for i in range(len(valores)):
             senal.append(PuntoSenalTiempo(dominio_temporal[i], valores[i]))

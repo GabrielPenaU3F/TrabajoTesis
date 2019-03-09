@@ -1,4 +1,6 @@
 import math
+import traceback
+
 import numpy
 from matplotlib import pyplot
 
@@ -107,6 +109,7 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
                     t_cruce = minimo_t_posible
 
         except Exception:
+            print(traceback.format_exc())
             raise LundebyException("")
 
         return t_cruce

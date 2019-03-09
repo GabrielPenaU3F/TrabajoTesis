@@ -1,6 +1,6 @@
 import math
 import unittest
-from time import time
+from time import time, process_time
 
 import numpy
 
@@ -61,13 +61,13 @@ class TestRecortarSegmentoDeSenal(unittest.TestCase):
 
     def test_que_recorte_en_amplitud_una_senal_larga_en_un_tiempo_adecuado(self):
         fs = 48000
-        dominio = numpy.linspace(0, 3, fs*3, endpoint=False)
-        valores = numpy.linspace(0, 100000, fs*3, endpoint=False)
+        dominio = numpy.linspace(0, 6, fs*6, endpoint=False)
+        valores = numpy.linspace(0, 1000000, fs*6, endpoint=False)
         senal_larga = SenalAudio(fs, dominio, valores)
 
-        t_inicio = time()
-        TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(senal_larga, 10000, 30000)
-        t_fin = time()
+        t_inicio = process_time()
+        TestRecortarSegmentoDeSenal.recortar_en_amplitud_action.execute(senal_larga, 60000, 80000)
+        t_fin = process_time()
 
         t_procesamiento = t_fin - t_inicio
         self.assertEqual(True, t_procesamiento < 1)
