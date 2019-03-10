@@ -8,14 +8,14 @@ from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
 from src.view.instrucciones_view import InstruccionesView
 from src.view.pantalla_espera_view import PantallaEsperaView
-from src.view.vista_detallada_view import VistaDetalladaView
+from src.view.vista_detallada.vista_detallada_view import VistaDetalladaView
 
 
 class MainController:
 
     def __init__(self, view):
         self.string_repository = RepositoryProvider.provide_string_repository()
-        self.medicion = None
+        self.medicion_repository = RepositoryProvider.provide_medicion_repository()
         self.pantalla_espera = None
         self.view = view
         self.medidor = MedidorAcustico()
@@ -41,16 +41,17 @@ class MainController:
 
     def mostrar_medicion_en_vista(self):
 
+        medicion = self.medicion_repository.get_medicion()
         self.view.graficar_respuesta_impulsional(
-            self.medicion.get_respuesta_impulsional().get_dominio_temporal(),
-            self.medicion.get_respuesta_impulsional().get_valores())
+            medicion.get_respuesta_impulsional().get_dominio_temporal(),
+            medicion.get_respuesta_impulsional().get_valores())
 
         self.view.graficar_curva_decaimiento(
-            self.medicion.get_curva_decaimiento().get_dominio_temporal(),
-            self.medicion.get_curva_decaimiento().get_valores())
+            medicion.get_curva_decaimiento().get_dominio_temporal(),
+            medicion.get_curva_decaimiento().get_valores())
 
         self.view.mostrar_tiempos_de_reverberacion(
-            self.medicion.get_edt(), self.medicion.get_t20(), self.medicion.get_t30())
+            medicion.get_edt(), medicion.get_t20(), medicion.get_t30())
 
     # TODO: Terminar estos dos métodos. Falta definir el formato de los archivos
 
@@ -58,7 +59,7 @@ class MainController:
         archivo = LectorDeArchivosDeAudio().cargar_archivo()
 
     def on_guardar_archivo(self):
-        if self.medicion:
+        if self.hay_medicion():
             nombre_archivo = EscritorDeArchivosDeAudio().guardar_archivo()
 
     def actualizar(self):
@@ -71,7 +72,7 @@ class MainController:
         PantallaEsperaView()
 
     def finalizar_medicion(self, mensaje):
-        self.medicion = mensaje.get_contenido()
+        self.medicion_repository.put_medicion(mensaje.get_contenido())
         self.mostrar_medicion_en_vista()
         self.thread_queue.task_done()
         self.restaurar_pantalla_principal()
@@ -111,6 +112,9 @@ class MainController:
 
     def activar_boton_vista_detallada(self):
         self.view.activar_boton_vista_detallada()
+
+    def hay_medicion(self):
+        return self.medicion_repository.hay_medicion()
 
 
 

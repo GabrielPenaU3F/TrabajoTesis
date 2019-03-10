@@ -40,11 +40,11 @@ class MainView:
         # ----- Frame de resultados -----
 
         self.label_titulo_resultados = Label(self.frame_titulo_resultados)
-        self.label_titulo_resultados.config(text="Resultados", bg="#0c005a")
+        self.label_titulo_resultados.config(text="Tiempos de reverberación", bg="#0c005a")
         self.label_titulo_resultados.pack(fill="both", expand="True", ipadx=3, ipady=3)
 
         self.label_edt = Label(self.frame_resultados)
-        self.label_edt.config(text="EDT:", bg="#5893d4", borderwidth=2, relief="groove", width=4)
+        self.label_edt.config(text="EDT", bg="#5893d4", borderwidth=2, relief="groove", width=4)
         self.label_edt.grid(row=0, column=0, pady=(0, 5))
         self.edt_var = StringVar()
         self.label_res_edt = Label(self.frame_resultados)
@@ -53,7 +53,7 @@ class MainView:
         self.label_res_edt.grid(row=0, column=1, padx=(10, 0), pady=(0, 5))
 
         self.label_t20 = Label(self.frame_resultados)
-        self.label_t20.config(text="T20:", bg="#5893d4", borderwidth=2, relief="groove", width=4)
+        self.label_t20.config(text="T20", bg="#5893d4", borderwidth=2, relief="groove", width=4)
         self.label_t20.grid(row=1, column=0, pady=(0, 5))
         self.t20_var = StringVar()
         self.label_res_t20 = Label(self.frame_resultados)
@@ -62,7 +62,7 @@ class MainView:
         self.label_res_t20.grid(row=1, column=1, padx=(10, 0), pady=(0, 5))
 
         self.label_t30 = Label(self.frame_resultados)
-        self.label_t30.config(text="T30:", bg="#5893d4", borderwidth=2, relief="groove", width=4)
+        self.label_t30.config(text="T30", bg="#5893d4", borderwidth=2, relief="groove", width=4)
         self.label_t30.grid(row=2, column=0, pady=(0, 5))
         self.t30_var = StringVar()
         self.label_res_t30 = Label(self.frame_resultados)
@@ -200,7 +200,7 @@ class MainView:
 
         self.frame_titulo_resultados = Frame(self.main_frame)
         self.frame_titulo_resultados.grid(row=0, column=1, sticky="n", padx=(20, 0))
-        self.frame_titulo_resultados.config(width=125, height=20, borderwidth=2, relief="groove")
+        self.frame_titulo_resultados.config(width=150, height=20, borderwidth=2, relief="groove")
         self.frame_titulo_resultados.pack_propagate(False)
 
         self.frame_resultados = Frame(self.main_frame)

@@ -1,4 +1,5 @@
 from src.core.repository.bandas_estandar_repository import BandasEstandarRepository
+from src.core.repository.medicion_repository import MedicionRepository
 from src.core.repository.procesador_mensajes_repository import ProcesadorMensajesRepository
 from src.core.repository.queue_repository import QueueRepository
 from src.core.repository.string_repository import StringRepository
@@ -6,6 +7,7 @@ from src.core.repository.string_repository import StringRepository
 
 class RepositoryProvider:
 
+    medicion_repository = None
     string_repository = None
     queue_repository = None
     procesador_mensajes_repository = None
@@ -41,4 +43,11 @@ class RepositoryProvider:
             cls.bandas_estandar_repository = BandasEstandarRepository()
 
         return cls.bandas_estandar_repository
+
+    @classmethod
+    def provide_medicion_repository(cls):
+        if cls.medicion_repository is None:
+            cls.medicion_repository = MedicionRepository()
+
+        return cls.medicion_repository
 

@@ -12,3 +12,9 @@ class VistaDetalladaController:
         mensaje_activar_boton = Mensaje("ActivarBotonVistaDetallada")
         self.vista_detallada_subject.on_next(mensaje_activar_boton)
         self.view.root.destroy()
+
+    def on_calcular(self):
+        pass
+
+    def on_mostrar_instrucciones(self):
+        pass

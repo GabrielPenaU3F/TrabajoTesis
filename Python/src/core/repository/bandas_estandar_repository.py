@@ -7,13 +7,13 @@ from src.exception.excepciones import FiltroException
 class BandasEstandarRepository:
 
     def __init__(self):
-        frecuencias_centrales_octavas = [31.5, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
-        frecuencias_centrales_tercios_octavas = [20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200,
+        self.frecuencias_centrales_octavas = [31.5, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
+        self.frecuencias_centrales_tercios_octavas = [20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200,
                                                  250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000,
                                                  2500, 3150, 4000, 5000, 6300, 8000, 10000, 12500, 16000,
                                                  20000]
-        self.bandas_octava = self.construir_bandas_octava(frecuencias_centrales_octavas)
-        self.bandas_tercio_octava = self.construir_bandas_tercio_octava(frecuencias_centrales_tercios_octavas)
+        self.bandas_octava = self.construir_bandas_octava(self.frecuencias_centrales_octavas)
+        self.bandas_tercio_octava = self.construir_bandas_tercio_octava(self.frecuencias_centrales_tercios_octavas)
 
 
 
@@ -29,6 +29,12 @@ class BandasEstandarRepository:
             return self.bandas_tercio_octava.get(f_central)
         else:
             raise FiltroException("La banda de tercio de octava centrada en dicha frecuencia no es estándar")
+
+    def get_frecuencias_centrales_octavas(self):
+        return self.frecuencias_centrales_octavas
+
+    def get_frecuencias_centrales_tercios_octavas(self):
+        return self.frecuencias_centrales_tercios_octavas
 
     def construir_bandas_octava(self, frecuencias_centrales_octavas):
         bandas_octava = {}
