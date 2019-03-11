@@ -1,6 +1,5 @@
 from src.core.repository.bandas_estandar_repository import BandasEstandarRepository
 from src.core.repository.medicion_repository import MedicionRepository
-from src.core.repository.procesador_mensajes_repository import ProcesadorMensajesRepository
 from src.core.repository.queue_repository import QueueRepository
 from src.core.repository.string_repository import StringRepository
 
@@ -28,14 +27,6 @@ class RepositoryProvider:
             cls.queue_repository = QueueRepository()
 
         return cls.queue_repository
-
-    @classmethod
-    def provide_procesador_mensajes_repository(cls):
-
-        if cls.procesador_mensajes_repository is None:
-            cls.procesador_mensajes_repository = ProcesadorMensajesRepository()
-
-        return cls.procesador_mensajes_repository
 
     @classmethod
     def provide_bandas_estandar_repository(cls):

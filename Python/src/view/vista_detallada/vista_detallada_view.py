@@ -10,9 +10,9 @@ class VistaDetalladaView:
 
     def __init__(self):
 
-        self.definir_estilos_ttk()
-
         self.controller = VistaDetalladaController(self)
+
+        self.definir_estilos_ttk()
 
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
 
