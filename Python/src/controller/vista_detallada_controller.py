@@ -2,7 +2,7 @@ from src.core.provider.procesador_mensajes_provider import ProcesadorMensajesPro
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
-from src.view.instrucciones_vista_detallada_view import InstruccionesVistaDetalladaView
+from src.view.vista_detallada.instrucciones_vista_detallada_view import InstruccionesVistaDetalladaView
 
 
 class VistaDetalladaController:
@@ -14,6 +14,8 @@ class VistaDetalladaController:
         self.pantalla_instrucciones_vista_detallada_subject = SubjectProvider.\
             provide_pantalla_instrucciones_vista_detallada_subject()
         self.pantalla_instrucciones_vista_detallada_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
+        self.medicion_repository = RepositoryProvider.provide_medicion_repository()
+
 
     def on_cerrar_ventana(self):
         mensaje_activar_boton = Mensaje("ActivarBotonVistaDetallada")
@@ -22,7 +24,8 @@ class VistaDetalladaController:
         self.view.root.destroy()
 
     def on_calcular(self):
-        pass
+        medicion = self.medicion_repository.get_medicion()
+        banda = self.view.get_banda_seleccionada()
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()

@@ -9,12 +9,11 @@ from src.core.provider.repository_provider import RepositoryProvider
 
 class Tab(ABC):
 
-    def __init__(self, view, tab_control):
+    def __init__(self, nombre, view, tab_control):
+        self.nombre = nombre
         self.view = view
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
-        self.tab = Frame(tab_control)
-        tab_control.add(self.tab, text=self.titulo_tab)
-
+        self.tab = tab_control.agregar_tab(self.nombre, self, self.titulo_tab)
         self.construir_tab()
         
     @abstractmethod

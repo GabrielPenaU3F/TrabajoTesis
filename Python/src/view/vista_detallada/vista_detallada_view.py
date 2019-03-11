@@ -2,6 +2,7 @@ from tkinter import Toplevel, Frame, ttk, Button
 
 from src.controller.vista_detallada_controller import VistaDetalladaController
 from src.core.provider.repository_provider import RepositoryProvider
+from src.view.vista_detallada.tab_control import TabControl
 from src.view.vista_detallada.tab_octava import TabOctava
 from src.view.vista_detallada.tab_tercio_octava import TabTercioOctava
 
@@ -13,8 +14,6 @@ class VistaDetalladaView:
         self.controller = VistaDetalladaController(self)
 
         self.definir_estilos_ttk()
-
-        self.medicion_repository = RepositoryProvider.provide_medicion_repository()
 
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
 
@@ -51,10 +50,9 @@ class VistaDetalladaView:
 
     def construir_tabs(self):
 
-        tab_control = ttk.Notebook(self.main_frame)
-        self.tab_octava = TabOctava(self, tab_control)
-        self.tab_tercio_octava = TabTercioOctava(self, tab_control)
-        tab_control.grid(row=0, column=0, columnspan=2)
+        self.tab_control = TabControl(self.main_frame)
+        self.tab_octava = TabOctava('octava', self, self.tab_control)
+        self.tab_tercio_octava = TabTercioOctava('tercio_octava', self, self.tab_control)
 
     def on_calcular(self):
         self.controller.on_calcular()
@@ -69,7 +67,7 @@ class VistaDetalladaView:
         self.boton_instrucciones.config(command=self.controller.on_mostrar_instrucciones)
 
     def graficar(self):
-        medicion = self.medicion_repository.get_medicion()
+        pass
 
     def definir_estilos_ttk(self):
 
@@ -105,6 +103,10 @@ class VistaDetalladaView:
         self.boton_salir = Button(self.main_frame)
         self.boton_salir.config(text="Salir", command=self.controller.on_cerrar_ventana, bg="#5e0606")
         self.boton_salir.grid(row=1, column=1, sticky="se", pady=(20, 0))
+
+    def get_banda_seleccionada(self):
+        pass
+
 
 
 
