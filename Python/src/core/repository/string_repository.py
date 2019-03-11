@@ -26,20 +26,27 @@ class StringRepository:
                                     "de frecuencia, tanto de octava como de tercio de octava, en la " \
                                     "Vista Detallada."
 
-
-        self.string_parametros_linealidad = "PARÁMETROS DE LINEALIDAD:\n" \
-                                            "Los tres valores adicionales son parámetros representativos " \
-                                            "del carácter lineal de la curva de decaimiento, definidos " \
-                                            "en la norma ISO 3382-2.\n" \
-                                            "El valor r es el coeficiente de correlación lineal. Si " \
-                                            "difiere mucho de -1, la medición no se considera buena.\n" \
-                                            "El valor ξ es el parámetro de no-linealidad de la curva. " \
-                                            "Indica cuanto se aleja la curva, en pormilaje, " \
-                                            "de la linealidad perfecta. Se consideran buenos valores " \
-                                            "de 0 a 5‰.\n" \
-                                            "El valor C es el parámetro de curvatura. Mide, en porcentaje, " \
-                                            "cuan diferentes son los tiempos T20 y T30. Valores típicos son " \
-                                            "de 0 a 5%.\n" \
+        self.string_instrucciones_vista_detallada = "BANDAS DE FRECUENCIA:\n" \
+                                                    "Pueden visualizarse los resultados de la medición por bandas " \
+                                                    "de octava y de tercio de octava, siendo estas las normalizadas " \
+                                                    "por el estándar \n ISO 3-1973.\n\n" \
+                                                    "PONDERACIÓN A:\n" \
+                                                    "También se pueden visualizar los resultados con y sin la" \
+                                                    "aplicación de la ponderación A, definida según el estándar " \
+                                                    "IEC 61672.\n\n" \
+                                                    "PARÁMETROS DE LINEALIDAD:\n" \
+                                                    "Los tres valores adicionales son parámetros representativos " \
+                                                    "del carácter lineal de la curva de decaimiento, definidos " \
+                                                    "en la norma ISO 3382-2.\n" \
+                                                    "El valor r es el coeficiente de correlación lineal. Si " \
+                                                    "difiere mucho de -1, la medición no se considera buena.\n" \
+                                                    "El valor ξ es el parámetro de no-linealidad de la curva. " \
+                                                    "Indica cuanto se aleja la curva, en pormilaje, " \
+                                                    "de la linealidad perfecta. Se consideran buenos valores " \
+                                                    "de 0 a 5‰.\n" \
+                                                    "El valor C es el parámetro de curvatura. Mide, en porcentaje, " \
+                                                    "cuan diferentes son los tiempos T20 y T30. Valores típicos son " \
+                                                    "de 0 a 5%.\n" \
 
         self.string_error_lundeby = "Lo sentimos, se ha producido un error\n" \
                                     " durante la estimación de la curva de\n" \
@@ -52,3 +59,6 @@ class StringRepository:
 
     def get_mensaje_error_lundeby(self):
         return self.string_error_lundeby
+
+    def get_string_instrucciones_vista_detallada(self):
+        return self.string_instrucciones_vista_detallada

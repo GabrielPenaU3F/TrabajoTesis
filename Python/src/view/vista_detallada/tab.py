@@ -83,8 +83,6 @@ class Tab(ABC):
 
         self.construir_frame_linealidad()
 
-        self.construir_boton_instrucciones()
-
     def construir_seleccion_banda(self):
 
         self.frame_titulo_bandas = Label(self.frame_medicion)
@@ -186,9 +184,3 @@ class Tab(ABC):
         self.label_res_curvatura.config(relief="sunken", borderwidth=2, bg="#becbff", width=10,
                                                textvariable=self.curvatura_var, fg='black')
         self.label_res_curvatura.grid(row=2, column=1, padx=(10, 0), pady=(0, 5))
-
-    def construir_boton_instrucciones(self):
-        self.boton_instrucciones = Button(self.frame_medicion)
-        self.boton_instrucciones.config(text="Instrucciones", command=self.view.on_mostrar_instrucciones, bg="#5e0606",
-                                        width=20)
-        self.boton_instrucciones.grid(row=8, column=0, sticky="s", pady=(30, 0))

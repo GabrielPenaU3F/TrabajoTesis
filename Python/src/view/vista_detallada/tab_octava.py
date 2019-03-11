@@ -12,3 +12,4 @@ class TabOctava(Tab):
         return self.bandas_estandar_repository.get_frecuencias_centrales_octavas()
 
 
+

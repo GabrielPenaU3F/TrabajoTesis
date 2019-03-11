@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Frame, ttk
+from tkinter import Toplevel, Frame, ttk, Button
 
 from src.controller.vista_detallada_controller import VistaDetalladaController
 from src.core.provider.repository_provider import RepositoryProvider
@@ -23,6 +23,8 @@ class VistaDetalladaView:
         self.main_frame = self.construir_main_frame()
 
         self.construir_tabs()
+
+        self.construir_botones()
 
         self.graficar()
 
@@ -52,7 +54,7 @@ class VistaDetalladaView:
         tab_control = ttk.Notebook(self.main_frame)
         self.tab_octava = TabOctava(self, tab_control)
         self.tab_tercio_octava = TabTercioOctava(self, tab_control)
-        tab_control.pack()
+        tab_control.grid(row=0, column=0, columnspan=2)
 
     def on_calcular(self):
         self.controller.on_calcular()
@@ -60,7 +62,11 @@ class VistaDetalladaView:
     def on_mostrar_instrucciones(self):
         self.controller.on_mostrar_instrucciones()
 
+    def desactivar_boton_instrucciones(self):
+        self.boton_instrucciones.config(command="")
 
+    def activar_boton_instrucciones(self):
+        self.boton_instrucciones.config(command=self.controller.on_mostrar_instrucciones)
 
     def graficar(self):
         medicion = self.medicion_repository.get_medicion()
@@ -88,6 +94,17 @@ class VistaDetalladaView:
                 style_tabs.theme_create("medidor_acustico", parent="alt", settings=settings)
 
             style_tabs.theme_use("medidor_acustico")
+
+    def construir_botones(self):
+
+        self.boton_instrucciones = Button(self.main_frame)
+        self.boton_instrucciones.config(text="Instrucciones", command=self.controller.on_mostrar_instrucciones,
+                                        bg="#5e0606")
+        self.boton_instrucciones.grid(row=1, column=0, sticky="sw", pady=(20, 0))
+
+        self.boton_salir = Button(self.main_frame)
+        self.boton_salir.config(text="Salir", command=self.controller.on_cerrar_ventana, bg="#5e0606")
+        self.boton_salir.grid(row=1, column=1, sticky="se", pady=(20, 0))
 
 
 
