@@ -2,7 +2,7 @@ import threading
 
 from src.core.domain.medicion import Medicion
 from src.core.provider.action_provider import ActionProvider
-from src.core.provider.repository_provider import RepositoryProvider
+from src.core.provider.queue_provider import QueueProvider
 from src.exception.excepciones import LundebyException
 from src.messages.mensaje import Mensaje
 
@@ -10,7 +10,7 @@ from src.messages.mensaje import Mensaje
 class MedidorAcustico:
 
     def __init__(self):
-        self.thread_queue = RepositoryProvider.provide_queue_repository().get_queue_general()
+        self.thread_queue = QueueProvider.provide_queue_general()
         self.medir_respuesta_impulsional_action = ActionProvider.provide_medir_respuesta_impulsional_action()
         self.obtener_curva_decaimiento_action = ActionProvider.provide_obtener_curva_de_decaimiento_action()
         self.calcular_rt_action = ActionProvider.provide_calcular_rt_action()

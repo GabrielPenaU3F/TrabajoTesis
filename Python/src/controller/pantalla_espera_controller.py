@@ -1,4 +1,4 @@
-from src.core.provider.repository_provider import RepositoryProvider
+from src.core.provider.procesador_mensajes_provider import ProcesadorMensajesProvider
 from src.core.provider.subject_provider import SubjectProvider
 
 
@@ -6,7 +6,7 @@ class PantallaEsperaController:
 
     def __init__(self, view):
         self.view = view
-        self.procesador_mensajes = RepositoryProvider.provide_procesador_mensajes_repository().get_procesador_mensajes()
+        self.procesador_mensajes = ProcesadorMensajesProvider.provide_procesador_mensajes()
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
         self.pantalla_espera_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
 

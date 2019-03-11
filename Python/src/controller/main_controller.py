@@ -4,6 +4,7 @@ from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
 from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
 from src.core.provider.procesador_mensajes_provider import ProcesadorMensajesProvider
+from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
@@ -20,7 +21,7 @@ class MainController:
         self.pantalla_espera = None
         self.view = view
         self.medidor = MedidorAcustico()
-        self.thread_queue = RepositoryProvider.provide_queue_repository().get_queue_general()
+        self.thread_queue = QueueProvider.provide_queue_general()
         self.thread_medicion = threading.Thread()
         self.procesador_mensajes = ProcesadorMensajesProvider.provide_procesador_mensajes()
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
