@@ -28,7 +28,7 @@ class Filtro:
         banda = args[0]
         f_inferior = banda.get_frecuencia_inicial()
         f_superior = banda.get_frecuencia_final()
-        margen = 0.5  # Parámetro ajustable, en Hz
+        margen = self.determinar_margen(f_superior)
         frec_nyquist = self.fs / 2
         margen_norm = margen / frec_nyquist
         f_inferior_norm = f_inferior / frec_nyquist
@@ -45,7 +45,8 @@ class Filtro:
         orden = caract_filtro[0]  # Mínimo orden de filtro necesario
         wnat = caract_filtro[1]  # Frecuencia natural Chebyshev del filtro
 
-        return signal.cheby2(orden + 1, 60, wnat, btype='bandpass', output=self.representacion_output)
+        filtro = signal.cheby2(orden + 1, 60, wnat, btype='bandpass', output=self.representacion_output)
+        return filtro
 
     def construir_filtro_A(self, args):
         zeros = [0, 0, 0, 0]
@@ -74,3 +75,24 @@ class Filtro:
             get_respuesta_frecuencial(cantidad_muestras, filtro)
         db = 20 * numpy.log10(numpy.abs(h))
         return w, db
+
+    '''
+        El márgen indica la longitud en hertz que hay entre las frecuenicas stop y pass.
+        A bajas frecuencias, utilizar un margen pequeño no supone problemas; sin embargo,
+        a medida que la frecuencia crece, es necesario tomar un margen mayor o de lo contrario
+        el filtro se vuelve irrealizable en la práctica (en algunas de las pruebas, los cálculos
+        involucraron valores de exponente 40000 que Python no es capaz de representar). Por esto,
+        se implementa esta función que determina el márgen adecuado para los cálculos en
+        base a las restricciones conocidas, a saber:
+            - Para frecuencias de 1122 (octava de 1000Hz) o menores, un márgen de 0.5Hz es aceptable
+            - Para frecuencias altas no cercanas la límite basta con un márgen de 10Hz
+            - Para la frecuencia superior más alta posible, 22627Hz, se requiere como mínimo un márgen
+             de 25Hz
+    '''
+    def determinar_margen(self, f_superior):
+        if f_superior <= 1122:
+            return 0.5
+        elif 1122 < f_superior <= 11314:
+            return 10
+        else:
+            return 25

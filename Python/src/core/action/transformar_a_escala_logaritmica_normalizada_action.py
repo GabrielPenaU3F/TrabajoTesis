@@ -1,5 +1,3 @@
-import traceback
-
 import numpy
 
 from src.core.domain.senal_audio import SenalAudio
@@ -8,8 +6,7 @@ from src.core.domain.senal_audio import SenalAudio
 class TransformarAEscalaLogaritmicaNormalizadaAction:
 
     def execute(self, senal):
-        # TODO: verificar que ocurre si se pasa a dB una señal con ceros
-        valores_senal = senal.get_valores()
+        valores_senal = list(numpy.abs(senal.get_valores()))
         valor_max = max(valores_senal)
         valores_norm = [valores_senal[i] / valor_max for i in range(len(valores_senal))]
         valores_db = 20 * numpy.real(numpy.log10(valores_norm))
