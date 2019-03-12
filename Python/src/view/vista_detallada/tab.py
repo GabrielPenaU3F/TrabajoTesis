@@ -207,8 +207,11 @@ class Tab(ABC):
         dominio_temporal_cd = curva_decaimiento.get_dominio_temporal()
         valores_cd = curva_decaimiento.get_valores()
         self.limpiar_ejes(self.sistema_ejes)
-        self.sistema_ejes.plot(dominio_temporal_ri, valores_ri, color='#0000ff', linewidth=0.1)
-        self.sistema_ejes.plot(dominio_temporal_cd, valores_cd, color="#ff0000", linewidth=1)
+        self.sistema_ejes.plot(dominio_temporal_ri, valores_ri, color='#0000ff', linewidth=0.5,
+                               label='Nivel respuesta impulsional')
+        self.sistema_ejes.plot(dominio_temporal_cd, valores_cd, color="#ff0000", linewidth=1,
+                               label='Curva de decaimiento')
+        self.sistema_ejes.legend()
         self.canvas.draw()
 
     def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):

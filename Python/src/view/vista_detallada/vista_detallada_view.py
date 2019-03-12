@@ -27,7 +27,7 @@ class VistaDetalladaView:
 
         self.graficar_medicion_general()
 
-        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
+        self.root.after(10, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
         self.refrescar()
 
@@ -133,9 +133,8 @@ class VistaDetalladaView:
         messagebox.showerror("Error", mensaje)
 
     def graficar_medicion_general(self):
-        tab_activa = self.get_tab_activa()
         medicion_general = self.controller.get_medicion_nivel_db()
-        tab_activa.graficar(medicion_general.get_respuesta_impulsional(), medicion_general.get_curva_decaimiento())
+        self.tab_control.graficar(medicion_general.get_respuesta_impulsional(), medicion_general.get_curva_decaimiento())
 
 
 

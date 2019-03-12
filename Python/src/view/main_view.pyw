@@ -104,7 +104,7 @@ class MainView:
 
         self.boton_vista_detallada = Button(self.frame_boton_derecha)
         self.boton_vista_detallada.config(text="Vista detallada", bg="#5e0606",
-                                          command=self.controller.on_abrir_vista_detallada)
+                                          command=self.controller.on_abrir_vista_detallada, state=DISABLED)
         self.boton_vista_detallada.pack(padx=(10, 0))
 
     def construir_frame_graficas(self):
