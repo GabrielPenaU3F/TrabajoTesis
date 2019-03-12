@@ -116,7 +116,6 @@ class FiltrosOctavaYTercioOctavaTest(unittest.TestCase):
 
             self.assertEqual(0, nans)
 
-
         def test_que_un_filtro_de_octava_en_alta_frecuencia_no_arroje_nan(self):
             fs = 48000
             ruido_blanco = GeneradorRuido().generar_ruido_blanco(fs, 6, 0, 1)

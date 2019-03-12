@@ -27,3 +27,6 @@ class TabControl:
     def activar(self):
         for tab in self.tabs.values():
             tab.activar()
+
+    def verificar_ponderacion_A(self):
+        return self.get_tab_activa().verificar_ponderacion_A()

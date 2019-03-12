@@ -42,10 +42,11 @@ class VistaDetalladaController:
 
     def on_calcular(self):
         self.bloquear_controles()
+        ponderacion_A = self.view.verificar_ponderacion_A()
         tab_activa = self.view.get_tab_activa()
         medicion = self.medicion_repository.get_medicion()
         f_central = tab_activa.get_frecuencia_central_banda_seleccionada()
-        self.calculos_por_tipo_de_banda.get(tab_activa.get_tipo())(medicion, f_central)
+        self.calculos_por_tipo_de_banda.get(tab_activa.get_tipo())(medicion, f_central, ponderacion_A=ponderacion_A)
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()

@@ -19,6 +19,7 @@ class MedidorAcustico:
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
         self.aplicar_filtro_octava_action = ActionProvider.provide_aplicar_filtro_octava_action()
         self.aplicar_filtro_tercio_octava_action = ActionProvider.provide_aplicar_filtro_tercio_de_octava_action()
+        self.aplicar_ponderacion_A_action = ActionProvider.provide_aplicar_filtro_A_action()
 
     def medir(self, metodo):
 
@@ -61,12 +62,18 @@ class MedidorAcustico:
         thread_calculo = threading.Thread(target=self.efectuar_calculo, args=(respuesta_impulsional, fs))
         thread_calculo.start()
 
-    def obtener_medicion_en_octava(self, medicion, f_central):
+    def obtener_medicion_en_octava(self, medicion, f_central, ponderacion_A):
+        ri = medicion.get_respuesta_impulsional()
+        if ponderacion_A:
+            ri = self.aplicar_ponderacion_A_action.execute(ri)
         respuesta_impulsional_filtrada = self.aplicar_filtro_octava_action.execute(
-            medicion.get_respuesta_impulsional(), f_central)
+            ri, f_central)
         self.calcular_parametros_acusticos(respuesta_impulsional_filtrada, respuesta_impulsional_filtrada.get_fs())
 
-    def obtener_medicion_en_tercio_octava(self, medicion, f_central):
+    def obtener_medicion_en_tercio_octava(self, medicion, f_central, ponderacion_A):
+        ri = medicion.get_respuesta_impulsional()
+        if ponderacion_A:
+            ri = self.aplicar_ponderacion_A_action.execute(ri)
         respuesta_impulsional_filtrada = self.aplicar_filtro_tercio_octava_action.execute(
-            medicion.get_respuesta_impulsional(), f_central)
+            ri, f_central)
         self.calcular_parametros_acusticos(respuesta_impulsional_filtrada, respuesta_impulsional_filtrada.get_fs())

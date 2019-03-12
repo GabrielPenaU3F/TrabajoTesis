@@ -126,6 +126,9 @@ class VistaDetalladaView:
         self.boton_salir.config(state=NORMAL)
         self.tab_control.activar()
 
+    def verificar_ponderacion_A(self):
+        return self.tab_control.verificar_ponderacion_A()
+
     def mostrar_error_lundeby(self, mensaje):
         messagebox.showerror("Error", mensaje)
 

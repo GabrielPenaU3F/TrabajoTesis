@@ -98,10 +98,10 @@ class Tab(ABC):
         self.combobox_banda.config(relief="groove", borderwidth=0, bg="#5893d4", activebackground="#0060ca")
         self.combobox_banda['menu'].config(bg="#5893d4", activebackground="#0060ca")
         self.combobox_banda.pack(expand="True", fill="both")
-        self.checked = BooleanVar(False)
-        self.ponderacion_a = Checkbutton(self.frame_medicion)
-        self.ponderacion_a.config(text="Ponderación A", variable=self.checked, selectcolor="#5e0606")
-        self.ponderacion_a.grid(row=2, column=0, pady=(10, 0), padx=10, sticky="w")
+        self.ponderacion_A_checked = BooleanVar(False)
+        self.checkbutton_ponderacion_A = Checkbutton(self.frame_medicion)
+        self.checkbutton_ponderacion_A.config(text="Ponderación A", variable=self.ponderacion_A_checked, selectcolor="#5e0606")
+        self.checkbutton_ponderacion_A.grid(row=2, column=0, pady=(10, 0), padx=10, sticky="w")
         self.boton_calcular = Button(self.frame_medicion)
         self.boton_calcular.config(text="Calcular", command=self.view.on_calcular, bg="#5e0606", width=20)
         self.boton_calcular.grid(row=3, column=0, pady=(20, 10))
@@ -188,14 +188,17 @@ class Tab(ABC):
     def get_tipo(self):
         return self.tipo
 
+    def verificar_ponderacion_A(self):
+        return self.ponderacion_A_checked.get()
+
     def desactivar(self):
         self.combobox_banda.config(state=DISABLED)
-        self.ponderacion_a.config(state=DISABLED)
+        self.checkbutton_ponderacion_A.config(state=DISABLED)
         self.boton_calcular.config(state=DISABLED)
 
     def activar(self):
         self.combobox_banda.config(state=NORMAL)
-        self.ponderacion_a.config(state=DISABLED)
+        self.checkbutton_ponderacion_A.config(state=NORMAL)
         self.boton_calcular.config(state=NORMAL)
 
     def graficar(self, nivel_respuesta_impulsional, curva_decaimiento):
