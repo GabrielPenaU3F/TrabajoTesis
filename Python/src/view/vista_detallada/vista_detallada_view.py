@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Frame, ttk, Button
+from tkinter import Toplevel, Frame, ttk, Button, DISABLED, NORMAL, messagebox
 
 from src.controller.vista_detallada_controller import VistaDetalladaController
 from src.core.provider.repository_provider import RepositoryProvider
@@ -25,9 +25,11 @@ class VistaDetalladaView:
 
         self.construir_botones()
 
-        self.graficar()
+        self.graficar_medicion_general()
 
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
+
+        self.refrescar()
 
         self.root.mainloop()
 
@@ -51,8 +53,8 @@ class VistaDetalladaView:
     def construir_tabs(self):
 
         self.tab_control = TabControl(self.main_frame)
-        self.tab_octava = TabOctava('octava', self, self.tab_control)
-        self.tab_tercio_octava = TabTercioOctava('tercio_octava', self, self.tab_control)
+        self.tab_octava = TabOctava(self, self.tab_control)
+        self.tab_tercio_octava = TabTercioOctava(self, self.tab_control)
 
     def on_calcular(self):
         self.controller.on_calcular()
@@ -66,8 +68,13 @@ class VistaDetalladaView:
     def activar_boton_instrucciones(self):
         self.boton_instrucciones.config(command=self.controller.on_mostrar_instrucciones)
 
-    def graficar(self):
-        pass
+    def graficar(self, nivel_respuesta_impulsional, curva_decaimiento):
+        tab_activa = self.get_tab_activa()
+        tab_activa.graficar(nivel_respuesta_impulsional, curva_decaimiento)
+
+    def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
+        tab_activa = self.get_tab_activa()
+        tab_activa.mostrar_tiempos_de_reverberacion(edt, t20, t30)
 
     def definir_estilos_ttk(self):
 
@@ -104,8 +111,28 @@ class VistaDetalladaView:
         self.boton_salir.config(text="Salir", command=self.controller.on_cerrar_ventana, bg="#5e0606")
         self.boton_salir.grid(row=1, column=1, sticky="se", pady=(20, 0))
 
-    def get_banda_seleccionada(self):
-        pass
+    def get_tab_activa(self):
+        return self.tab_control.get_tab_activa()
+
+    def refrescar(self):
+        self.controller.actualizar()
+        self.root.after(1000, self.refrescar)
+
+    def bloquear_controles(self):
+        self.boton_salir.config(state=DISABLED)
+        self.tab_control.desactivar()
+
+    def desbloquear_controles(self):
+        self.boton_salir.config(state=NORMAL)
+        self.tab_control.activar()
+
+    def mostrar_error_lundeby(self, mensaje):
+        messagebox.showerror("Error", mensaje)
+
+    def graficar_medicion_general(self):
+        tab_activa = self.get_tab_activa()
+        medicion_general = self.controller.get_medicion_nivel_db()
+        tab_activa.graficar(medicion_general.get_respuesta_impulsional(), medicion_general.get_curva_decaimiento())
 
 
 

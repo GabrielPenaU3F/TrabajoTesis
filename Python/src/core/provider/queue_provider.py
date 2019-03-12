@@ -3,12 +3,21 @@ import queue
 
 class QueueProvider:
 
-    queue_general = None
+    vista_detallada_queue = None
+    main_queue = None
 
     @classmethod
-    def provide_queue_general(cls):
+    def provide_main_queue(cls):
 
-        if cls.queue_general is None:
-            cls.queue_general = queue.Queue()
+        if cls.main_queue is None:
+            cls.main_queue = queue.Queue()
 
-        return cls.queue_general
+        return cls.main_queue
+
+    @classmethod
+    def provide_vista_detallada_queue(cls):
+
+        if cls.vista_detallada_queue is None:
+            cls.vista_detallada_queue = queue.Queue()
+
+        return cls.vista_detallada_queue

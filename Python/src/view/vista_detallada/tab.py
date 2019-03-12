@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from tkinter import Frame, Label, BOTTOM, BOTH, StringVar, OptionMenu, BooleanVar, Checkbutton, Button
+from tkinter import Frame, Label, BOTTOM, BOTH, StringVar, OptionMenu, BooleanVar, Checkbutton, Button, NORMAL, DISABLED
 from matplotlib.backends._backend_tk import NavigationToolbar2Tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -9,11 +9,10 @@ from src.core.provider.repository_provider import RepositoryProvider
 
 class Tab(ABC):
 
-    def __init__(self, nombre, view, tab_control):
-        self.nombre = nombre
+    def __init__(self, view, tab_control):
         self.view = view
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
-        self.tab = tab_control.agregar_tab(self.nombre, self, self.titulo_tab)
+        self.tab_frame = tab_control.agregar_tab(self, self.titulo_tab)
         self.construir_tab()
         
     @abstractmethod
@@ -26,7 +25,7 @@ class Tab(ABC):
         self.construir_frame_medicion()
 
     def construir_frame_titulo(self):
-        self.frame_titulo_grafica = Frame(self.tab)
+        self.frame_titulo_grafica = Frame(self.tab_frame)
         self.frame_titulo_grafica.config(width=400, height=20, borderwidth=2, relief="groove")
         self.frame_titulo_grafica.grid(row=0, column=0, sticky="nsew", padx=10, pady=(15, 0))
         self.label_titulo_grafica = Label(self.frame_titulo_grafica)
@@ -35,7 +34,7 @@ class Tab(ABC):
         self.label_titulo_grafica.pack(fill="both", expand="True")
 
     def construir_frame_grafica(self):
-        self.frame_grafica = Frame(self.tab)
+        self.frame_grafica = Frame(self.tab_frame)
         self.frame_grafica.config(width=400, height=250)
         self.frame_grafica.grid(row=1, column=0, padx=10, pady=10)
         self.label_grafica = Label(self.frame_grafica)
@@ -54,10 +53,10 @@ class Tab(ABC):
         self.sistema_ejes.set_facecolor("#dee1ec")
         self.sistema_ejes = self.limpiar_ejes(self.sistema_ejes)
 
-        self.canvas_octava = FigureCanvasTkAgg(self.figura, master=self.label_grafica)
-        self.canvas_octava.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
+        self.canvas = FigureCanvasTkAgg(self.figura, master=self.label_grafica)
+        self.canvas.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
 
-        toolbar = NavigationToolbar2Tk(self.canvas_octava, self.frame_toolbar)
+        toolbar = NavigationToolbar2Tk(self.canvas, self.frame_toolbar)
         toolbar.update()
 
     def limpiar_ejes(self, sistema_ejes):
@@ -69,7 +68,7 @@ class Tab(ABC):
         return sistema_ejes
 
     def construir_frame_medicion(self):
-        self.frame_medicion = Frame(self.tab)
+        self.frame_medicion = Frame(self.tab_frame)
         self.frame_medicion.grid(row=0, column=1, rowspan=2, sticky="n")
         self.construir_frame_bandas()
 
@@ -182,3 +181,35 @@ class Tab(ABC):
         self.label_res_curvatura.config(relief="sunken", borderwidth=2, bg="#becbff", width=10,
                                                textvariable=self.curvatura_var, fg='black')
         self.label_res_curvatura.grid(row=2, column=1, padx=(10, 0), pady=(0, 5))
+
+    def get_frecuencia_central_banda_seleccionada(self):
+        return float(self.banda_seleccionada.get())
+
+    def get_tipo(self):
+        return self.tipo
+
+    def desactivar(self):
+        self.combobox_banda.config(state=DISABLED)
+        self.ponderacion_a.config(state=DISABLED)
+        self.boton_calcular.config(state=DISABLED)
+
+    def activar(self):
+        self.combobox_banda.config(state=NORMAL)
+        self.ponderacion_a.config(state=DISABLED)
+        self.boton_calcular.config(state=NORMAL)
+
+    def graficar(self, nivel_respuesta_impulsional, curva_decaimiento):
+        dominio_temporal_ri = nivel_respuesta_impulsional.get_dominio_temporal()
+        valores_ri = nivel_respuesta_impulsional.get_valores()
+        dominio_temporal_cd = curva_decaimiento.get_dominio_temporal()
+        valores_cd = curva_decaimiento.get_valores()
+        self.limpiar_ejes(self.sistema_ejes)
+        self.sistema_ejes.plot(dominio_temporal_ri, valores_ri, color='#0000ff', linewidth=0.1)
+        self.sistema_ejes.plot(dominio_temporal_cd, valores_cd, color="#ff0000", linewidth=1)
+        self.canvas.draw()
+
+    def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
+        self.edt_var.set(round(edt, 4))
+        self.t20_var.set(round(t20, 4))
+        self.t30_var.set(round(t30, 4))
+

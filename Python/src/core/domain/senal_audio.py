@@ -99,8 +99,9 @@ class SenalAudio:
     '''
     def get_valor_en(self, t):
         muestra_correspondiente = math.floor(t * self.fs)
+        if muestra_correspondiente == self.longitud:
+            return self.contenido_temporal.get_muestra(muestra_correspondiente - 1)
         return self.contenido_temporal.get_muestra(muestra_correspondiente)
-
 
 
     '''

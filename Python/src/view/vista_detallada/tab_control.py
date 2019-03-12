@@ -1,4 +1,4 @@
-from tkinter import ttk, Frame
+from tkinter import ttk, Frame, DISABLED, NORMAL
 
 
 class TabControl:
@@ -7,11 +7,23 @@ class TabControl:
         self.master = master
         self.notebook = ttk.Notebook(master)
         self.notebook.grid(row=0, column=0, columnspan=2)
-        self.tabs = {}
+        self.tabs = {}  # Indice en el notebook / Objeto tab
 
-    def agregar_tab(self, nombre, tab, titulo_tab):
-        self.tabs[nombre] = tab
+    def agregar_tab(self, tab, titulo_tab):
         frame = Frame(self.master)
         self.notebook.add(frame, text=titulo_tab)
+        indice_tab = len(self.notebook.tabs()) - 1
+        self.tabs[indice_tab] = tab
         return frame
 
+    def get_tab_activa(self):
+        indice_tab_activa = self.notebook.index('current')
+        return self.tabs[indice_tab_activa]
+
+    def desactivar(self):
+        for tab in self.tabs.values():
+            tab.desactivar()
+
+    def activar(self):
+        for tab in self.tabs.values():
+            tab.activar()

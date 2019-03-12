@@ -1,5 +1,3 @@
-import threading
-
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
 from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
@@ -21,8 +19,7 @@ class MainController:
         self.pantalla_espera = None
         self.view = view
         self.medidor = MedidorAcustico()
-        self.thread_queue = QueueProvider.provide_queue_general()
-        self.thread_medicion = threading.Thread()
+        self.main_queue = QueueProvider.provide_main_queue()
         self.procesador_mensajes = ProcesadorMensajesProvider.provide_procesador_mensajes()
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
         self.pantalla_instrucciones_subject = SubjectProvider.provide_pantalla_instrucciones_subject()
@@ -65,8 +62,8 @@ class MainController:
             nombre_archivo = EscritorDeArchivosDeAudio().guardar_archivo()
 
     def actualizar(self):
-        if not self.thread_queue.empty():
-            mensaje = self.thread_queue.get()
+        if not self.main_queue.empty():
+            mensaje = self.main_queue.get()
             metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
             metodo_a_ejecutar(mensaje)
 
@@ -76,7 +73,7 @@ class MainController:
     def finalizar_medicion(self, mensaje):
         self.medicion_repository.put_medicion(mensaje.get_contenido())
         self.mostrar_medicion_en_vista()
-        self.thread_queue.task_done()
+        self.main_queue.task_done()
         self.restaurar_pantalla_principal()
 
     def restaurar_pantalla_principal(self):
@@ -86,7 +83,7 @@ class MainController:
 
     def mostrar_error_lundeby(self, mensaje):
         self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
-        self.thread_queue.task_done()
+        self.main_queue.task_done()
         self.restaurar_pantalla_principal()
 
     def bloquear_controles(self):

@@ -1,4 +1,8 @@
+from src.core.domain.medicion import Medicion
+from src.core.domain.medidor_acustico import MedidorAcustico
+from src.core.provider.action_provider import ActionProvider
 from src.core.provider.procesador_mensajes_provider import ProcesadorMensajesProvider
+from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
@@ -8,6 +12,7 @@ from src.view.vista_detallada.instrucciones_vista_detallada_view import Instrucc
 class VistaDetalladaController:
 
     def __init__(self, view):
+        self.string_repository = RepositoryProvider.provide_string_repository()
         self.view = view
         self.procesador_mensajes = ProcesadorMensajesProvider.provide_procesador_mensajes()
         self.vista_detallada_subject = SubjectProvider.provide_vista_detallada_subject()
@@ -15,7 +20,19 @@ class VistaDetalladaController:
             provide_pantalla_instrucciones_vista_detallada_subject()
         self.pantalla_instrucciones_vista_detallada_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
+        self.vista_detallada_queue = QueueProvider.provide_vista_detallada_queue()
+        self.medidor_acustico = MedidorAcustico()
+        self.transformar_a_db_action = ActionProvider.provide_transformar_a_escala_logaritmica_normalizada_action()
+        self.calculos_por_tipo_de_banda = {
+            'OCTAVA': self.medidor_acustico.obtener_medicion_en_octava,
+            'TERCIO_OCTAVA': self.medidor_acustico.obtener_medicion_en_tercio_octava
+        }
 
+    def actualizar(self):
+        if not self.vista_detallada_queue.empty():
+            mensaje = self.vista_detallada_queue.get()
+            metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
+            metodo_a_ejecutar(mensaje)
 
     def on_cerrar_ventana(self):
         mensaje_activar_boton = Mensaje("ActivarBotonVistaDetallada")
@@ -24,8 +41,11 @@ class VistaDetalladaController:
         self.view.root.destroy()
 
     def on_calcular(self):
+        self.bloquear_controles()
+        tab_activa = self.view.get_tab_activa()
         medicion = self.medicion_repository.get_medicion()
-        banda = self.view.get_banda_seleccionada()
+        f_central = tab_activa.get_frecuencia_central_banda_seleccionada()
+        self.calculos_por_tipo_de_banda.get(tab_activa.get_tipo())(medicion, f_central)
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()
@@ -40,3 +60,32 @@ class VistaDetalladaController:
     def procesar(self, mensaje):
         metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
         metodo_a_ejecutar()
+
+    def finalizar_calculo(self, mensaje):
+        medicion = mensaje.get_contenido()
+        self.mostrar_medicion_en_vista(medicion)
+        self.vista_detallada_queue.task_done()
+        self.desbloquear_controles()
+
+    def bloquear_controles(self):
+        self.view.bloquear_controles()
+
+    def desbloquear_controles(self):
+        self.view.desbloquear_controles()
+
+    def mostrar_medicion_en_vista(self, medicion):
+        respuesta_impulsional = medicion.get_respuesta_impulsional()
+        nivel_respuesta_impulsional = self.transformar_a_db_action.execute(respuesta_impulsional)
+        self.view.graficar(nivel_respuesta_impulsional, medicion.get_curva_decaimiento())
+        self.view.mostrar_tiempos_de_reverberacion(
+            medicion.get_edt(), medicion.get_t20(), medicion.get_t30())
+
+    def mostrar_error_lundeby(self, mensaje):
+        self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
+        self.vista_detallada_queue.task_done()
+        self.desbloquear_controles()
+
+    def get_medicion_nivel_db(self):
+        medicion = self.medicion_repository.get_medicion()
+        ri_db = self.transformar_a_db_action.execute(medicion.get_respuesta_impulsional())
+        return Medicion(ri_db, medicion.get_curva_decaimiento(), medicion.get_edt(), medicion.get_t20(), medicion.get_t30())

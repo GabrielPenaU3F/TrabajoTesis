@@ -47,6 +47,7 @@ class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
             nivel_inferior_estimacion = nivel_de_ruido_de_fondo + 10  # Parámetro ajustable
             curva_decaimiento = self.recortar_en_amplitud_action.execute(
                 senal_h_cuadrado_db, nivel_inferior_estimacion, 0)
+            # TODO: revisar posible division por cero
             recta_regresion = self.estadistica_service.efectuar_regresion_lineal(
                 curva_decaimiento.get_dominio_temporal(), curva_decaimiento.get_valores(), True)
 
