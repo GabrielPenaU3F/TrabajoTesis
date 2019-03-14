@@ -45,8 +45,9 @@ class StringRepository:
                                                     "de la linealidad perfecta. Se consideran buenos valores " \
                                                     "de 0 a 5‰.\n" \
                                                     "El valor C es el parámetro de curvatura. Mide, en porcentaje, " \
-                                                    "cuan diferentes son los tiempos T20 y T30. Valores típicos son " \
-                                                    "de 0 a 5%.\n" \
+                                                    "cuan diferentes son las estimaciones T20 y T30. Valores típicos" \
+                                                    " son de 0 a 5%. Valores superiores a 100% o negativos indican " \
+                                                    "estimaciones muy diferentes, es decir, mediciones no confiables.\n"
 
         self.string_error_lundeby = "Lo sentimos, se ha producido un error\n" \
                                     " durante la estimación de la curva de\n" \

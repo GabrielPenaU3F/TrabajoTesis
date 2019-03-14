@@ -1,3 +1,8 @@
+import math
+
+from src.core.domain.tiempo_reverberacion import TiempoReverberacion
+
+
 class RTService:
 
     def __init__(self):
@@ -15,19 +20,24 @@ class RTService:
 
     def calcular_edt(self, curva_decaimiento):
         segmento = self.recortar_service.recortar_intervalo_en_amplitud_hasta_violar_condicion(curva_decaimiento, -10, 0)
-        return self.calcular_tiempo_en_menos_60_db(segmento)
+        return self.calcular_parametros(segmento)
 
     def calcular_t20(self, curva_decaimiento):
         segmento = self.recortar_service.recortar_intervalo_en_amplitud_hasta_violar_condicion(curva_decaimiento, -25, -5)
-        return self.calcular_tiempo_en_menos_60_db(segmento)
+        return self.calcular_parametros(segmento)
 
     def calcular_t30(self, curva_decaimiento):
         segmento = self.recortar_service.recortar_intervalo_en_amplitud_hasta_violar_condicion(curva_decaimiento, -35, -5)
-        return self.calcular_tiempo_en_menos_60_db(segmento)
+        return self.calcular_parametros(segmento)
 
-    def calcular_tiempo_en_menos_60_db(self, segmento):
+    def calcular_parametros(self, segmento):
         recta_regresion = self.estadistica_service.efectuar_regresion_lineal(
             segmento.get_dominio_temporal(), segmento.get_valores())
-        return recta_regresion.get_preimagen(-60)
+        rt = recta_regresion.get_preimagen(-60)
+        coef_correlacion = self.estadistica_service.calcular_coeficiente_de_correlacion(
+            segmento, recta_regresion, tipo='iso')
+        xi = 1000 * (1 - math.pow(coef_correlacion, 2))
+        return TiempoReverberacion(rt, coef_correlacion, xi)
+
 
 

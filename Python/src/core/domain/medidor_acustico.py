@@ -20,6 +20,7 @@ class MedidorAcustico:
         self.aplicar_filtro_octava_action = ActionProvider.provide_aplicar_filtro_octava_action()
         self.aplicar_filtro_tercio_octava_action = ActionProvider.provide_aplicar_filtro_tercio_de_octava_action()
         self.aplicar_ponderacion_A_action = ActionProvider.provide_aplicar_filtro_A_action()
+        self.calcular_curvatura_action = ActionProvider.provide_calcular_curvatura_action()
 
     def medir(self, metodo):
 
@@ -56,7 +57,8 @@ class MedidorAcustico:
         edt = self.calcular_rt_action.execute(curva_decaimiento, rt='EDT')
         t20 = self.calcular_rt_action.execute(curva_decaimiento, rt='T20')
         t30 = self.calcular_rt_action.execute(curva_decaimiento, rt='T30')
-        return Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30)
+        curvatura = self.calcular_curvatura_action.execute(t20.get_rt(), t30.get_rt())
+        return Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30, curvatura)
 
     def calcular_parametros_acusticos(self, respuesta_impulsional, fs):
         thread_calculo = threading.Thread(target=self.efectuar_calculo, args=(respuesta_impulsional, fs))

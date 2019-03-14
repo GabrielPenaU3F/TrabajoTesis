@@ -27,6 +27,8 @@ class VistaDetalladaView:
 
         self.graficar_medicion_general()
 
+        self.mostrar_valores_generales()
+
         self.root.after(10, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
         self.refrescar()
@@ -75,6 +77,10 @@ class VistaDetalladaView:
     def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
         tab_activa = self.get_tab_activa()
         tab_activa.mostrar_tiempos_de_reverberacion(edt, t20, t30)
+
+    def mostrar_parametros_de_linealidad(self, edt, t20, t30, curvatura):
+        tab_activa = self.get_tab_activa()
+        tab_activa.mostrar_parametros_de_linealidad(edt, t20, t30, curvatura)
 
     def definir_estilos_ttk(self):
 
@@ -135,6 +141,13 @@ class VistaDetalladaView:
     def graficar_medicion_general(self):
         medicion_general = self.controller.get_medicion_nivel_db()
         self.tab_control.graficar(medicion_general.get_respuesta_impulsional(), medicion_general.get_curva_decaimiento())
+
+    def mostrar_valores_generales(self):
+        medicion_general = self.controller.get_medicion()
+        self.tab_control.mostrar_tiempos_de_reverberacion(
+            medicion_general.get_edt().get_rt(), medicion_general.get_t20().get_rt(), medicion_general.get_t30().get_rt())
+        self.tab_control.mostrar_parametros_de_linealidad(
+            medicion_general.get_edt(), medicion_general.get_t20(), medicion_general.get_t30(), medicion_general.get_curvatura())
 
 
 

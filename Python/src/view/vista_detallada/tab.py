@@ -272,4 +272,13 @@ class Tab(ABC):
         self.t20_var.set(round(t20, 4))
         self.t30_var.set(round(t30, 4))
 
+    def mostrar_parametros_de_linealidad(self, edt, t20, t30, curvatura):
+        self.r_edt_var.set(round(edt.get_coef_correlacion(), 4))
+        self.xi_edt_var.set(round(edt.get_xi(), 4))
+        self.r_t20_var.set(round(t20.get_coef_correlacion(), 4))
+        self.xi_t20_var.set(round(t20.get_xi(), 4))
+        self.r_t30_var.set(round(t30.get_coef_correlacion(), 4))
+        self.xi_t30_var.set(round(t30.get_xi(), 4))
+        self.curvatura_var.set(round(curvatura, 4))
+
 

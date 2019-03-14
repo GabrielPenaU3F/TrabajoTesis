@@ -9,7 +9,7 @@ class TiempoReverberacion:
         return self.rt
 
     def get_coef_correlacion(self):
-        return self.get_coef_correlacion()
+        return self.coef_correlacion
 
     def get_xi(self):
         return self.xi

@@ -15,3 +15,6 @@ class Recta:
 
     def get_preimagen(self, y):
         return (y - self.ordenada)/self.pendiente
+
+    def calcular_valores(self, dominio):
+        return [self.pendiente * x + self.ordenada for x in dominio]

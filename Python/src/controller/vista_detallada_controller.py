@@ -79,7 +79,9 @@ class VistaDetalladaController:
         nivel_respuesta_impulsional = self.transformar_a_db_action.execute(respuesta_impulsional)
         self.view.graficar(nivel_respuesta_impulsional, medicion.get_curva_decaimiento())
         self.view.mostrar_tiempos_de_reverberacion(
-            medicion.get_edt(), medicion.get_t20(), medicion.get_t30())
+            medicion.get_edt().get_rt(), medicion.get_t20().get_rt(), medicion.get_t30().get_rt())
+        self.view.mostrar_parametros_de_linealidad(
+            medicion.get_edt(), medicion.get_t20(), medicion.get_t30(), medicion.get_curvatura())
 
     def mostrar_error_lundeby(self, mensaje):
         self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
@@ -89,4 +91,8 @@ class VistaDetalladaController:
     def get_medicion_nivel_db(self):
         medicion = self.medicion_repository.get_medicion()
         ri_db = self.transformar_a_db_action.execute(medicion.get_respuesta_impulsional())
-        return Medicion(ri_db, medicion.get_curva_decaimiento(), medicion.get_edt(), medicion.get_t20(), medicion.get_t30())
+        return Medicion(ri_db, medicion.get_curva_decaimiento(), medicion.get_edt(), medicion.get_t20(),
+                        medicion.get_t30(), medicion.get_curvatura())
+
+    def get_medicion(self):
+        return self.medicion_repository.get_medicion()

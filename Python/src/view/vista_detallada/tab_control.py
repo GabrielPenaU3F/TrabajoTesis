@@ -34,3 +34,13 @@ class TabControl:
     def graficar(self, respuesta_impulsional, curva_decaimiento):
         for tab in self.tabs.values():
             tab.graficar(respuesta_impulsional, curva_decaimiento)
+
+    def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
+        for tab in self.tabs.values():
+            tab.mostrar_tiempos_de_reverberacion(edt, t20, t30)
+
+    def mostrar_parametros_de_linealidad(self, edt, t20, t30, curvatura):
+        for tab in self.tabs.values():
+            tab.mostrar_parametros_de_linealidad(edt, t20, t30, curvatura)
+
+

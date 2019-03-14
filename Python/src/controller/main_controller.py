@@ -50,7 +50,7 @@ class MainController:
             medicion.get_curva_decaimiento().get_valores())
 
         self.view.mostrar_tiempos_de_reverberacion(
-            medicion.get_edt(), medicion.get_t20(), medicion.get_t30())
+            medicion.get_edt().get_rt(), medicion.get_t20().get_rt(), medicion.get_t30().get_rt())
 
     # TODO: Terminar estos dos métodos. Falta definir el formato de los archivos
 

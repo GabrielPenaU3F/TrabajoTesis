@@ -2,6 +2,7 @@ from src.core.action.aplicar_filtro_A_action import AplicarFiltroAAction
 from src.core.action.aplicar_filtro_media_movil_action import AplicarFiltroMediaMovilAction
 from src.core.action.aplicar_filtro_octava_action import AplicarFiltroOctavaAction
 from src.core.action.aplicar_filtro_tercio_de_octava_action import AplicarFiltroTercioDeOctavaAction
+from src.core.action.calcular_curvatura_action import CalcularCurvaturaAction
 from src.core.action.calcular_energia_total_action import CalcularEnergiaTotalAction
 from src.core.action.calcular_raiz_cuadrada_de_senal_en_db_action import CalcularRaizCuadradaDeSenalEnDbAction
 from src.core.action.calcular_rt_action import CalcularRTAction
@@ -25,6 +26,7 @@ from src.core.action.transformar_fourier_action import TransformarFourierAction
 
 class ActionProvider:
 
+    calcular_curvatura_action = None
     aplicar_filtro_tercio_de_octava_action = None
     aplicar_filtro_octava_action = None
     aplicar_filtro_A_action = None
@@ -194,3 +196,10 @@ class ActionProvider:
             cls.aplicar_filtro_tercio_de_octava_action = AplicarFiltroTercioDeOctavaAction()
 
         return cls.aplicar_filtro_tercio_de_octava_action
+
+    @classmethod
+    def provide_calcular_curvatura_action(cls):
+        if cls.calcular_curvatura_action is None:
+            cls.calcular_curvatura_action = CalcularCurvaturaAction()
+
+        return cls.calcular_curvatura_action

@@ -1,11 +1,12 @@
 class Medicion:
 
-    def __init__(self, respuesta_impulsional, curva_decaimiento, edt, t20, t30):
+    def __init__(self, respuesta_impulsional, curva_decaimiento, edt, t20, t30, curvatura):
         self.respuesta_impulsional = respuesta_impulsional
         self.curva_decaimiento = curva_decaimiento
         self.edt = edt
         self.t20 = t20
         self.t30 = t30
+        self.curvatura = curvatura
 
     def get_respuesta_impulsional(self):
         return self.respuesta_impulsional
@@ -21,3 +22,6 @@ class Medicion:
 
     def get_t30(self):
         return self.t30
+
+    def get_curvatura(self):
+        return self.curvatura
