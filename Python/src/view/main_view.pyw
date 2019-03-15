@@ -32,6 +32,9 @@ class MainView:
 
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
+        self.redibujar = True
+        self.flag_redibujar_activado = ''
+
         self.refrescar()
 
         self.root.mainloop()
@@ -118,7 +121,7 @@ class MainView:
         self.frame_graf_rta_impulsional.pack_propagate(False)
         self.frame_graf_rta_impulsional.grid(row=0, column=0, pady=(10, 0), ipady=15)
         self.label_graf_respuesta_impulsional = Label(self.frame_graf_rta_impulsional)
-        self.label_graf_respuesta_impulsional.pack()
+        self.label_graf_respuesta_impulsional.pack(expand="True", fill="both")
         self.frame_toolbar_rta_impulsional = Frame(self.frame_graficas)
         self.frame_toolbar_rta_impulsional.config(width=600, height=40, borderwidth=2)
         self.frame_toolbar_rta_impulsional.pack_propagate(False)
@@ -131,7 +134,7 @@ class MainView:
         self.frame_graf_curva_decaimiento.pack_propagate(False)
         self.frame_graf_curva_decaimiento.grid(row=0, column=1, pady=(10, 0), ipady=15)
         self.label_graf_curva_decaimiento = Label(self.frame_graf_curva_decaimiento)
-        self.label_graf_curva_decaimiento.pack()
+        self.label_graf_curva_decaimiento.pack(expand="True", fill="both")
         self.frame_toolbar_curva_decaimiento = Frame(self.frame_graficas)
         self.frame_toolbar_curva_decaimiento.config(width=600, height=40, borderwidth=2)
         self.frame_toolbar_curva_decaimiento.pack_propagate(False)
@@ -223,6 +226,7 @@ class MainView:
         root.iconbitmap("../resources/icons/mic_icon.ico")
         root.tk_setPalette(background='#831212')
         root.resizable(False, False)
+        root.bind('<Configure>', self.on_arrastrar_ventana)
         root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
         return root
 
@@ -249,7 +253,10 @@ class MainView:
 
     def refrescar(self):
         self.controller.actualizar()
-        self.root.after(1000, self.refrescar)
+        self.root.update_idletasks()
+        if self.redibujar:
+            self.redibujar_canvas()
+        self.root.after(10, self.refrescar)
 
     def bloquear_controles(self):
         self.boton_cargar_archivo.config(state=DISABLED)
@@ -291,3 +298,30 @@ class MainView:
 
     def activar_boton_vista_detallada(self):
         self.boton_vista_detallada.config(command=self.controller.on_abrir_vista_detallada)
+
+    def destruir(self):
+        self.root.quit()
+        self.root.destroy()
+
+    def on_arrastrar_ventana(self, evento):
+        if evento.widget is self.root:
+            if self.flag_redibujar_activado != '':
+                self.root.after_cancel(self.flag_redibujar_activado)
+            self.bloquear_graficas()
+            self.redibujar = False
+            self.flag_redibujar_activado = self.root.after(400, self.activar_redibujar)
+
+    def bloquear_graficas(self):
+        self.label_graf_respuesta_impulsional.config(bg="#5893d4")
+        self.label_graf_curva_decaimiento.config(bg="#5893d4")
+
+    def activar_redibujar(self):
+        self.redibujar = True
+        self.flag_redibujar_activado = ''
+
+    def redibujar_canvas(self):
+        self.canvas_ri.draw()
+        self.canvas_cd.draw()
+
+
+

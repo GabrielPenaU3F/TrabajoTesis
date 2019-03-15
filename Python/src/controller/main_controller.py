@@ -118,6 +118,7 @@ class MainController:
         return self.medicion_repository.hay_medicion()
 
     def on_cerrar_ventana(self):
+        self.view.destruir()
         quit()
 
 
