@@ -32,8 +32,7 @@ class MainView:
 
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
-        self.redibujar = True
-        self.flag_redibujar_activado = ''
+        self.flag_redibujar = ''
 
         self.refrescar()
 
@@ -254,7 +253,7 @@ class MainView:
     def refrescar(self):
         self.controller.actualizar()
         self.root.update_idletasks()
-        if self.redibujar:
+        if self.flag_redibujar == '':
             self.redibujar_canvas()
         self.root.after(10, self.refrescar)
 
@@ -305,19 +304,17 @@ class MainView:
 
     def on_arrastrar_ventana(self, evento):
         if evento.widget is self.root:
-            if self.flag_redibujar_activado != '':
-                self.root.after_cancel(self.flag_redibujar_activado)
+            if self.flag_redibujar != '':
+                self.root.after_cancel(self.flag_redibujar)
             self.bloquear_graficas()
-            self.redibujar = False
-            self.flag_redibujar_activado = self.root.after(400, self.activar_redibujar)
+            self.flag_redibujar = self.root.after(400, self.activar_redibujar)
 
     def bloquear_graficas(self):
         self.label_graf_respuesta_impulsional.config(bg="#5893d4")
         self.label_graf_curva_decaimiento.config(bg="#5893d4")
 
     def activar_redibujar(self):
-        self.redibujar = True
-        self.flag_redibujar_activado = ''
+        self.flag_redibujar = ''
 
     def redibujar_canvas(self):
         self.canvas_ri.draw()
