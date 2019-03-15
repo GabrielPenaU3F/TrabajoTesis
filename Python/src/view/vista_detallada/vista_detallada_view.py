@@ -13,8 +13,6 @@ class VistaDetalladaView:
 
         self.controller = VistaDetalladaController(self)
 
-        self.definir_estilos_ttk()
-
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
 
         self.root = self.construir_root()
@@ -82,30 +80,6 @@ class VistaDetalladaView:
         tab_activa = self.get_tab_activa()
         tab_activa.mostrar_parametros_de_linealidad(edt, t20, t30, curvatura)
 
-    def definir_estilos_ttk(self):
-
-            style_tabs = ttk.Style()
-            if not style_tabs.theme_names().__contains__('medidor_acustico'):
-
-                settings = {"TNotebook.Tab": {"configure": {"padding": [5, 2],
-                                                            "background": "#fdd57e"
-                                                            },
-                                              "map": {"background": [("selected", "#bb3939"),
-                                                                     ("active", "#fdadc7"),
-                                                                     ("!disabled", "#5e0606")],
-                                                      "foreground": [("selected", "#ffffff"),
-                                                                     ("active", "#000000"),
-                                                                     ("!disabled", "#ffffff")]
-
-                                                      }
-                                              },
-                            "TNotebook": {"configure": {"background": "#831212"}
-                                          }
-                            }
-                style_tabs.theme_create("medidor_acustico", parent="alt", settings=settings)
-
-            style_tabs.theme_use("medidor_acustico")
-
     def construir_botones(self):
 
         self.boton_instrucciones = Button(self.main_frame)
@@ -148,6 +122,14 @@ class VistaDetalladaView:
             medicion_general.get_edt().get_rt(), medicion_general.get_t20().get_rt(), medicion_general.get_t30().get_rt())
         self.tab_control.mostrar_parametros_de_linealidad(
             medicion_general.get_edt(), medicion_general.get_t20(), medicion_general.get_t30(), medicion_general.get_curvatura())
+
+    def activar_progressbar(self):
+        tab_activa = self.get_tab_activa()
+        tab_activa.activar_progressbar()
+
+    def desactivar_progressbar(self):
+        tab_activa = self.get_tab_activa()
+        tab_activa.desactivar_progressbar()
 
 
 

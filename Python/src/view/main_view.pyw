@@ -1,11 +1,11 @@
 from tkinter import *
 from tkinter import messagebox
-
 from matplotlib import pyplot
-pyplot.style.use('seaborn')
+from src.estilista import Estilista
 from src.controller.main_controller import MainController
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
+pyplot.style.use('seaborn')
 
 
 class MainView:
@@ -15,6 +15,8 @@ class MainView:
         self.controller = MainController(self)
 
         self.root = self.construir_root()
+
+        Estilista().definir_estilos_ttk()
 
         self.main_frame = self.construir_main_frame()
 
@@ -221,6 +223,7 @@ class MainView:
         root.iconbitmap("../resources/icons/mic_icon.ico")
         root.tk_setPalette(background='#831212')
         root.resizable(False, False)
+        root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
         return root
 
     def graficar_respuesta_impulsional(self, dominio_temporal, respuesta_impulsional):
@@ -237,9 +240,9 @@ class MainView:
         messagebox.showerror("Error", mensaje)
 
     def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
-        self.edt_var.set(round(edt, 4))
-        self.t20_var.set(round(t20, 4))
-        self.t30_var.set(round(t30, 4))
+        self.edt_var.set(str(round(edt, 4)) + "seg")
+        self.t20_var.set(str(round(t20, 4)) + "seg")
+        self.t30_var.set(str(round(t30, 4)) + "seg")
 
     def after(self, tiempo, funcion):
         self.root.after(tiempo, funcion)

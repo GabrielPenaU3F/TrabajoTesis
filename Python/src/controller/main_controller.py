@@ -1,3 +1,5 @@
+import sys
+
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
 from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
@@ -114,6 +116,9 @@ class MainController:
 
     def hay_medicion(self):
         return self.medicion_repository.hay_medicion()
+
+    def on_cerrar_ventana(self):
+        quit()
 
 
 

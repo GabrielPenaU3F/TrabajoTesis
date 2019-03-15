@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from tkinter import Frame, Label, BOTTOM, BOTH, StringVar, OptionMenu, BooleanVar, Checkbutton, Button, NORMAL, DISABLED
+from tkinter.ttk import Progressbar
+
 from matplotlib.backends._backend_tk import NavigationToolbar2Tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -128,6 +130,8 @@ class Tab(ABC):
         self.construir_frame_t20()
         self.construir_frame_t30()
         self.construir_frame_curvatura()
+
+        self.construir_frame_progressbar()
 
     def construir_frame_edt(self):
 
@@ -268,17 +272,40 @@ class Tab(ABC):
         self.canvas.draw()
 
     def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
-        self.edt_var.set(round(edt, 4))
-        self.t20_var.set(round(t20, 4))
-        self.t30_var.set(round(t30, 4))
+        self.edt_var.set(str(round(edt, 4)) + "seg")
+        self.t20_var.set(str(round(t20, 4)) + "seg")
+        self.t30_var.set(str(round(t30, 4)) + "seg")
 
     def mostrar_parametros_de_linealidad(self, edt, t20, t30, curvatura):
         self.r_edt_var.set(round(edt.get_coef_correlacion(), 4))
-        self.xi_edt_var.set(round(edt.get_xi(), 4))
+        self.xi_edt_var.set(str(round(edt.get_xi(), 4)) + "‰")
         self.r_t20_var.set(round(t20.get_coef_correlacion(), 4))
-        self.xi_t20_var.set(round(t20.get_xi(), 4))
+        self.xi_t20_var.set(str(round(t20.get_xi(), 4)) + "‰")
         self.r_t30_var.set(round(t30.get_coef_correlacion(), 4))
-        self.xi_t30_var.set(round(t30.get_xi(), 4))
-        self.curvatura_var.set(round(curvatura, 4))
+        self.xi_t30_var.set(str(round(t30.get_xi(), 4)) + "‰")
+        self.curvatura_var.set(str(round(curvatura, 4)) + "%")
+
+    def construir_frame_progressbar(self):
+        self.pb_frame = Frame(self.frame_medicion)
+        self.pb_frame.config(padx=20, pady=20)
+
+        self.frame_calculando = Frame(self.pb_frame)
+        self.frame_calculando.grid(row=0, column=0, pady=10)
+        self.label_calculando = Label(self.frame_calculando)
+        self.label_calculando.config(text="Calculando")
+        self.label_calculando.pack(expand="True", fill="both")
+        self.progressbar = Progressbar(self.pb_frame)
+        self.progressbar.config(mode="indeterminate", length=250)
+        self.progressbar.grid(row=1, column=0, pady=10)
+
+
+    def activar_progressbar(self):
+        self.progressbar.start(10)
+        self.pb_frame.grid(row=5, column=0)
+
+    def desactivar_progressbar(self):
+        self.progressbar.stop()
+        self.pb_frame.grid_remove()
+
 
 

@@ -1,5 +1,4 @@
-import threading
-
+from threading import *
 from src.core.domain.medicion import Medicion
 from src.core.provider.action_provider import ActionProvider
 from src.core.provider.queue_provider import QueueProvider
@@ -24,8 +23,8 @@ class MedidorAcustico:
 
     def medir(self, metodo):
 
-        thread_medicion = threading.Thread(target=self.efectuar_medicion, args=(metodo,))
-        thread_medicion.start()
+        self.thread_medicion = Thread(target=self.efectuar_medicion, args=(metodo,), daemon=True)
+        self.thread_medicion.start()
 
     def efectuar_medicion(self, metodo):
 
@@ -61,8 +60,8 @@ class MedidorAcustico:
         return Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30, curvatura)
 
     def calcular_parametros_acusticos(self, respuesta_impulsional, fs):
-        thread_calculo = threading.Thread(target=self.efectuar_calculo, args=(respuesta_impulsional, fs))
-        thread_calculo.start()
+        self.thread_calculo = Thread(target=self.efectuar_calculo, args=(respuesta_impulsional, fs), daemon=True)
+        self.thread_calculo.start()
 
     def obtener_medicion_en_octava(self, medicion, f_central, ponderacion_A):
         ri = medicion.get_respuesta_impulsional()

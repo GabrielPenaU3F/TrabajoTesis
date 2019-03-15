@@ -1,5 +1,4 @@
-import tkinter
-from tkinter import Tk, Frame, Toplevel, Label, ttk
+from tkinter import Frame, Toplevel, Label
 from tkinter.ttk import Progressbar
 
 from src.controller.pantalla_espera_controller import PantallaEsperaController
@@ -45,11 +44,11 @@ class PantallaEsperaView:
         self.progressbar.pack()
         self.progressbar.start(10)
 
-
     def construir_main_frame(self):
         self.main_frame = Frame(self.root)
         self.main_frame.config()
         self.main_frame.pack(pady=10)
 
     def cerrar(self):
+        self.progressbar.destroy()
         self.root.destroy()

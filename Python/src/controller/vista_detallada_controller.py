@@ -42,6 +42,7 @@ class VistaDetalladaController:
 
     def on_calcular(self):
         self.bloquear_controles()
+        self.activar_progressbar()
         ponderacion_A = self.view.verificar_ponderacion_A()
         tab_activa = self.view.get_tab_activa()
         medicion = self.medicion_repository.get_medicion()
@@ -66,6 +67,7 @@ class VistaDetalladaController:
         medicion = mensaje.get_contenido()
         self.mostrar_medicion_en_vista(medicion)
         self.vista_detallada_queue.task_done()
+        self.desactivar_progressbar()
         self.desbloquear_controles()
 
     def bloquear_controles(self):
@@ -87,6 +89,7 @@ class VistaDetalladaController:
         self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
         self.vista_detallada_queue.task_done()
         self.desbloquear_controles()
+        self.desactivar_progressbar()
 
     def get_medicion_nivel_db(self):
         medicion = self.medicion_repository.get_medicion()
@@ -96,3 +99,9 @@ class VistaDetalladaController:
 
     def get_medicion(self):
         return self.medicion_repository.get_medicion()
+
+    def activar_progressbar(self):
+        self.view.activar_progressbar()
+
+    def desactivar_progressbar(self):
+        self.view.desactivar_progressbar()
