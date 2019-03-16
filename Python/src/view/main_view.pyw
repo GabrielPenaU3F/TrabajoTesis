@@ -17,8 +17,6 @@ class MainView:
 
         self.root = self.construir_root()
 
-        self.root_bindings = {}
-
         Estilista().definir_estilos_ttk()
 
         self.main_frame = self.construir_main_frame()
@@ -39,7 +37,7 @@ class MainView:
 
         self.flag_redibujar = ''
 
-        self.root.after(10, self.bindear_eventos)
+        self.root.after(10, self.bindear_eventos_root)
 
         self.refrescar()
 
@@ -262,8 +260,7 @@ class MainView:
         self.root.update_idletasks()
         if self.flag_redibujar == '' and self.solicitud_de_redibujo:
             self.redibujar_canvas()
-        if not self.root_bindings.__contains__("<Configure>"):
-            self.bindear_eventos()
+        self.controller.bindear_evento_root("ArrastrarVentana")
         self.root.after(100, self.refrescar)
 
     def bloquear_controles(self):
@@ -333,18 +330,14 @@ class MainView:
         self.canvas_cd.get_tk_widget().pack_forget()
         self.solicitud_de_redibujo = True
 
-    def bindear_eventos(self):
-        evento = '<Configure>'
-        if not self.root_bindings.__contains__(evento):
-            self.root_bindings[evento] = True
-            self.root.bind(evento, self.on_arrastrar_ventana)
+    def bindear_evento_root(self, binding):
+        metodo_a_bindear = getattr(self, binding.get_nombre_funcion_binding())
+        self.root.bind(binding.get_evento(), metodo_a_bindear)
 
-    def unbindear_eventos(self):
-        evento = '<Configure>'
-        if self.root_bindings.__contains__(evento):
-            self.root_bindings[evento] = False
-            self.root.unbind('<Configure>')
+    def unbindear_evento_root(self, binding):
+        self.root.unbind(binding.get_evento())
 
-
+    def bindear_eventos_root(self):
+        self.controller.bindear_eventos_root()
 
 

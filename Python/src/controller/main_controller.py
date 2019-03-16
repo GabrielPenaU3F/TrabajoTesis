@@ -18,6 +18,8 @@ class MainController:
     def __init__(self, view):
         self.string_repository = RepositoryProvider.provide_string_repository()
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
+        self.binding_eventos_repository = RepositoryProvider.provide_binding_eventos_repository()
+        self.root_bindings = {}
         self.pantalla_espera = None
         self.view = view
         self.medidor = MedidorAcustico()
@@ -74,12 +76,11 @@ class MainController:
         PantallaEsperaView()
 
     def finalizar_medicion(self, mensaje):
-        self.view.unbindear_eventos()
+        self.unbindear_evento_root("ArrastrarVentana")
         self.medicion_repository.put_medicion(mensaje.get_contenido())
         self.mostrar_medicion_en_vista()
         self.main_queue.task_done()
         self.restaurar_pantalla_principal()
-        self.view.bindear_eventos()
 
     def restaurar_pantalla_principal(self):
         mensaje_cerrar_pantalla_espera = Mensaje("CerrarPantallaEspera")
@@ -123,6 +124,23 @@ class MainController:
     def on_cerrar_ventana(self):
         self.view.destruir()
         quit()
+
+    def bindear_evento_root(self, clave_evento):
+        binding = self.binding_eventos_repository.get_binding(clave_evento)
+        if not self.root_bindings.__contains__(binding.get_evento()):
+            self.root_bindings[binding.get_evento()] = True
+            self.view.bindear_evento_root(binding)
+
+    def unbindear_evento_root(self, clave_evento):
+        binding = self.binding_eventos_repository.get_binding(clave_evento)
+        if self.root_bindings.__contains__(binding.get_evento()):
+            self.root_bindings[binding.get_evento()] = False
+            self.view.unbindear_evento_root(binding)
+
+    def bindear_eventos_root(self):
+        eventos = self.binding_eventos_repository.get_eventos()
+        for clave_evento in eventos:
+            self.bindear_evento_root(clave_evento)
 
 
 

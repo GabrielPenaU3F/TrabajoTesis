@@ -1,10 +1,12 @@
 from src.core.repository.bandas_estandar_repository import BandasEstandarRepository
+from src.core.repository.binding_eventos_repository import BindingEventosRepository
 from src.core.repository.medicion_repository import MedicionRepository
 from src.core.repository.string_repository import StringRepository
 
 
 class RepositoryProvider:
 
+    binding_eventos_repository = None
     medicion_repository = None
     string_repository = None
     bandas_estandar_repository = None
@@ -30,4 +32,11 @@ class RepositoryProvider:
             cls.medicion_repository = MedicionRepository()
 
         return cls.medicion_repository
+
+    @classmethod
+    def provide_binding_eventos_repository(cls):
+        if cls.binding_eventos_repository is None:
+            cls.binding_eventos_repository = BindingEventosRepository()
+
+        return cls.binding_eventos_repository
 
