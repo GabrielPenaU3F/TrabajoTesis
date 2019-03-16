@@ -5,7 +5,7 @@ class BindingEventosRepository:
 
     def __init__(self):
         self.bindings = {
-            "ArrastrarVentana": BindingEvento("<Configure>", "on_arrastrar_ventana")
+            "Configure": BindingEvento("<Configure>", "on_configure")
         }
 
     def get_binding(self, clave_binding):

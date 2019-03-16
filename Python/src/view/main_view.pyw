@@ -37,6 +37,9 @@ class MainView:
 
         self.flag_redibujar = ''
 
+        self.x_posicion_cursor = None
+        self.y_posicion_cursor = None
+
         self.root.after(10, self.bindear_eventos_root)
 
         self.refrescar()
@@ -260,7 +263,7 @@ class MainView:
         self.root.update_idletasks()
         if self.flag_redibujar == '' and self.solicitud_de_redibujo:
             self.redibujar_canvas()
-        self.controller.bindear_evento_root("ArrastrarVentana")
+        self.controller.bindear_evento_root("Configure")
         self.root.after(100, self.refrescar)
 
     def bloquear_controles(self):
@@ -308,6 +311,14 @@ class MainView:
         self.root.quit()
         self.root.destroy()
 
+    def on_configure(self, evento):
+        if self.x_posicion_cursor is None or self.y_posicion_cursor is None:
+            self.x_posicion_cursor = evento.x
+            self.y_posicion_cursor = evento.y
+
+        if self.ventana_movida(evento.x, evento.y):
+            self.on_arrastrar_ventana(evento)
+
     def on_arrastrar_ventana(self, evento):
         if evento.widget is self.root:
             self.ocultar_graficas()
@@ -339,5 +350,8 @@ class MainView:
 
     def bindear_eventos_root(self):
         self.controller.bindear_eventos_root()
+
+    def ventana_movida(self, x, y):
+        return self.x_posicion_cursor != x or self.y_posicion_cursor != y
 
 

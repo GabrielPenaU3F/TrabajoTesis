@@ -76,7 +76,7 @@ class MainController:
         PantallaEsperaView()
 
     def finalizar_medicion(self, mensaje):
-        self.unbindear_evento_root("ArrastrarVentana")
+        self.unbindear_evento_root("Configure")
         self.medicion_repository.put_medicion(mensaje.get_contenido())
         self.mostrar_medicion_en_vista()
         self.main_queue.task_done()

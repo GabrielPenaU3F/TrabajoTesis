@@ -66,7 +66,7 @@ class VistaDetalladaController:
         metodo_a_ejecutar()
 
     def finalizar_calculo(self, mensaje):
-        self.unbindear_evento_root("ArrastrarVentana")
+        self.unbindear_evento_root("Configure")
         medicion = mensaje.get_contenido()
         self.mostrar_medicion_en_vista(medicion)
         self.vista_detallada_queue.task_done()
