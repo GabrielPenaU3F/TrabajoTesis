@@ -43,4 +43,12 @@ class TabControl:
         for tab in self.tabs.values():
             tab.mostrar_parametros_de_linealidad(edt, t20, t30, curvatura)
 
+    def redibujar_canvas(self):
+        for tab in self.tabs.values():
+            tab.redibujar_canvas()
+
+    def ocultar_grafica(self):
+        for tab in self.tabs.values():
+            tab.ocultar_grafica()
+
 

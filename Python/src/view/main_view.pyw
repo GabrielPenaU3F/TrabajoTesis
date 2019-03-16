@@ -1,3 +1,4 @@
+import time
 from tkinter import *
 from tkinter import messagebox
 from matplotlib import pyplot
@@ -16,6 +17,8 @@ class MainView:
 
         self.root = self.construir_root()
 
+        self.root_bindings = {}
+
         Estilista().definir_estilos_ttk()
 
         self.main_frame = self.construir_main_frame()
@@ -32,12 +35,15 @@ class MainView:
 
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
+        self.solicitud_de_redibujo = False
+
         self.flag_redibujar = ''
+
+        self.root.after(10, self.bindear_eventos)
 
         self.refrescar()
 
         self.root.mainloop()
-
 
     def construir_frame_resultados(self):
 
@@ -120,6 +126,7 @@ class MainView:
         self.frame_graf_rta_impulsional.pack_propagate(False)
         self.frame_graf_rta_impulsional.grid(row=0, column=0, pady=(10, 0), ipady=15)
         self.label_graf_respuesta_impulsional = Label(self.frame_graf_rta_impulsional)
+        self.label_graf_respuesta_impulsional.config(bg="#5893d4")
         self.label_graf_respuesta_impulsional.pack(expand="True", fill="both")
         self.frame_toolbar_rta_impulsional = Frame(self.frame_graficas)
         self.frame_toolbar_rta_impulsional.config(width=600, height=40, borderwidth=2)
@@ -133,6 +140,7 @@ class MainView:
         self.frame_graf_curva_decaimiento.pack_propagate(False)
         self.frame_graf_curva_decaimiento.grid(row=0, column=1, pady=(10, 0), ipady=15)
         self.label_graf_curva_decaimiento = Label(self.frame_graf_curva_decaimiento)
+        self.label_graf_curva_decaimiento.config(bg="#5893d4")
         self.label_graf_curva_decaimiento.pack(expand="True", fill="both")
         self.frame_toolbar_curva_decaimiento = Frame(self.frame_graficas)
         self.frame_toolbar_curva_decaimiento.config(width=600, height=40, borderwidth=2)
@@ -225,7 +233,6 @@ class MainView:
         root.iconbitmap("../resources/icons/mic_icon.ico")
         root.tk_setPalette(background='#831212')
         root.resizable(False, False)
-        root.bind('<Configure>', self.on_arrastrar_ventana)
         root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
         return root
 
@@ -253,9 +260,11 @@ class MainView:
     def refrescar(self):
         self.controller.actualizar()
         self.root.update_idletasks()
-        if self.flag_redibujar == '':
+        if self.flag_redibujar == '' and self.solicitud_de_redibujo:
             self.redibujar_canvas()
-        self.root.after(10, self.refrescar)
+        if not self.root_bindings.__contains__("<Configure>"):
+            self.bindear_eventos()
+        self.root.after(100, self.refrescar)
 
     def bloquear_controles(self):
         self.boton_cargar_archivo.config(state=DISABLED)
@@ -304,14 +313,10 @@ class MainView:
 
     def on_arrastrar_ventana(self, evento):
         if evento.widget is self.root:
+            self.ocultar_graficas()
             if self.flag_redibujar != '':
                 self.root.after_cancel(self.flag_redibujar)
-            self.bloquear_graficas()
-            self.flag_redibujar = self.root.after(400, self.activar_redibujar)
-
-    def bloquear_graficas(self):
-        self.label_graf_respuesta_impulsional.config(bg="#5893d4")
-        self.label_graf_curva_decaimiento.config(bg="#5893d4")
+            self.flag_redibujar = self.root.after(100, self.activar_redibujar)
 
     def activar_redibujar(self):
         self.flag_redibujar = ''
@@ -319,6 +324,27 @@ class MainView:
     def redibujar_canvas(self):
         self.canvas_ri.draw()
         self.canvas_cd.draw()
+        self.canvas_ri.get_tk_widget().pack()
+        self.canvas_cd.get_tk_widget().pack()
+        self.solicitud_de_redibujo = False
+
+    def ocultar_graficas(self):
+        self.canvas_ri.get_tk_widget().pack_forget()
+        self.canvas_cd.get_tk_widget().pack_forget()
+        self.solicitud_de_redibujo = True
+
+    def bindear_eventos(self):
+        evento = '<Configure>'
+        if not self.root_bindings.__contains__(evento):
+            self.root_bindings[evento] = True
+            self.root.bind(evento, self.on_arrastrar_ventana)
+
+    def unbindear_eventos(self):
+        evento = '<Configure>'
+        if self.root_bindings.__contains__(evento):
+            self.root_bindings[evento] = False
+            self.root.unbind('<Configure>')
+
 
 
 

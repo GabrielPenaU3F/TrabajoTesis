@@ -37,14 +37,16 @@ class Tab(ABC):
 
     def construir_frame_grafica(self):
         self.frame_grafica = Frame(self.tab_frame)
-        self.frame_grafica.config(width=400, height=250)
         self.frame_grafica.grid(row=1, column=0, padx=10, pady=10)
-        self.label_grafica = Label(self.frame_grafica)
-        self.label_grafica.config(borderwidth=2, relief="groove")
-        self.label_grafica.grid(row=0, column=0)
+        self.frame_label_grafica = Frame(self.frame_grafica)
+        self.frame_label_grafica.config(width=600, height=400)
+        self.frame_label_grafica.pack_propagate(False)
+        self.frame_label_grafica.grid(row=0, column=0)
+        self.label_grafica = Label(self.frame_label_grafica)
+        self.label_grafica.config(borderwidth=2, relief="groove", bg="#5893d4")
+        self.label_grafica.pack(expand="True", fill="both")
         self.frame_toolbar = Frame(self.frame_grafica)
         self.frame_toolbar.config(width=400, height=40, borderwidth=2)
-        self.frame_toolbar.pack_propagate(False)
         self.frame_toolbar.grid(row=1, column=0, sticky="nsew")
         self.construir_plot()
 
@@ -269,7 +271,6 @@ class Tab(ABC):
         self.sistema_ejes.plot(dominio_temporal_cd, valores_cd, color="#ff0000", linewidth=1,
                                label='Curva de decaimiento')
         self.sistema_ejes.legend()
-        self.canvas.draw()
 
     def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
         self.edt_var.set(str(round(edt, 4)) + "seg")
@@ -306,6 +307,13 @@ class Tab(ABC):
     def desactivar_progressbar(self):
         self.progressbar.stop()
         self.pb_frame.grid_remove()
+
+    def redibujar_canvas(self):
+        self.canvas.draw()
+        self.canvas.get_tk_widget().pack()
+
+    def ocultar_grafica(self):
+        self.canvas.get_tk_widget().pack_forget()
 
 
 

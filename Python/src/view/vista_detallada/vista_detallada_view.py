@@ -1,5 +1,4 @@
-from tkinter import Toplevel, Frame, ttk, Button, DISABLED, NORMAL, messagebox
-
+from tkinter import Toplevel, Frame, Button, DISABLED, NORMAL, messagebox
 from src.controller.vista_detallada_controller import VistaDetalladaController
 from src.core.provider.repository_provider import RepositoryProvider
 from src.view.vista_detallada.tab_control import TabControl
@@ -12,6 +11,8 @@ class VistaDetalladaView:
     def __init__(self):
 
         self.controller = VistaDetalladaController(self)
+
+        self.flag_redibujar = ''
 
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
 
@@ -27,7 +28,11 @@ class VistaDetalladaView:
 
         self.mostrar_valores_generales()
 
-        self.root.after(10, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
+        self.solicitud_de_redibujo = False
+
+        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
+
+        self.root.after(10, self.bindear_eventos)
 
         self.refrescar()
 
@@ -96,7 +101,10 @@ class VistaDetalladaView:
 
     def refrescar(self):
         self.controller.actualizar()
-        self.root.after(1000, self.refrescar)
+        self.root.update_idletasks()
+        if self.flag_redibujar == '' and self.solicitud_de_redibujo:
+            self.redibujar_canvas()
+        self.root.after(100, self.refrescar)
 
     def bloquear_controles(self):
         self.boton_salir.config(state=DISABLED)
@@ -130,6 +138,28 @@ class VistaDetalladaView:
     def desactivar_progressbar(self):
         tab_activa = self.get_tab_activa()
         tab_activa.desactivar_progressbar()
+
+    def on_arrastrar_ventana(self, evento):
+        if evento.widget is self.root:
+            self.ocultar_grafica()
+            self.solicitud_de_redibujo = True
+            if self.flag_redibujar != '':
+                self.root.after_cancel(self.flag_redibujar)
+            self.flag_redibujar = self.root.after(100, self.activar_redibujar)
+
+    def activar_redibujar(self):
+        self.flag_redibujar = ''
+
+    def redibujar_canvas(self):
+        self.tab_control.redibujar_canvas()
+        self.solicitud_de_redibujo = False
+
+    def ocultar_grafica(self):
+        self.tab_control.ocultar_grafica()
+
+    def bindear_eventos(self):
+        self.root.bind('<Configure>', self.on_arrastrar_ventana)
+
 
 
 

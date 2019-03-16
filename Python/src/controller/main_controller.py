@@ -43,6 +43,7 @@ class MainController:
     def mostrar_medicion_en_vista(self):
 
         medicion = self.medicion_repository.get_medicion()
+
         self.view.graficar_respuesta_impulsional(
             medicion.get_respuesta_impulsional().get_dominio_temporal(),
             medicion.get_respuesta_impulsional().get_valores())
@@ -73,10 +74,12 @@ class MainController:
         PantallaEsperaView()
 
     def finalizar_medicion(self, mensaje):
+        self.view.unbindear_eventos()
         self.medicion_repository.put_medicion(mensaje.get_contenido())
         self.mostrar_medicion_en_vista()
         self.main_queue.task_done()
         self.restaurar_pantalla_principal()
+        self.view.bindear_eventos()
 
     def restaurar_pantalla_principal(self):
         mensaje_cerrar_pantalla_espera = Mensaje("CerrarPantallaEspera")
