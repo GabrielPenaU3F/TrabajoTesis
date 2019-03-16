@@ -19,7 +19,7 @@ class MainController:
         self.string_repository = RepositoryProvider.provide_string_repository()
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
         self.binding_eventos_repository = RepositoryProvider.provide_binding_eventos_repository()
-        self.root_bindings = {}
+        self.root_bindings = []
         self.pantalla_espera = None
         self.view = view
         self.medidor = MedidorAcustico()
@@ -128,13 +128,13 @@ class MainController:
     def bindear_evento_root(self, clave_evento):
         binding = self.binding_eventos_repository.get_binding(clave_evento)
         if not self.root_bindings.__contains__(binding.get_evento()):
-            self.root_bindings[binding.get_evento()] = True
+            self.root_bindings.append(binding.get_evento())
             self.view.bindear_evento_root(binding)
 
     def unbindear_evento_root(self, clave_evento):
         binding = self.binding_eventos_repository.get_binding(clave_evento)
         if self.root_bindings.__contains__(binding.get_evento()):
-            self.root_bindings[binding.get_evento()] = False
+            self.root_bindings.remove(binding.get_evento())
             self.view.unbindear_evento_root(binding)
 
     def bindear_eventos_root(self):

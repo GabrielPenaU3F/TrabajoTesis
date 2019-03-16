@@ -32,7 +32,7 @@ class VistaDetalladaView:
 
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
 
-        self.root.after(10, self.bindear_eventos)
+        self.root.after(10, self.bindear_eventos_root)
 
         self.refrescar()
 
@@ -104,6 +104,7 @@ class VistaDetalladaView:
         self.root.update_idletasks()
         if self.flag_redibujar == '' and self.solicitud_de_redibujo:
             self.redibujar_canvas()
+        self.controller.bindear_evento_root("ArrastrarVentana")
         self.root.after(100, self.refrescar)
 
     def bloquear_controles(self):
@@ -157,9 +158,15 @@ class VistaDetalladaView:
     def ocultar_grafica(self):
         self.tab_control.ocultar_grafica()
 
-    def bindear_eventos(self):
-        self.root.bind('<Configure>', self.on_arrastrar_ventana)
+    def bindear_evento_root(self, binding):
+        metodo_a_bindear = getattr(self, binding.get_nombre_funcion_binding())
+        self.root.bind(binding.get_evento(), metodo_a_bindear)
 
+    def unbindear_evento_root(self, binding):
+        self.root.unbind(binding.get_evento())
+
+    def bindear_eventos_root(self):
+        self.controller.bindear_eventos_root()
 
 
 
