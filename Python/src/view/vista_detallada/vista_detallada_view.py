@@ -1,20 +1,23 @@
 from tkinter import Toplevel, Frame, Button, DISABLED, NORMAL, messagebox
 from src.controller.vista_detallada_controller import VistaDetalladaController
 from src.core.provider.repository_provider import RepositoryProvider
+from src.view.view_con_graficas import ViewConGraficas
 from src.view.vista_detallada.tab_control import TabControl
 from src.view.vista_detallada.tab_octava import TabOctava
 from src.view.vista_detallada.tab_tercio_octava import TabTercioOctava
 
 
-class VistaDetalladaView:
+class VistaDetalladaView(ViewConGraficas):
 
     def __init__(self):
 
-        self.controller = VistaDetalladaController(self)
+        controller = VistaDetalladaController(self)
+        root = Toplevel()
+        super().__init__(controller, root)
+
+        self.configurar_root()
 
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
-
-        self.root = self.construir_root()
 
         self.main_frame = self.construir_main_frame()
 
@@ -26,14 +29,7 @@ class VistaDetalladaView:
 
         self.mostrar_valores_generales()
 
-        self.solicitud_de_redibujo = False
-
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
-
-        self.flag_redibujar = ''
-
-        self.x_posicion_cursor = None
-        self.y_posicion_cursor = None
 
         self.root.after(10, self.bindear_eventos_root)
 
@@ -41,16 +37,14 @@ class VistaDetalladaView:
 
         self.root.mainloop()
 
-    def construir_root(self):
-        root = Toplevel()
-        root.withdraw()  # Inmediatamente después de la creación, oculto la ventana
+    def configurar_root(self):
+        self.root.withdraw()  # Inmediatamente después de la creación, oculto la ventana
         # ----- Configuracion del root ------
-        root.title("Medidor Acústico - Vista detallada")
-        root.iconbitmap("../resources/icons/mic_icon.ico")
-        root.tk_setPalette(background='#831212')
-        root.resizable(False, False)
-        root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
-        return root
+        self.root.title("Medidor Acústico - Vista detallada")
+        self.root.iconbitmap("../resources/icons/mic_icon.ico")
+        self.root.tk_setPalette(background='#831212')
+        self.root.resizable(False, False)
+        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
 
     def construir_main_frame(self):
         main_frame = Frame(self.root)
@@ -102,14 +96,6 @@ class VistaDetalladaView:
     def get_tab_activa(self):
         return self.tab_control.get_tab_activa()
 
-    def refrescar(self):
-        self.controller.actualizar()
-        self.root.update_idletasks()
-        if self.flag_redibujar == '' and self.solicitud_de_redibujo:
-            self.redibujar_canvas()
-        self.controller.bindear_evento_root("Configure")
-        self.root.after(100, self.refrescar)
-
     def bloquear_controles(self):
         self.boton_salir.config(state=DISABLED)
         self.tab_control.desactivar()
@@ -143,44 +129,13 @@ class VistaDetalladaView:
         tab_activa = self.get_tab_activa()
         tab_activa.desactivar_progressbar()
 
-    def on_configure(self, evento):
-        if self.x_posicion_cursor is None or self.y_posicion_cursor is None:
-            self.x_posicion_cursor = evento.x
-            self.y_posicion_cursor = evento.y
-
-        if self.ventana_movida(evento.x, evento.y):
-            self.on_arrastrar_ventana(evento)
-
-    def on_arrastrar_ventana(self, evento):
-        if evento.widget is self.root:
-            self.ocultar_grafica()
-            self.solicitud_de_redibujo = True
-            if self.flag_redibujar != '':
-                self.root.after_cancel(self.flag_redibujar)
-            self.flag_redibujar = self.root.after(100, self.activar_redibujar)
-
-    def activar_redibujar(self):
-        self.flag_redibujar = ''
-
     def redibujar_canvas(self):
         self.tab_control.redibujar_canvas()
         self.solicitud_de_redibujo = False
 
-    def ocultar_grafica(self):
+    def ocultar_graficas(self):
         self.tab_control.ocultar_grafica()
-
-    def bindear_evento_root(self, binding):
-        metodo_a_bindear = getattr(self, binding.get_nombre_funcion_binding())
-        self.root.bind(binding.get_evento(), metodo_a_bindear)
-
-    def unbindear_evento_root(self, binding):
-        self.root.unbind(binding.get_evento())
-
-    def bindear_eventos_root(self):
-        self.controller.bindear_eventos_root()
-
-    def ventana_movida(self, x, y):
-        return self.x_posicion_cursor != x or self.y_posicion_cursor != y
+        self.solicitud_de_redibujo = True
 
 
 

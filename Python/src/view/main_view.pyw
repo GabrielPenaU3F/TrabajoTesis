@@ -1,4 +1,3 @@
-import time
 from tkinter import *
 from tkinter import messagebox
 from matplotlib import pyplot
@@ -6,16 +5,20 @@ from src.estilista import Estilista
 from src.controller.main_controller import MainController
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
+from src.view.view_con_graficas import ViewConGraficas
+
 pyplot.style.use('seaborn')
 
 
-class MainView:
+class MainView(ViewConGraficas):
 
     def __init__(self):
 
-        self.controller = MainController(self)
+        controller = MainController(self)
+        root = Tk()
+        super().__init__(controller, root)
 
-        self.root = self.construir_root()
+        self.configurar_root()
 
         Estilista().definir_estilos_ttk()
 
@@ -32,13 +35,6 @@ class MainView:
         self.construir_frame_resultados()
 
         self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
-
-        self.solicitud_de_redibujo = False
-
-        self.flag_redibujar = ''
-
-        self.x_posicion_cursor = None
-        self.y_posicion_cursor = None
 
         self.root.after(10, self.bindear_eventos_root)
 
@@ -226,16 +222,14 @@ class MainView:
         main_frame.pack(fill="both", expand="True", padx=20, pady=20)
         return main_frame
 
-    def construir_root(self):
-        root = Tk()
-        root.withdraw() #Inmediatamente después de la creación, oculto la ventana
+    def configurar_root(self):
+        self.root.withdraw() #Inmediatamente después de la creación, oculto la ventana
         # ----- Configuracion del root ------
-        root.title("Medidor Acústico por Gabriel Pena")
-        root.iconbitmap("../resources/icons/mic_icon.ico")
-        root.tk_setPalette(background='#831212')
-        root.resizable(False, False)
-        root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
-        return root
+        self.root.title("Medidor Acústico por Gabriel Pena")
+        self.root.iconbitmap("../resources/icons/mic_icon.ico")
+        self.root.tk_setPalette(background='#831212')
+        self.root.resizable(False, False)
+        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
 
     def graficar_respuesta_impulsional(self, dominio_temporal, respuesta_impulsional):
         self.generar_ejes_ri_limpios()
@@ -257,14 +251,6 @@ class MainView:
 
     def after(self, tiempo, funcion):
         self.root.after(tiempo, funcion)
-
-    def refrescar(self):
-        self.controller.actualizar()
-        self.root.update_idletasks()
-        if self.flag_redibujar == '' and self.solicitud_de_redibujo:
-            self.redibujar_canvas()
-        self.controller.bindear_evento_root("Configure")
-        self.root.after(100, self.refrescar)
 
     def bloquear_controles(self):
         self.boton_cargar_archivo.config(state=DISABLED)
@@ -307,28 +293,6 @@ class MainView:
     def activar_boton_vista_detallada(self):
         self.boton_vista_detallada.config(command=self.controller.on_abrir_vista_detallada)
 
-    def destruir(self):
-        self.root.quit()
-        self.root.destroy()
-
-    def on_configure(self, evento):
-        if self.x_posicion_cursor is None or self.y_posicion_cursor is None:
-            self.x_posicion_cursor = evento.x
-            self.y_posicion_cursor = evento.y
-
-        if self.ventana_movida(evento.x, evento.y):
-            self.on_arrastrar_ventana(evento)
-
-    def on_arrastrar_ventana(self, evento):
-        if evento.widget is self.root:
-            self.ocultar_graficas()
-            if self.flag_redibujar != '':
-                self.root.after_cancel(self.flag_redibujar)
-            self.flag_redibujar = self.root.after(100, self.activar_redibujar)
-
-    def activar_redibujar(self):
-        self.flag_redibujar = ''
-
     def redibujar_canvas(self):
         self.canvas_ri.draw()
         self.canvas_cd.draw()
@@ -340,18 +304,5 @@ class MainView:
         self.canvas_ri.get_tk_widget().pack_forget()
         self.canvas_cd.get_tk_widget().pack_forget()
         self.solicitud_de_redibujo = True
-
-    def bindear_evento_root(self, binding):
-        metodo_a_bindear = getattr(self, binding.get_nombre_funcion_binding())
-        self.root.bind(binding.get_evento(), metodo_a_bindear)
-
-    def unbindear_evento_root(self, binding):
-        self.root.unbind(binding.get_evento())
-
-    def bindear_eventos_root(self):
-        self.controller.bindear_eventos_root()
-
-    def ventana_movida(self, x, y):
-        return self.x_posicion_cursor != x or self.y_posicion_cursor != y
 
 
