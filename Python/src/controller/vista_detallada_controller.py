@@ -39,8 +39,7 @@ class VistaDetalladaController:
     def on_cerrar_ventana(self):
         mensaje_activar_boton = Mensaje("ActivarBotonVistaDetallada")
         self.vista_detallada_subject.on_next(mensaje_activar_boton)
-        self.view.root.withdraw()
-        self.view.root.destroy()
+        self.view.destruir()
 
     def on_calcular(self):
         self.bloquear_controles()

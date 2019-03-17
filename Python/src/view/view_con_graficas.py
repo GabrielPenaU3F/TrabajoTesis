@@ -32,6 +32,7 @@ class ViewConGraficas(ABC):
         self.root.after(100, self.refrescar)
 
     def destruir(self):
+        self.root.withdraw()
         self.root.quit()
         self.root.destroy()
 

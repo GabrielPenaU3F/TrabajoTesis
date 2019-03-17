@@ -6,7 +6,6 @@ from src.controller.main_controller import MainController
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from src.view.view_con_graficas import ViewConGraficas
-
 pyplot.style.use('seaborn')
 
 
