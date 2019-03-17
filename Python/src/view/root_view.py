@@ -1,7 +1,7 @@
 from tkinter import Tk
 
 from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
-from src.estilista import Estilista
+from src.core.domain.estilista import Estilista
 
 
 class RootView:

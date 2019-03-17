@@ -1,19 +1,17 @@
 from tkinter import *
-from tkinter import ttk
 
 from src.controller.instrucciones_controller import InstruccionesController
 from src.core.provider.repository_provider import RepositoryProvider
+from src.view.view import View
 
 
-class InstruccionesView:
+class InstruccionesView(View):
 
     def __init__(self):
 
-        self.controller = InstruccionesController(self)
+        super().__init__(Toplevel(), InstruccionesController(self))
 
         self.string_repository = RepositoryProvider.provide_string_repository()
-
-        self.root = self.construir_root()
 
         self.main_frame = self.construir_main_frame()
 
@@ -21,19 +19,16 @@ class InstruccionesView:
 
         self.construir_boton_aceptar()
 
-        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
+        self.ocultar_vista()
 
-        self.root.mainloop()
+        self.root.after(0, self.configurar_root)
 
-    def construir_root(self):
-        root = Toplevel()
-        root.withdraw()  # Inmediatamente despues de la creación, oculto la ventana
+    def configurar_root(self):
         # ----- Configuracion del root ------
-        root.title("Instrucciones")
-        root.iconbitmap("../resources/icons/mic_icon.ico")
-        root.resizable(False, False)
-        root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
-        return root
+        self.root.title("Instrucciones")
+        self.root.iconbitmap("../resources/icons/mic_icon.ico")
+        self.root.resizable(False, False)
+        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
 
     def construir_main_frame(self):
         # ----- Configuracion del frame principal de la ventana -----
@@ -52,3 +47,4 @@ class InstruccionesView:
         self.boton_aceptar = Button(self.main_frame)
         self.boton_aceptar.config(text="Aceptar", command=self.controller.on_aceptar, bg="#5e0606")
         self.boton_aceptar.grid(row=1, column=0, pady=(20, 0))
+

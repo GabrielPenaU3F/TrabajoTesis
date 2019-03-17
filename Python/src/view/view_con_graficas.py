@@ -1,20 +1,16 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
+from src.view.view import View
 
 
-class ViewConGraficas(ABC):
+class ViewConGraficas(View):
 
     def __init__(self, controller, root):
-        self.root = root
-        self.controller = controller
+        super().__init__(root, controller)
         self.flag_redibujar = ''
         self.solicitud_de_redibujo = False
-        self.ventana_activa = None
         self.x_posicion_cursor = None
         self.y_posicion_cursor = None
-
-    @abstractmethod
-    def configurar_root(self):
-        pass
 
     @abstractmethod
     def redibujar_canvas(self):
@@ -31,11 +27,6 @@ class ViewConGraficas(ABC):
             self.redibujar_canvas()
         self.controller.bindear_evento_root("Configure")
         self.root.after(100, self.refrescar)
-
-    def destruir(self):
-        self.root.withdraw()
-        self.root.quit()
-        self.root.destroy()
 
     def on_arrastrar_ventana(self, evento):
         if evento.widget is self.root:
@@ -69,16 +60,7 @@ class ViewConGraficas(ABC):
     def bindear_eventos_root(self):
         self.controller.bindear_eventos_root()
 
-    def mostrar_vista(self):
-        self.ventana_activa = True
-        self.root.after(0, self.root.deiconify)
 
-    def ocultar_vista(self):
-        self.ventana_activa = False
-        self.root.withdraw()
-
-    def get_vista(self):
-        return self
 
 
 

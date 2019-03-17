@@ -52,7 +52,8 @@ class VistaDetalladaController:
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()
-        InstruccionesVistaDetalladaView()
+        from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        CoordinadorDeVistas.mostrar_vista("VistaDetalladaInstrucciones")
 
     def desactivar_boton_instrucciones(self):
         self.view.desactivar_boton_instrucciones()

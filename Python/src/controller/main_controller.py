@@ -6,8 +6,6 @@ from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
-from src.view.instrucciones_view import InstruccionesView
-from src.view.pantalla_espera_view import PantallaEsperaView
 
 
 class MainController:
@@ -30,7 +28,8 @@ class MainController:
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()
-        InstruccionesView()
+        from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        CoordinadorDeVistas.mostrar_vista("VistaInstrucciones")
 
     def on_efectuar_medicion(self):
 
@@ -70,7 +69,8 @@ class MainController:
             metodo_a_ejecutar(mensaje)
 
     def lanzar_pantalla_espera(self):
-        PantallaEsperaView()
+        from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        CoordinadorDeVistas().mostrar_vista("VistaPantallaEspera")
 
     def finalizar_medicion(self, mensaje):
         self.unbindear_evento_root("Configure")
@@ -120,7 +120,6 @@ class MainController:
         return self.medicion_repository.hay_medicion()
 
     def on_cerrar_ventana(self):
-        self.view.destruir()
         quit()
 
     def bindear_evento_root(self, clave_evento):

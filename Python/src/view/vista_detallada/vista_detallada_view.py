@@ -21,9 +21,9 @@ class VistaDetalladaView(ViewConGraficas):
 
         self.construir_botones()
 
-        self.root.after(10, self.bindear_eventos_root)
-
         self.ocultar_vista()
+
+        self.root.after(0, self.bindear_eventos_root)
 
         self.root.after(0, self.configurar_root())
 

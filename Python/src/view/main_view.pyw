@@ -12,8 +12,6 @@ class MainView(ViewConGraficas):
 
         super().__init__(MainController(self), Toplevel())
 
-        self.configurar_root()
-
         self.main_frame = self.construir_main_frame()
 
         self.construir_estructura_principal()
@@ -26,9 +24,11 @@ class MainView(ViewConGraficas):
 
         self.construir_frame_resultados()
 
-        self.root.after(10, self.bindear_eventos_root)
-
         self.ocultar_vista()
+
+        self.root.after(0, self.bindear_eventos_root)
+
+        self.root.after(0, self.configurar_root())
 
         self.refrescar()
 

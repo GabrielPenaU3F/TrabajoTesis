@@ -1,17 +1,16 @@
 from tkinter import *
 from src.controller.instrucciones_vista_detallada_controller import InstruccionesVistaDetalladaController
 from src.core.provider.repository_provider import RepositoryProvider
+from src.view.view import View
 
 
-class InstruccionesVistaDetalladaView:
+class InstruccionesVistaDetalladaView(View):
 
     def __init__(self):
 
-        self.controller = InstruccionesVistaDetalladaController(self)
+        super().__init__(Toplevel(), InstruccionesVistaDetalladaController(self))
 
         self.string_repository = RepositoryProvider.provide_string_repository()
-
-        self.root = self.construir_root()
 
         self.main_frame = self.construir_main_frame()
 
@@ -19,19 +18,16 @@ class InstruccionesVistaDetalladaView:
 
         self.construir_boton_aceptar()
 
-        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
+        self.ocultar_vista()
 
-        self.root.mainloop()
+        self.root.after(0, self.configurar_root())
 
-    def construir_root(self):
-        root = Toplevel()
-        root.withdraw()  # Inmediatamente despues de la creación, oculto la ventana
+    def configurar_root(self):
         # ----- Configuracion del root ------
-        root.title("Instrucciones")
-        root.iconbitmap("../resources/icons/mic_icon.ico")
-        root.resizable(False, False)
-        root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
-        return root
+        self.root.title("Instrucciones")
+        self.root.iconbitmap("../resources/icons/mic_icon.ico")
+        self.root.resizable(False, False)
+        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
 
     def construir_main_frame(self):
         # ----- Configuracion del frame principal de la ventana -----

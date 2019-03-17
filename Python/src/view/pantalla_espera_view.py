@@ -2,13 +2,14 @@ from tkinter import Frame, Toplevel, Label
 from tkinter.ttk import Progressbar
 
 from src.controller.pantalla_espera_controller import PantallaEsperaController
+from src.view.view import View
 
 
-class PantallaEsperaView:
+class PantallaEsperaView(View):
 
     def __init__(self):
 
-        self.root = self.construir_root()
+        super().__init__(Toplevel(), PantallaEsperaController(self))
 
         self.controller = PantallaEsperaController(self)
 
@@ -16,19 +17,16 @@ class PantallaEsperaView:
 
         self.construir_progressbar_frame()
 
-        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
+        self.ocultar_vista()
 
-        self.root.mainloop()
+        self.root.after(0, self.configurar_root)
 
-    def construir_root(self):
-        root = Toplevel()
-        root.withdraw()  # Inmediatamente después de la creación, oculto la ventana
+    def configurar_root(self):
         # ----- Configuracion del root ------
-        root.title("Midiendo")
-        root.iconbitmap("../resources/icons/mic_icon.ico")
-        root.resizable(False, False)
-        root.geometry("250x150")
-        return root
+        self.root.title("Midiendo")
+        self.root.iconbitmap("../resources/icons/mic_icon.ico")
+        self.root.resizable(False, False)
+        self.root.geometry("250x150")
 
     def construir_progressbar_frame(self):
 
@@ -49,6 +47,10 @@ class PantallaEsperaView:
         self.main_frame.config()
         self.main_frame.pack(pady=10)
 
-    def cerrar(self):
-        self.progressbar.destroy()
-        self.root.destroy()
+    def ocultar_vista(self):
+        self.progressbar.stop()
+        super(PantallaEsperaView, self).ocultar_vista()
+
+    def mostrar_vista(self):
+        self.progressbar.start(10)
+        super(PantallaEsperaView, self).mostrar_vista()
