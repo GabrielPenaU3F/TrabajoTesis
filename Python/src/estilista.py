@@ -1,5 +1,7 @@
 from tkinter import ttk
 
+from matplotlib import pyplot
+
 
 class Estilista:
 
@@ -29,3 +31,6 @@ class Estilista:
                 style_medidor.theme_create("medidor_acustico", parent="alt", settings=settings)
 
             style_medidor.theme_use("medidor_acustico")
+
+    def definir_estilos_graficas(self):
+        pyplot.style.use('seaborn')

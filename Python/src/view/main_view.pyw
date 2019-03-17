@@ -1,25 +1,18 @@
 from tkinter import *
 from tkinter import messagebox
-from matplotlib import pyplot
-from src.estilista import Estilista
 from src.controller.main_controller import MainController
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from src.view.view_con_graficas import ViewConGraficas
-pyplot.style.use('seaborn')
 
 
 class MainView(ViewConGraficas):
 
     def __init__(self):
 
-        controller = MainController(self)
-        root = Tk()
-        super().__init__(controller, root)
+        super().__init__(MainController(self), Toplevel())
 
         self.configurar_root()
-
-        Estilista().definir_estilos_ttk()
 
         self.main_frame = self.construir_main_frame()
 
@@ -33,13 +26,11 @@ class MainView(ViewConGraficas):
 
         self.construir_frame_resultados()
 
-        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
-
         self.root.after(10, self.bindear_eventos_root)
 
-        self.refrescar()
+        self.ocultar_vista()
 
-        self.root.mainloop()
+        self.refrescar()
 
     def construir_frame_resultados(self):
 

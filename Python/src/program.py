@@ -1,3 +1,3 @@
-from src.view.main_view import MainView
+from src.view.root_view import RootView
 
-MainView()
+RootView()

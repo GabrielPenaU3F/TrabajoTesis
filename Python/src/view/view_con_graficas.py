@@ -8,6 +8,7 @@ class ViewConGraficas(ABC):
         self.controller = controller
         self.flag_redibujar = ''
         self.solicitud_de_redibujo = False
+        self.ventana_activa = None
         self.x_posicion_cursor = None
         self.y_posicion_cursor = None
 
@@ -67,5 +68,17 @@ class ViewConGraficas(ABC):
 
     def bindear_eventos_root(self):
         self.controller.bindear_eventos_root()
+
+    def mostrar_vista(self):
+        self.ventana_activa = True
+        self.root.after(0, self.root.deiconify)
+
+    def ocultar_vista(self):
+        self.ventana_activa = False
+        self.root.withdraw()
+
+    def get_vista(self):
+        return self
+
 
 

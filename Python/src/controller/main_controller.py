@@ -1,5 +1,3 @@
-import sys
-
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
 from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
@@ -10,7 +8,6 @@ from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
 from src.view.instrucciones_view import InstruccionesView
 from src.view.pantalla_espera_view import PantallaEsperaView
-from src.view.vista_detallada.vista_detallada_view import VistaDetalladaView
 
 
 class MainController:
@@ -110,7 +107,8 @@ class MainController:
 
     def on_abrir_vista_detallada(self):
         self.desactivar_boton_vista_detallada()
-        VistaDetalladaView()
+        from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        CoordinadorDeVistas.mostrar_vista("VistaDetallada")
 
     def desactivar_boton_vista_detallada(self):
         self.view.desactivar_boton_vista_detallada()

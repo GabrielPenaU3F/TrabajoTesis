@@ -11,11 +11,7 @@ class VistaDetalladaView(ViewConGraficas):
 
     def __init__(self):
 
-        controller = VistaDetalladaController(self)
-        root = Toplevel()
-        super().__init__(controller, root)
-
-        self.configurar_root()
+        super().__init__(VistaDetalladaController(self), Toplevel())
 
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
 
@@ -25,23 +21,18 @@ class VistaDetalladaView(ViewConGraficas):
 
         self.construir_botones()
 
-        self.graficar_medicion_general()
-
-        self.mostrar_valores_generales()
-
-        self.root.after(0, self.root.deiconify)  # Luego de construir toda la interface, permito mostrar la ventana
-
         self.root.after(10, self.bindear_eventos_root)
+
+        self.ocultar_vista()
+
+        self.root.after(0, self.configurar_root())
 
         self.refrescar()
 
-        self.root.mainloop()
-
     def configurar_root(self):
-        self.root.withdraw()  # Inmediatamente después de la creación, oculto la ventana
         # ----- Configuracion del root ------
         self.root.title("Medidor Acústico - Vista detallada")
-        self.root.iconbitmap("../resources/icons/mic_icon.ico")
+        self.root.wm_iconbitmap("../resources/icons/mic_icon.ico")
         self.root.tk_setPalette(background='#831212')
         self.root.resizable(False, False)
         self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
@@ -136,8 +127,14 @@ class VistaDetalladaView(ViewConGraficas):
     def ocultar_graficas(self):
         self.tab_control.ocultar_grafica()
         self.solicitud_de_redibujo = True
+        
+    def mostrar_vista(self):
+        self.graficar_medicion_general()
+        self.mostrar_valores_generales()
+        super(VistaDetalladaView, self).mostrar_vista()
 
-
-
+    def refrescar(self):
+        if self.ventana_activa:
+            super(VistaDetalladaView, self).refrescar()
 
 
