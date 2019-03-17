@@ -1,9 +1,7 @@
 from abc import ABC, abstractmethod
 from tkinter import Frame, Label, BOTTOM, BOTH, StringVar, OptionMenu, BooleanVar, Checkbutton, Button, NORMAL, DISABLED
 from tkinter.ttk import Progressbar
-
-from matplotlib.backends._backend_tk import NavigationToolbar2Tk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
 from src.core.provider.repository_provider import RepositoryProvider
@@ -47,6 +45,7 @@ class Tab(ABC):
         self.label_grafica.pack(expand="True", fill="both")
         self.frame_toolbar = Frame(self.frame_grafica)
         self.frame_toolbar.config(width=400, height=40, borderwidth=2)
+        self.frame_toolbar.pack_propagate(False)
         self.frame_toolbar.grid(row=1, column=0, sticky="nsew")
         self.construir_plot()
 
