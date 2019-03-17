@@ -1,4 +1,4 @@
-from tkinter import ttk, Frame, DISABLED, NORMAL
+from tkinter import ttk, Frame
 
 
 class TabControl:
@@ -50,5 +50,4 @@ class TabControl:
     def ocultar_grafica(self):
         for tab in self.tabs.values():
             tab.ocultar_grafica()
-
 

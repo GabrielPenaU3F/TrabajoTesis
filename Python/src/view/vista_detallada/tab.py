@@ -271,6 +271,7 @@ class Tab(ABC):
         self.sistema_ejes.plot(dominio_temporal_cd, valores_cd, color="#ff0000", linewidth=1,
                                label='Curva de decaimiento')
         self.sistema_ejes.legend()
+        self.canvas.draw()
 
     def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
         self.edt_var.set(str(round(edt, 4)) + "seg")
