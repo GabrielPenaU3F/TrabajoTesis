@@ -1,11 +1,12 @@
+from src.controller.controller import Controller
 from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
 
 
-class InstruccionesController:
+class InstruccionesController(Controller):
 
     def __init__(self, view):
-        self.view = view
+        super().__init__(view)
         self.pantalla_instrucciones_subject = SubjectProvider.provide_pantalla_instrucciones_subject()
 
     def on_aceptar(self):

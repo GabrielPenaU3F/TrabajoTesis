@@ -143,7 +143,7 @@ class Tab(ABC):
         self.edt_var = StringVar()
         self.label_res_edt = Label(self.frame_edt)
         self.label_res_edt.config(relief="sunken", bg="#becbff", borderwidth=2, width=10, textvariable=self.edt_var,
-                                  fg='black')
+                                  fg="black")
         self.label_res_edt.grid(row=0, column=1, padx=(10, 0), pady=10)
         self.frame_linealidad_edt = Frame(self.frame_rts)
         self.frame_linealidad_edt.grid(row=1, column=2, pady=(0, 10), columnspan=4)
@@ -153,14 +153,14 @@ class Tab(ABC):
         self.r_edt_var = StringVar()
         self.label_res_r_edt = Label(self.frame_linealidad_edt)
         self.label_res_r_edt.config(relief="sunken", bg="#becbff", borderwidth=2, width=10, textvariable=self.r_edt_var,
-                                    fg='black')
+                                    fg="black")
         self.label_res_r_edt.grid(row=0, column=1, padx=10, pady=10)
         self.label_xi_edt = Label(self.frame_linealidad_edt)
         self.label_xi_edt.config(text="ξ", bg="#5893d4", borderwidth=2, relief="groove", width=4)
         self.label_xi_edt.grid(row=0, column=2, padx=10, pady=10)
         self.xi_edt_var = StringVar()
         self.label_res_xi_edt = Label(self.frame_linealidad_edt)
-        self.label_res_xi_edt.config(relief="sunken", bg="#becbff", borderwidth=2, width=10, fg='black',
+        self.label_res_xi_edt.config(relief="sunken", bg="#becbff", borderwidth=2, width=10, fg="black",
                                      textvariable=self.xi_edt_var)
         self.label_res_xi_edt.grid(row=0, column=3, padx=10, pady=10)
 

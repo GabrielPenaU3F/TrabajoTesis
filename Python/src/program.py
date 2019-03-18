@@ -1,3 +1,3 @@
-from src.view.root_view import RootView
+from src.tk_root import TkRoot
 
-RootView()
+TkRoot()

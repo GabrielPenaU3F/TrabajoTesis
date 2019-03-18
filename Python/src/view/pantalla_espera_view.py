@@ -27,6 +27,7 @@ class PantallaEsperaView(View):
         self.root.iconbitmap("../resources/icons/mic_icon.ico")
         self.root.resizable(False, False)
         self.root.geometry("250x150")
+        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
 
     def construir_progressbar_frame(self):
 

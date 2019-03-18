@@ -4,7 +4,7 @@ from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
 from src.core.domain.estilista import Estilista
 
 
-class RootView:
+class TkRoot:
 
     def __init__(self):
 

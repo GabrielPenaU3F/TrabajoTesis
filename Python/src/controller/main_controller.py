@@ -1,25 +1,21 @@
+from src.controller.controller_pantalla_con_graficas import ControllerPantallaConGraficas
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
 from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
-from src.core.provider.procesador_mensajes_provider import ProcesadorMensajesProvider
 from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
 
 
-class MainController:
+class MainController(ControllerPantallaConGraficas):
 
     def __init__(self, view):
+        super().__init__(view)
         self.string_repository = RepositoryProvider.provide_string_repository()
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
-        self.binding_eventos_repository = RepositoryProvider.provide_binding_eventos_repository()
-        self.root_bindings = []
-        self.pantalla_espera = None
-        self.view = view
         self.medidor = MedidorAcustico()
         self.main_queue = QueueProvider.provide_main_queue()
-        self.procesador_mensajes = ProcesadorMensajesProvider.provide_procesador_mensajes()
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
         self.pantalla_instrucciones_subject = SubjectProvider.provide_pantalla_instrucciones_subject()
         self.pantalla_instrucciones_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
@@ -65,8 +61,7 @@ class MainController:
     def actualizar(self):
         if not self.main_queue.empty():
             mensaje = self.main_queue.get()
-            metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
-            metodo_a_ejecutar(mensaje)
+            self.procesar(mensaje)
 
     def lanzar_pantalla_espera(self):
         from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
@@ -89,21 +84,11 @@ class MainController:
         self.main_queue.task_done()
         self.restaurar_pantalla_principal()
 
-    def bloquear_controles(self):
-        self.view.bloquear_controles()
-
-    def desbloquear_controles(self):
-        self.view.desbloquear_controles()
-
     def desactivar_boton_instrucciones(self):
         self.view.desactivar_boton_instrucciones()
 
     def activar_boton_instrucciones(self):
         self.view.activar_boton_instrucciones()
-
-    def procesar(self, mensaje):
-        metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
-        metodo_a_ejecutar()
 
     def on_abrir_vista_detallada(self):
         self.desactivar_boton_vista_detallada()
@@ -122,22 +107,6 @@ class MainController:
     def on_cerrar_ventana(self):
         quit()
 
-    def bindear_eventos_root(self):
-        eventos = self.binding_eventos_repository.get_eventos()
-        for clave_evento in eventos:
-            self.bindear_evento_root(clave_evento)
-
-    def bindear_evento_root(self, clave_evento):
-        binding = self.binding_eventos_repository.get_binding(clave_evento)
-        if not self.root_bindings.__contains__(binding.get_evento()):
-            self.root_bindings.append(binding.get_evento())
-            self.view.bindear_evento_root(binding)
-
-    def unbindear_evento_root(self, clave_evento):
-        binding = self.binding_eventos_repository.get_binding(clave_evento)
-        if self.root_bindings.__contains__(binding.get_evento()):
-            self.root_bindings.remove(binding.get_evento())
-            self.view.unbindear_evento_root(binding)
 
 
 

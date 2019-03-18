@@ -1,21 +1,19 @@
-from src.core.domain.medicion import Medicion
+from src.controller.controller_pantalla_con_graficas import ControllerPantallaConGraficas
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.provider.action_provider import ActionProvider
-from src.core.provider.procesador_mensajes_provider import ProcesadorMensajesProvider
 from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
 
 
-class VistaDetalladaController:
+class VistaDetalladaController(ControllerPantallaConGraficas):
 
     def __init__(self, view):
+        super().__init__(view)
         self.root_bindings = []
         self.binding_eventos_repository = RepositoryProvider.provide_binding_eventos_repository()
         self.string_repository = RepositoryProvider.provide_string_repository()
-        self.view = view
-        self.procesador_mensajes = ProcesadorMensajesProvider.provide_procesador_mensajes()
         self.vista_detallada_subject = SubjectProvider.provide_vista_detallada_subject()
         self.pantalla_instrucciones_vista_detallada_subject = SubjectProvider.\
             provide_pantalla_instrucciones_vista_detallada_subject()
@@ -32,8 +30,7 @@ class VistaDetalladaController:
     def actualizar(self):
         if not self.vista_detallada_queue.empty():
             mensaje = self.vista_detallada_queue.get()
-            metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
-            metodo_a_ejecutar(mensaje)
+            self.procesar(mensaje)
 
     def on_cerrar_ventana(self):
         mensaje_activar_boton = Mensaje("ActivarBotonVistaDetallada")
@@ -60,10 +57,6 @@ class VistaDetalladaController:
     def activar_boton_instrucciones(self):
         self.view.activar_boton_instrucciones()
 
-    def procesar(self, mensaje):
-        metodo_a_ejecutar = getattr(self, self.procesador_mensajes.get_mensaje(mensaje.get_mensaje()))
-        metodo_a_ejecutar()
-
     def finalizar_calculo(self, mensaje):
         self.unbindear_evento_root("Configure")
         medicion = mensaje.get_contenido()
@@ -71,12 +64,6 @@ class VistaDetalladaController:
         self.vista_detallada_queue.task_done()
         self.desactivar_progressbar()
         self.desbloquear_controles()
-
-    def bloquear_controles(self):
-        self.view.bloquear_controles()
-
-    def desbloquear_controles(self):
-        self.view.desbloquear_controles()
 
     def mostrar_medicion_en_vista(self, medicion):
         nivel_respuesta_impulsional = medicion.get_nivel_respuesta_impulsional()
@@ -100,20 +87,3 @@ class VistaDetalladaController:
 
     def desactivar_progressbar(self):
         self.view.desactivar_progressbar()
-
-    def bindear_eventos_root(self):
-        eventos = self.binding_eventos_repository.get_eventos()
-        for clave_evento in eventos:
-            self.bindear_evento_root(clave_evento)
-
-    def bindear_evento_root(self, clave_evento):
-        binding = self.binding_eventos_repository.get_binding(clave_evento)
-        if not self.root_bindings.__contains__(binding.get_evento()):
-            self.root_bindings.append(binding.get_evento())
-            self.view.bindear_evento_root(binding)
-
-    def unbindear_evento_root(self, clave_evento):
-        binding = self.binding_eventos_repository.get_binding(clave_evento)
-        if self.root_bindings.__contains__(binding.get_evento()):
-            self.root_bindings.remove(binding.get_evento())
-            self.view.unbindear_evento_root(binding)

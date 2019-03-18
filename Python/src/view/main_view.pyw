@@ -46,7 +46,7 @@ class MainView(ViewConGraficas):
         self.edt_var = StringVar()
         self.label_res_edt = Label(self.frame_resultados)
         self.label_res_edt.config(relief="sunken", bg="#becbff", borderwidth=2, width=10, textvariable=self.edt_var,
-                                  fg='black')
+                                  fg="#000001")
         self.label_res_edt.grid(row=0, column=1, padx=(10, 0), pady=(0, 5))
 
         self.label_t20 = Label(self.frame_resultados)
@@ -55,7 +55,7 @@ class MainView(ViewConGraficas):
         self.t20_var = StringVar()
         self.label_res_t20 = Label(self.frame_resultados)
         self.label_res_t20.config(relief="sunken", borderwidth=2, bg="#becbff", width=10, textvariable=self.t20_var,
-                                  fg='black')
+                                  fg="#000001")
         self.label_res_t20.grid(row=1, column=1, padx=(10, 0), pady=(0, 5))
 
         self.label_t30 = Label(self.frame_resultados)
@@ -64,7 +64,7 @@ class MainView(ViewConGraficas):
         self.t30_var = StringVar()
         self.label_res_t30 = Label(self.frame_resultados)
         self.label_res_t30.config(relief="sunken", borderwidth=2, bg="#becbff", width=10, textvariable=self.t30_var,
-                                  fg='black')
+                                  fg="#000001")
         self.label_res_t30.grid(row=2, column=1, padx=(10, 0), pady=(0, 5))
 
 
@@ -135,6 +135,9 @@ class MainView(ViewConGraficas):
         self.frame_toolbar_curva_decaimiento.grid(row=1, column=1)
         self.construir_plot_curva_decaimiento()
 
+        self.label_prueba = Label(self.frame_graficas, text="Hola", fg="black")
+        self.label_prueba.grid(row=3, column=0)
+
     def construir_plot_respuesta_impulsional(self):
         self.figura_ri = Figure(figsize=(10, 10), dpi=100)
         self.figura_ri.patch.set_facecolor("#becbff")
@@ -183,8 +186,6 @@ class MainView(ViewConGraficas):
 
     def construir_estructura_principal(self):
 
-        # ----- Divido el frame principal en un grid de 3x2 -----
-
         self.frame_titulos = Frame(self.main_frame)
         self.frame_titulos.grid(row=0, column=0)
 
@@ -213,7 +214,6 @@ class MainView(ViewConGraficas):
         return main_frame
 
     def configurar_root(self):
-        self.root.withdraw() #Inmediatamente después de la creación, oculto la ventana
         # ----- Configuracion del root ------
         self.root.title("Medidor Acústico por Gabriel Pena")
         self.root.iconbitmap("../resources/icons/mic_icon.ico")
