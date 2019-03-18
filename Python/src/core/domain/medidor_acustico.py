@@ -57,7 +57,7 @@ class MedidorAcustico:
         t20 = self.calcular_rt_action.execute(curva_decaimiento, rt='T20')
         t30 = self.calcular_rt_action.execute(curva_decaimiento, rt='T30')
         curvatura = self.calcular_curvatura_action.execute(t20.get_rt(), t30.get_rt())
-        return Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30, curvatura)
+        return Medicion(respuesta_impulsional, curva_decaimiento, edt, t20, t30, curvatura, nivel=True)
 
     def calcular_parametros_acusticos(self, respuesta_impulsional, fs):
         self.thread_calculo = Thread(target=self.efectuar_calculo, args=(respuesta_impulsional, fs), daemon=True)

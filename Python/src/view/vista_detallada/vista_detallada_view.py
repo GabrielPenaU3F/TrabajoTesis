@@ -102,7 +102,7 @@ class VistaDetalladaView(ViewConGraficas):
         messagebox.showerror("Error", mensaje)
 
     def graficar_medicion_general(self):
-        medicion_general = self.controller.get_medicion_nivel_db()
+        medicion_general = self.controller.get_medicion()
         self.tab_control.graficar(medicion_general.get_respuesta_impulsional(), medicion_general.get_curva_decaimiento())
 
     def mostrar_valores_generales(self):
@@ -129,9 +129,9 @@ class VistaDetalladaView(ViewConGraficas):
         self.solicitud_de_redibujo = True
         
     def mostrar_vista(self):
-        self.graficar_medicion_general()
-        self.mostrar_valores_generales()
         super(VistaDetalladaView, self).mostrar_vista()
+        self.mostrar_valores_generales()
+        self.graficar_medicion_general()
 
     def refrescar(self):
         if self.ventana_activa:

@@ -54,7 +54,7 @@ class Tab(ABC):
         self.figura.patch.set_facecolor("#becbff")
         self.sistema_ejes = self.figura.add_subplot(1, 1, 1)
         self.sistema_ejes.set_facecolor("#dee1ec")
-        self.sistema_ejes = self.limpiar_ejes(self.sistema_ejes)
+        self.limpiar_ejes()
 
         self.canvas = FigureCanvasTkAgg(self.figura, master=self.label_grafica)
         self.canvas.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
@@ -62,13 +62,13 @@ class Tab(ABC):
         toolbar = NavigationToolbar2Tk(self.canvas, self.frame_toolbar)
         toolbar.update()
 
-    def limpiar_ejes(self, sistema_ejes):
-        sistema_ejes.cla()
-        sistema_ejes.set_xlabel('Tiempo (s)')
-        sistema_ejes.set_ylabel('Nivel (dB)')
-        sistema_ejes.set_xlim(left=0, auto=True)
-        sistema_ejes.set_ylim(bottom=-120, top=0, auto=True)
-        return sistema_ejes
+    def limpiar_ejes(self):
+        self.sistema_ejes.cla()
+        self.sistema_ejes.set_xlabel('Tiempo (s)')
+        self.sistema_ejes.set_ylabel('Nivel (dB)')
+        self.sistema_ejes.set_xlim(left=0, auto=True)
+        self.sistema_ejes.set_ylim(bottom=-120, top=0, auto=True)
+
 
     def construir_frame_medicion(self):
         self.frame_medicion = Frame(self.tab_frame)
@@ -78,7 +78,6 @@ class Tab(ABC):
     def construir_frame_bandas(self):
 
         self.construir_seleccion_banda()
-
         self.construir_frame_rts()
 
     def construir_seleccion_banda(self):
@@ -264,7 +263,7 @@ class Tab(ABC):
         valores_ri = nivel_respuesta_impulsional.get_valores()
         dominio_temporal_cd = curva_decaimiento.get_dominio_temporal()
         valores_cd = curva_decaimiento.get_valores()
-        self.limpiar_ejes(self.sistema_ejes)
+        self.limpiar_ejes()
         self.sistema_ejes.plot(dominio_temporal_ri, valores_ri, color='#0000ff', linewidth=0.5,
                                label='Nivel respuesta impulsional')
         self.sistema_ejes.plot(dominio_temporal_cd, valores_cd, color="#ff0000", linewidth=1,
