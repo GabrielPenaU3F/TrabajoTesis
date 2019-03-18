@@ -67,9 +67,9 @@ class MainController(ControllerPantallaConGraficas):
         from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
         CoordinadorDeVistas().mostrar_vista("VistaPantallaEspera")
 
-    def finalizar_medicion(self, mensaje):
+    def finalizar_medicion(self, paquete):
         self.unbindear_evento_root("Configure")
-        self.medicion_repository.put_medicion(mensaje.get_contenido())
+        self.medicion_repository.put_medicion(paquete)
         self.mostrar_medicion_en_vista()
         self.main_queue.task_done()
         self.restaurar_pantalla_principal()
@@ -79,7 +79,7 @@ class MainController(ControllerPantallaConGraficas):
         self.pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
         self.desbloquear_controles()
 
-    def mostrar_error_lundeby(self, mensaje):
+    def mostrar_error_lundeby(self):
         self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
         self.main_queue.task_done()
         self.restaurar_pantalla_principal()

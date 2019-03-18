@@ -12,7 +12,7 @@ class ControllerPantallaConGraficas(Controller):
         self.root_bindings = []
 
     @abstractmethod
-    def mostrar_error_lundeby(self, mensaje):
+    def mostrar_error_lundeby(self):
         pass
 
     @abstractmethod

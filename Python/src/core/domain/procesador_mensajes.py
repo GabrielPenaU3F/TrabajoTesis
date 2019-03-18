@@ -3,7 +3,7 @@ class ProcesadorMensajes:
     def __init__(self):
         self.mensajes = {
             "MedicionCompleta": "finalizar_medicion",
-            "CerrarPantallaEspera": "cerrar",
+            "CerrarPantallaEspera": "on_cerrar_ventana",
             "LundebyException": "mostrar_error_lundeby",
             "ActivarBotonInstrucciones": "activar_boton_instrucciones",
             "ActivarBotonVistaDetallada": "activar_boton_vista_detallada",

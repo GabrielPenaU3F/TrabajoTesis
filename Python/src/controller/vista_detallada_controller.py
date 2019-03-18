@@ -57,10 +57,9 @@ class VistaDetalladaController(ControllerPantallaConGraficas):
     def activar_boton_instrucciones(self):
         self.view.activar_boton_instrucciones()
 
-    def finalizar_calculo(self, mensaje):
+    def finalizar_calculo(self, paquete):
         self.unbindear_evento_root("Configure")
-        medicion = mensaje.get_contenido()
-        self.mostrar_medicion_en_vista(medicion)
+        self.mostrar_medicion_en_vista(paquete)
         self.vista_detallada_queue.task_done()
         self.desactivar_progressbar()
         self.desbloquear_controles()
@@ -73,7 +72,7 @@ class VistaDetalladaController(ControllerPantallaConGraficas):
         self.view.mostrar_parametros_de_linealidad(
             medicion.get_edt(), medicion.get_t20(), medicion.get_t30(), medicion.get_curvatura())
 
-    def mostrar_error_lundeby(self, mensaje):
+    def mostrar_error_lundeby(self):
         self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
         self.vista_detallada_queue.task_done()
         self.desbloquear_controles()

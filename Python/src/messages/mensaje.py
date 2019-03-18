@@ -3,6 +3,7 @@ class Mensaje:
     def __init__(self, *args):
 
         self.mensaje = args[0]
+        self.contenido = None
         if len(args) == 2:
             self.contenido = args[1]
 
