@@ -122,6 +122,11 @@ class MainController:
     def on_cerrar_ventana(self):
         quit()
 
+    def bindear_eventos_root(self):
+        eventos = self.binding_eventos_repository.get_eventos()
+        for clave_evento in eventos:
+            self.bindear_evento_root(clave_evento)
+
     def bindear_evento_root(self, clave_evento):
         binding = self.binding_eventos_repository.get_binding(clave_evento)
         if not self.root_bindings.__contains__(binding.get_evento()):
@@ -133,12 +138,6 @@ class MainController:
         if self.root_bindings.__contains__(binding.get_evento()):
             self.root_bindings.remove(binding.get_evento())
             self.view.unbindear_evento_root(binding)
-
-    def bindear_eventos_root(self):
-        eventos = self.binding_eventos_repository.get_eventos()
-        for clave_evento in eventos:
-            self.bindear_evento_root(clave_evento)
-
 
 
 

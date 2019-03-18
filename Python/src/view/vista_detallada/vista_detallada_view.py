@@ -120,21 +120,17 @@ class VistaDetalladaView(ViewConGraficas):
         tab_activa = self.get_tab_activa()
         tab_activa.desactivar_progressbar()
 
+    def ocultar_graficas(self):
+        self.tab_control.ocultar_grafica()
+        self.solicitud_de_redibujo = True
+
     def redibujar_canvas(self):
         self.tab_control.redibujar_canvas()
         self.solicitud_de_redibujo = False
 
-    def ocultar_graficas(self):
-        self.tab_control.ocultar_grafica()
-        self.solicitud_de_redibujo = True
-        
     def mostrar_vista(self):
         super(VistaDetalladaView, self).mostrar_vista()
         self.mostrar_valores_generales()
         self.graficar_medicion_general()
-
-    def refrescar(self):
-        if self.ventana_activa:
-            super(VistaDetalladaView, self).refrescar()
 
 

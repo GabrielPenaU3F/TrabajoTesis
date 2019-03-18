@@ -21,11 +21,13 @@ class ViewConGraficas(View):
         pass
 
     def refrescar(self):
-        self.controller.actualizar()
-        self.root.update_idletasks()
-        if self.flag_redibujar == '' and self.solicitud_de_redibujo:
-            self.redibujar_canvas()
-        self.controller.bindear_evento_root("Configure")
+        if self.ventana_activa:
+            self.controller.actualizar()
+            self.root.update_idletasks()
+            if self.flag_redibujar == '' and self.solicitud_de_redibujo:
+                self.redibujar_canvas()
+            self.controller.bindear_evento_root("Configure")
+
         self.root.after(100, self.refrescar)
 
     def on_arrastrar_ventana(self, evento):

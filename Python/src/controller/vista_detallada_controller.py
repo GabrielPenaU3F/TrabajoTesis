@@ -6,7 +6,6 @@ from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
-from src.view.vista_detallada.instrucciones_vista_detallada_view import InstruccionesVistaDetalladaView
 
 
 class VistaDetalladaController:
