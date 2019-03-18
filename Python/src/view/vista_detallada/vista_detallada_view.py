@@ -103,7 +103,8 @@ class VistaDetalladaView(ViewConGraficas):
 
     def graficar_medicion_general(self):
         medicion_general = self.controller.get_medicion()
-        self.tab_control.graficar(medicion_general.get_respuesta_impulsional(), medicion_general.get_curva_decaimiento())
+        self.tab_control.graficar(
+            medicion_general.get_nivel_respuesta_impulsional(), medicion_general.get_curva_decaimiento())
 
     def mostrar_valores_generales(self):
         medicion_general = self.controller.get_medicion()
