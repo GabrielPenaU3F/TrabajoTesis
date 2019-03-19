@@ -25,9 +25,7 @@ class InstruccionesVistaDetalladaView(View):
     def configurar_root(self):
         # ----- Configuracion del root ------
         self.root.title("Instrucciones")
-        self.root.iconbitmap("../resources/icons/mic_icon.ico")
-        self.root.resizable(False, False)
-        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
+        super(InstruccionesVistaDetalladaView, self).configurar_root()
 
     def construir_main_frame(self):
         # ----- Configuracion del frame principal de la ventana -----

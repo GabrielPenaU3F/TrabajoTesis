@@ -216,10 +216,7 @@ class MainView(ViewConGraficas):
     def configurar_root(self):
         # ----- Configuracion del root ------
         self.root.title("Medidor Acústico por Gabriel Pena")
-        self.root.iconbitmap("../resources/icons/mic_icon.ico")
-        self.root.tk_setPalette(background='#831212')
-        self.root.resizable(False, False)
-        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
+        super(MainView, self).configurar_root()
 
     def graficar_respuesta_impulsional(self, dominio_temporal, respuesta_impulsional):
         self.generar_ejes_ri_limpios()

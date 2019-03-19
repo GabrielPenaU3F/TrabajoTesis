@@ -25,7 +25,8 @@ class Estilista:
                             "TNotebook": {"configure": {"background": "#831212"}
                                           },
                             "TProgressbar": {"configure": {"background": "#5893d4",
-                                                           "troughcolor": "#5e0606"}
+                                                           "troughcolor": "#5e0606",
+                                                           }
                                              }
                             }
                 style_medidor.theme_create("medidor_acustico", parent="alt", settings=settings)

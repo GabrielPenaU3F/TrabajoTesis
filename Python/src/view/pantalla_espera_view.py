@@ -1,5 +1,5 @@
 from tkinter import Frame, Toplevel, Label
-from tkinter.ttk import Progressbar
+from tkinter.ttk import Progressbar, Style
 
 from src.controller.pantalla_espera_controller import PantallaEsperaController
 from src.view.view import View
@@ -24,10 +24,8 @@ class PantallaEsperaView(View):
     def configurar_root(self):
         # ----- Configuracion del root ------
         self.root.title("Midiendo")
-        self.root.iconbitmap("../resources/icons/mic_icon.ico")
-        self.root.resizable(False, False)
         self.root.geometry("250x150")
-        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
+        super(PantallaEsperaView, self).configurar_root()
 
     def construir_progressbar_frame(self):
 
@@ -36,22 +34,22 @@ class PantallaEsperaView(View):
         self.label_midiendo.grid(row=0, column=0)
 
         self.pb_frame = Frame(self.main_frame)
-        self.pb_frame.config(borderwidth=2, padx=20, pady=20)
-        self.pb_frame.grid(row=1, column=0)
+        self.pb_frame.config(padx=20, pady=20)
+        #self.pb_frame.grid(row=1, column=0)
         self.progressbar = Progressbar(self.pb_frame)
         self.progressbar.config(mode="indeterminate", length=150)
         self.progressbar.pack()
-        self.progressbar.start(10)
 
     def construir_main_frame(self):
         self.main_frame = Frame(self.root)
-        self.main_frame.config()
-        self.main_frame.pack(pady=10)
+        self.main_frame.pack()
 
     def ocultar_vista(self):
         self.progressbar.stop()
         super(PantallaEsperaView, self).ocultar_vista()
+        self.pb_frame.grid_remove()
 
     def mostrar_vista(self):
-        self.progressbar.start(10)
+        self.pb_frame.grid(row=1, column=0)
         super(PantallaEsperaView, self).mostrar_vista()
+        self.progressbar.start(10)

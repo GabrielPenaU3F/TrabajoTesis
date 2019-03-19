@@ -10,7 +10,10 @@ class View(ABC):
 
     @abstractmethod
     def configurar_root(self):
-        pass
+        self.root.iconbitmap("../resources/icons/mic_icon.ico")
+        self.root.tk_setPalette(background='#831212')
+        self.root.resizable(False, False)
+        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
 
     def get_vista(self):
         return self

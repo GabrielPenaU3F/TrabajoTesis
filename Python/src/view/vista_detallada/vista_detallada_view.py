@@ -32,10 +32,7 @@ class VistaDetalladaView(ViewConGraficas):
     def configurar_root(self):
         # ----- Configuracion del root ------
         self.root.title("Medidor Acústico - Vista detallada")
-        self.root.iconbitmap("../resources/icons/mic_icon.ico")
-        self.root.tk_setPalette(background='#831212')
-        self.root.resizable(False, False)
-        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
+        super(VistaDetalladaView, self).configurar_root()
 
     def construir_main_frame(self):
         main_frame = Frame(self.root)
