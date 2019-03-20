@@ -20,7 +20,7 @@ class TestEscritorArchivos(unittest.TestCase):
     def test_que_un_valor_se_formatee_correctamente(self):
         valor = 2
         valor_formateado = "$2"
-        self.assertEqual(valor_formateado, self.escritor.string_valor(2))
+        self.assertEqual(valor_formateado, self.escritor.string_valor(valor))
 
     def test_que_una_lista_de_valores_se_formatee_correctamente(self):
         valores = [2, 3, 4, 5]
