@@ -1,6 +1,7 @@
 from abc import ABC
 
 from src.core.provider.procesador_mensajes_provider import ProcesadorMensajesProvider
+from src.core.provider.queue_provider import QueueProvider
 
 
 class Controller(ABC):
@@ -9,9 +10,21 @@ class Controller(ABC):
         self.master = None
         self.view = view
         self.procesador_mensajes = ProcesadorMensajesProvider.provide_procesador_mensajes()
+        self.queue = QueueProvider.provide_thread_queue()
 
     def on_cerrar_ventana(self):
         self.view.ocultar_vista()
+
+    def revisar_queue(self):
+
+        if not self.queue.empty():
+
+            mensaje = self.queue.get()
+            if mensaje.get_destinatario() == self.master:
+                self.procesar(mensaje)
+                self.queue.task_done()
+            else:
+                self.queue.put(mensaje)
 
     def procesar(self, mensaje):
 

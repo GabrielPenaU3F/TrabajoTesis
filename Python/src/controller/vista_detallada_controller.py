@@ -1,13 +1,13 @@
 from src.controller.pantalla_con_graficas_controller import PantallaConGraficasController
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.provider.action_provider import ActionProvider
-from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.core.domain.mensaje import Mensaje
 
 
 class VistaDetalladaController(PantallaConGraficasController):
+
 
     def __init__(self, view):
         super().__init__(view)
@@ -18,18 +18,12 @@ class VistaDetalladaController(PantallaConGraficasController):
             provide_pantalla_instrucciones_vista_detallada_subject()
         self.pantalla_instrucciones_vista_detallada_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
-        self.vista_detallada_queue = QueueProvider.provide_vista_detallada_queue()
         self.medidor_acustico = MedidorAcustico()
         self.transformar_a_db_action = ActionProvider.provide_transformar_a_escala_logaritmica_normalizada_action()
         self.calculos_por_tipo_de_banda = {
             'OCTAVA': self.medidor_acustico.obtener_medicion_en_octava,
             'TERCIO_OCTAVA': self.medidor_acustico.obtener_medicion_en_tercio_octava
         }
-
-    def actualizar(self):
-        if not self.vista_detallada_queue.empty():
-            mensaje = self.vista_detallada_queue.get()
-            self.procesar(mensaje)
 
     def on_cerrar_ventana(self):
         mensaje_activar_boton = Mensaje(destinatario="VistaPrincipal", mensaje="ActivarBotonVistaDetallada")
@@ -60,7 +54,6 @@ class VistaDetalladaController(PantallaConGraficasController):
     def finalizar_calculo(self, paquete):
         self.unbindear_evento_root("Configure")
         self.mostrar_medicion_en_vista(paquete)
-        self.vista_detallada_queue.task_done()
         self.desactivar_progressbar()
         self.desbloquear_controles()
 
@@ -74,7 +67,6 @@ class VistaDetalladaController(PantallaConGraficasController):
 
     def mostrar_error_lundeby(self):
         self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
-        self.vista_detallada_queue.task_done()
         self.desbloquear_controles()
         self.desactivar_progressbar()
 

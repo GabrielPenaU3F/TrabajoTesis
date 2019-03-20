@@ -16,7 +16,6 @@ class MainController(PantallaConGraficasController):
         self.string_repository = RepositoryProvider.provide_string_repository()
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
         self.medidor = MedidorAcustico()
-        self.main_queue = QueueProvider.provide_main_queue()
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
         self.pantalla_instrucciones_subject = SubjectProvider.provide_pantalla_instrucciones_subject()
         self.pantalla_instrucciones_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
@@ -60,11 +59,6 @@ class MainController(PantallaConGraficasController):
         if self.hay_medicion():
             EscritorDeArchivosDeMedicion().guardar_archivo(self.medicion_repository.get_medicion())
 
-    def actualizar(self):
-        if not self.main_queue.empty():
-            mensaje = self.main_queue.get()
-            self.procesar(mensaje)
-
     def lanzar_pantalla_espera(self):
         from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
         CoordinadorDeVistas().mostrar_vista("VistaPantallaEspera")
@@ -73,7 +67,6 @@ class MainController(PantallaConGraficasController):
         self.unbindear_evento_root("Configure")
         self.medicion_repository.put_medicion(paquete)
         self.mostrar_medicion_en_vista()
-        self.main_queue.task_done()
         self.restaurar_pantalla_principal()
 
     def restaurar_pantalla_principal(self):
@@ -83,7 +76,6 @@ class MainController(PantallaConGraficasController):
 
     def mostrar_error_lundeby(self):
         self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
-        self.main_queue.task_done()
         self.restaurar_pantalla_principal()
 
     def desactivar_boton_instrucciones(self):

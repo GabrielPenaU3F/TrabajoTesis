@@ -22,7 +22,7 @@ class ViewConGraficas(View):
 
     def refrescar(self):
         if self.ventana_activa:
-            self.controller.actualizar()
+            self.controller.revisar_queue()
             self.root.update_idletasks()
             if self.flag_redibujar == '' and self.solicitud_de_redibujo:
                 self.redibujar_canvas()

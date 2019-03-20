@@ -14,6 +14,6 @@ class InstruccionesController(Controller):
         self.on_cerrar_ventana()
 
     def on_cerrar_ventana(self):
-        mensaje_activar_boton = Mensaje("ActivarBotonInstrucciones")
+        mensaje_activar_boton = Mensaje(destinatario="VistaPrincipal", mensaje="ActivarBotonInstrucciones")
         self.pantalla_instrucciones_subject.on_next(mensaje_activar_boton)
         self.view.ocultar_vista()

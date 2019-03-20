@@ -15,10 +15,6 @@ class PantallaConGraficasController(Controller):
     def mostrar_error_lundeby(self):
         pass
 
-    @abstractmethod
-    def actualizar(self):
-        pass
-
     def bloquear_controles(self):
         self.view.bloquear_controles()
 
