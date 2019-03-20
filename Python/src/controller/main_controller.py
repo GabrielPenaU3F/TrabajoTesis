@@ -2,7 +2,6 @@ from src.controller.pantalla_con_graficas_controller import PantallaConGraficasC
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
 from src.core.domain.archivos.lector_de_archivos_de_medicion import LectorDeArchivosDeMedicion
-from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.core.domain.mensaje import Mensaje
@@ -16,11 +15,9 @@ class MainController(PantallaConGraficasController):
         self.string_repository = RepositoryProvider.provide_string_repository()
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
         self.medidor = MedidorAcustico()
+        self.pantalla_principal_subject = SubjectProvider.provide_pantalla_principal_subject()
+        self.pantalla_principal_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
-        self.pantalla_instrucciones_subject = SubjectProvider.provide_pantalla_instrucciones_subject()
-        self.pantalla_instrucciones_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
-        self.vista_detallada_subject = SubjectProvider.provide_vista_detallada_subject()
-        self.vista_detallada_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()
@@ -67,16 +64,16 @@ class MainController(PantallaConGraficasController):
         self.unbindear_evento_root("Configure")
         self.medicion_repository.put_medicion(paquete)
         self.mostrar_medicion_en_vista()
-        self.restaurar_pantalla_principal()
+        self.cerrar_pantalla_espera()
 
-    def restaurar_pantalla_principal(self):
+    def cerrar_pantalla_espera(self):
         mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEspera", "CerrarPantallaEspera")
         self.pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
         self.desbloquear_controles()
 
     def mostrar_error_lundeby(self):
         self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
-        self.restaurar_pantalla_principal()
+        self.cerrar_pantalla_espera()
 
     def desactivar_boton_instrucciones(self):
         self.view.desactivar_boton_instrucciones()

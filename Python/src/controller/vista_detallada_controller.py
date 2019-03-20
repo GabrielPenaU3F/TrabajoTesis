@@ -14,9 +14,8 @@ class VistaDetalladaController(PantallaConGraficasController):
         self.master = "VistaDetallada"
         self.string_repository = RepositoryProvider.provide_string_repository()
         self.vista_detallada_subject = SubjectProvider.provide_vista_detallada_subject()
-        self.pantalla_instrucciones_vista_detallada_subject = SubjectProvider.\
-            provide_pantalla_instrucciones_vista_detallada_subject()
-        self.pantalla_instrucciones_vista_detallada_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
+        self.vista_detallada_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
+        self.pantalla_principal_subject = SubjectProvider.provide_pantalla_principal_subject()
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
         self.medidor_acustico = MedidorAcustico()
         self.transformar_a_db_action = ActionProvider.provide_transformar_a_escala_logaritmica_normalizada_action()
@@ -27,7 +26,7 @@ class VistaDetalladaController(PantallaConGraficasController):
 
     def on_cerrar_ventana(self):
         mensaje_activar_boton = Mensaje(destinatario="VistaPrincipal", mensaje="ActivarBotonVistaDetallada")
-        self.vista_detallada_subject.on_next(mensaje_activar_boton)
+        self.pantalla_principal_subject.on_next(mensaje_activar_boton)
         self.view.ocultar_vista()
 
     def on_calcular(self):

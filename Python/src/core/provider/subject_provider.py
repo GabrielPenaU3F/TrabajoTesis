@@ -3,25 +3,17 @@ from rx.subjects import Subject
 
 class SubjectProvider:
 
-    pantalla_instrucciones_vista_detallada_subject = None
-    pantalla_espera_subject = None
-    pantalla_instrucciones_subject = None
+    pantalla_principal_subject = None
     vista_detallada_subject = None
+    pantalla_espera_subject = None
 
     @classmethod
-    def provide_pantalla_espera_subject(cls):
-        if cls.pantalla_espera_subject is None:
-            cls.pantalla_espera_subject = Subject()
+    def provide_pantalla_principal_subject(cls):
 
-        return cls.pantalla_espera_subject
+        if cls.pantalla_principal_subject is None:
+            cls.pantalla_principal_subject = Subject()
 
-    @classmethod
-    def provide_pantalla_instrucciones_subject(cls):
-
-        if cls.pantalla_instrucciones_subject is None:
-            cls.pantalla_instrucciones_subject = Subject()
-
-        return cls.pantalla_instrucciones_subject
+        return cls.pantalla_principal_subject
 
     @classmethod
     def provide_vista_detallada_subject(cls):
@@ -32,9 +24,10 @@ class SubjectProvider:
         return cls.vista_detallada_subject
 
     @classmethod
-    def provide_pantalla_instrucciones_vista_detallada_subject(cls):
+    def provide_pantalla_espera_subject(cls):
 
-        if cls.pantalla_instrucciones_vista_detallada_subject is None:
-            cls.pantalla_instrucciones_vista_detallada_subject = Subject()
+        if cls.pantalla_espera_subject is None:
+            cls.pantalla_espera_subject = Subject()
 
-        return cls.pantalla_instrucciones_vista_detallada_subject
+        return cls.pantalla_espera_subject
+
