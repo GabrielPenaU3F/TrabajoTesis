@@ -1,4 +1,4 @@
-from src.controller.controller_pantalla_con_graficas import ControllerPantallaConGraficas
+from src.controller.pantalla_con_graficas_controller import PantallaConGraficasController
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
 from src.core.domain.archivos.lector_de_archivos_de_medicion import LectorDeArchivosDeMedicion
@@ -8,7 +8,7 @@ from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
 
 
-class MainController(ControllerPantallaConGraficas):
+class MainController(PantallaConGraficasController):
 
     def __init__(self, view):
         super().__init__(view)
@@ -49,14 +49,15 @@ class MainController(ControllerPantallaConGraficas):
         self.view.mostrar_tiempos_de_reverberacion(
             medicion.get_edt().get_rt(), medicion.get_t20().get_rt(), medicion.get_t30().get_rt())
 
-    # TODO: Terminar estos dos métodos. Falta definir el formato de los archivos
-
     def on_cargar_archivo(self):
-        archivo = LectorDeArchivosDeMedicion().cargar_archivo()
+        medicion = LectorDeArchivosDeMedicion().cargar_archivo()
+        self.medicion_repository.put_medicion(medicion)
+        self.mostrar_medicion_en_vista()
+        self.desbloquear_controles()
 
     def on_guardar_archivo(self):
         if self.hay_medicion():
-            nombre_archivo = EscritorDeArchivosDeMedicion().guardar_archivo()
+            EscritorDeArchivosDeMedicion().guardar_archivo(self.medicion_repository.get_medicion())
 
     def actualizar(self):
         if not self.main_queue.empty():

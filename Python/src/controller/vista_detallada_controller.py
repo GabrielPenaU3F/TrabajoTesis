@@ -1,4 +1,4 @@
-from src.controller.controller_pantalla_con_graficas import ControllerPantallaConGraficas
+from src.controller.pantalla_con_graficas_controller import PantallaConGraficasController
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.provider.action_provider import ActionProvider
 from src.core.provider.queue_provider import QueueProvider
@@ -7,7 +7,7 @@ from src.core.provider.subject_provider import SubjectProvider
 from src.messages.mensaje import Mensaje
 
 
-class VistaDetalladaController(ControllerPantallaConGraficas):
+class VistaDetalladaController(PantallaConGraficasController):
 
     def __init__(self, view):
         super().__init__(view)
@@ -38,13 +38,14 @@ class VistaDetalladaController(ControllerPantallaConGraficas):
         self.view.ocultar_vista()
 
     def on_calcular(self):
-        self.bloquear_controles()
         self.activar_progressbar()
-        ponderacion_A = self.view.verificar_ponderacion_A()
+        self.bloquear_controles()
+        ponderacion_A_activa = self.view.verificar_ponderacion_A()
         tab_activa = self.view.get_tab_activa()
         medicion = self.medicion_repository.get_medicion()
         f_central = tab_activa.get_frecuencia_central_banda_seleccionada()
-        self.calculos_por_tipo_de_banda.get(tab_activa.get_tipo())(medicion, f_central, ponderacion_A=ponderacion_A)
+        self.calculos_por_tipo_de_banda.get(tab_activa.get_tipo())(
+            medicion, f_central, ponderacion_A=ponderacion_A_activa)
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()

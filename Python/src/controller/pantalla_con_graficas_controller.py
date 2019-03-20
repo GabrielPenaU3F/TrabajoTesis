@@ -4,7 +4,7 @@ from src.controller.controller import Controller
 from src.core.provider.repository_provider import RepositoryProvider
 
 
-class ControllerPantallaConGraficas(Controller):
+class PantallaConGraficasController(Controller):
 
     def __init__(self, view):
         super().__init__(view)

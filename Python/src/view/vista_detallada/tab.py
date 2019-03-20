@@ -300,8 +300,8 @@ class Tab(ABC):
 
 
     def activar_progressbar(self):
-        self.progressbar.start(10)
         self.pb_frame.grid(row=5, column=0)
+        self.progressbar.start(10)
 
     def desactivar_progressbar(self):
         self.progressbar.stop()

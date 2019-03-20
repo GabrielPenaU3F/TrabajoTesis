@@ -1,8 +1,4 @@
-import math
 import unittest
-
-import numpy
-
 from src.core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
 from src.core.domain.medicion import Medicion
 from src.core.domain.senal_audio import SenalAudio
