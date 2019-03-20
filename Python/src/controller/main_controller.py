@@ -1,7 +1,7 @@
 from src.controller.controller_pantalla_con_graficas import ControllerPantallaConGraficas
 from src.core.domain.medidor_acustico import MedidorAcustico
-from src.core.domain.archivos.escritor_de_archivos_de_audio import EscritorDeArchivosDeAudio
-from src.core.domain.archivos.lector_de_archivos_de_audio import LectorDeArchivosDeAudio
+from src.core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
+from src.core.domain.archivos.lector_de_archivos_de_medicion import LectorDeArchivosDeMedicion
 from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
@@ -52,11 +52,11 @@ class MainController(ControllerPantallaConGraficas):
     # TODO: Terminar estos dos métodos. Falta definir el formato de los archivos
 
     def on_cargar_archivo(self):
-        archivo = LectorDeArchivosDeAudio().cargar_archivo()
+        archivo = LectorDeArchivosDeMedicion().cargar_archivo()
 
     def on_guardar_archivo(self):
         if self.hay_medicion():
-            nombre_archivo = EscritorDeArchivosDeAudio().guardar_archivo()
+            nombre_archivo = EscritorDeArchivosDeMedicion().guardar_archivo()
 
     def actualizar(self):
         if not self.main_queue.empty():

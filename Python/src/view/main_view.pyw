@@ -96,7 +96,7 @@ class MainView(ViewConGraficas):
 
         self.boton_guardar_archivo = Button(self.frame_medicion)
         self.boton_guardar_archivo.config(text="Guardar archivo", command=self.controller.on_guardar_archivo,
-                                          bg="#5e0606")
+                                          bg="#5e0606", state=DISABLED)
         self.boton_guardar_archivo.grid(row=0, column=5, padx=10)
 
         self.boton_vista_detallada = Button(self.frame_boton_derecha)

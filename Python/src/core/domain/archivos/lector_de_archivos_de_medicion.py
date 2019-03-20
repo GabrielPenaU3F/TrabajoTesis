@@ -6,11 +6,12 @@ from src.exception.excepciones import IOException
 from src.core.domain.senal_audio import SenalAudio
 
 
-class LectorDeArchivosDeAudio:
+class LectorDeArchivosDeMedicion:
 
     def cargar_archivo(self):
-        archivo = filedialog.askopenfile(mode="rb", title="Seleccionar archivo", filetypes=(("Archivos RI", "*.ri"),
-                                                                                ("Todos los archivos", "*.*")))
+        archivo = filedialog.askopenfile(mode="rb", title="Seleccionar archivo",
+                                         filetypes=(("Archivos RAM", "*.ram"),
+                                                    ("Todos los archivos", "*.*")))
         if archivo:
             datos_string = archivo.read().decode('cp037')
             return self.parsear_datos(datos_string)
