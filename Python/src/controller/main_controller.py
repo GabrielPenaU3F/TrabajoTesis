@@ -5,13 +5,14 @@ from src.core.domain.archivos.lector_de_archivos_de_medicion import LectorDeArch
 from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
-from src.messages.mensaje import Mensaje
+from src.core.domain.mensaje import Mensaje
 
 
 class MainController(PantallaConGraficasController):
 
     def __init__(self, view):
         super().__init__(view)
+        self.master = "VistaPrincipal"
         self.string_repository = RepositoryProvider.provide_string_repository()
         self.medicion_repository = RepositoryProvider.provide_medicion_repository()
         self.medidor = MedidorAcustico()
@@ -76,7 +77,7 @@ class MainController(PantallaConGraficasController):
         self.restaurar_pantalla_principal()
 
     def restaurar_pantalla_principal(self):
-        mensaje_cerrar_pantalla_espera = Mensaje("CerrarPantallaEspera")
+        mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEspera", "CerrarPantallaEspera")
         self.pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
         self.desbloquear_controles()
 

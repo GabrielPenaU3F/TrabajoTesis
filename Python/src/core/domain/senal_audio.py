@@ -98,10 +98,13 @@ class SenalAudio:
     de cada intervalo. Es decir, un retenedor de orden cero (ZOH).
     '''
     def get_valor_en(self, t):
-        muestra_correspondiente = math.floor(t * self.fs)
-        if muestra_correspondiente == self.longitud:
-            return self.contenido_temporal.get_muestra(muestra_correspondiente - 1)
-        return self.contenido_temporal.get_muestra(muestra_correspondiente)
+        if t <= self.get_dominio_temporal()[-1]:
+            muestra_correspondiente = math.floor(t * self.fs)
+            if muestra_correspondiente == self.longitud:
+                return self.contenido_temporal.get_muestra(muestra_correspondiente - 1)
+            return self.contenido_temporal.get_muestra(muestra_correspondiente)
+        else:
+            return self.get_dominio_temporal()[-1]
 
 
     '''

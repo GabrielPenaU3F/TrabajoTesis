@@ -12,6 +12,8 @@ class MainView(ViewConGraficas):
 
         super().__init__(MainController(self), Toplevel())
 
+        self.master = "VistaPrincipal"
+
         self.main_frame = self.construir_main_frame()
 
         self.construir_estructura_principal()
@@ -135,8 +137,8 @@ class MainView(ViewConGraficas):
         self.frame_toolbar_curva_decaimiento.grid(row=1, column=1)
         self.construir_plot_curva_decaimiento()
 
-        self.label_prueba = Label(self.frame_graficas, text="Hola", fg="black")
-        self.label_prueba.grid(row=3, column=0)
+        #self.label_prueba = Label(self.frame_graficas, text="Hola", fg="black")
+        #self.label_prueba.grid(row=3, column=0)
 
     def construir_plot_respuesta_impulsional(self):
         self.figura_ri = Figure(figsize=(10, 10), dpi=100)

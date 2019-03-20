@@ -4,7 +4,7 @@ from src.core.provider.action_provider import ActionProvider
 from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.exception.excepciones import LundebyException
-from src.messages.mensaje import Mensaje
+from src.core.domain.mensaje import Mensaje
 
 
 class MedidorAcustico:
@@ -32,22 +32,22 @@ class MedidorAcustico:
         respuesta_impulsional = self.medir_respuesta_impulsional_action.execute(metodo, fs)
         try:
             medicion = self.obtener_medicion_completa(respuesta_impulsional, fs)
-            mensaje = Mensaje("MedicionCompleta", medicion)
+            mensaje = Mensaje(destinatario="VistaPrincipal", mensaje="MedicionCompleta", paquete=medicion)
             self.main_queue.put(mensaje)
             return None
         except LundebyException:
-            mensaje = Mensaje("LundebyException")
+            mensaje = Mensaje(destinatario="VistaPrincipal", mensaje="LundebyException")
             self.main_queue.put(mensaje)
             return None
 
     def efectuar_calculo(self, respuesta_impulsional, fs):
         try:
             medicion = self.obtener_medicion_completa(respuesta_impulsional, fs)
-            mensaje = Mensaje("CalculoCompleto", medicion)
+            mensaje = Mensaje(destinatario="VistaDetallada", mensaje="CalculoCompleto", paquete=medicion)
             self.vista_detallada_queue.put(mensaje)
             return None
         except LundebyException:
-            mensaje = Mensaje("LundebyException")
+            mensaje = Mensaje(destinatario="VistaDetallada", mensaje="LundebyException")
             self.vista_detallada_queue.put(mensaje)
             return None
 

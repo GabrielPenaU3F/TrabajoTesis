@@ -298,7 +298,6 @@ class Tab(ABC):
         self.progressbar.config(mode="indeterminate", length=250)
         self.progressbar.grid(row=1, column=0, pady=10)
 
-
     def activar_progressbar(self):
         self.pb_frame.grid(row=5, column=0)
         self.progressbar.start(10)

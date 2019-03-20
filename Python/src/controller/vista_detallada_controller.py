@@ -4,15 +4,14 @@ from src.core.provider.action_provider import ActionProvider
 from src.core.provider.queue_provider import QueueProvider
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
-from src.messages.mensaje import Mensaje
+from src.core.domain.mensaje import Mensaje
 
 
 class VistaDetalladaController(PantallaConGraficasController):
 
     def __init__(self, view):
         super().__init__(view)
-        self.root_bindings = []
-        self.binding_eventos_repository = RepositoryProvider.provide_binding_eventos_repository()
+        self.master = "VistaDetallada"
         self.string_repository = RepositoryProvider.provide_string_repository()
         self.vista_detallada_subject = SubjectProvider.provide_vista_detallada_subject()
         self.pantalla_instrucciones_vista_detallada_subject = SubjectProvider.\
@@ -33,7 +32,7 @@ class VistaDetalladaController(PantallaConGraficasController):
             self.procesar(mensaje)
 
     def on_cerrar_ventana(self):
-        mensaje_activar_boton = Mensaje("ActivarBotonVistaDetallada")
+        mensaje_activar_boton = Mensaje(destinatario="VistaPrincipal", mensaje="ActivarBotonVistaDetallada")
         self.vista_detallada_subject.on_next(mensaje_activar_boton)
         self.view.ocultar_vista()
 
