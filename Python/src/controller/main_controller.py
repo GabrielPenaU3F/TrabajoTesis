@@ -47,10 +47,7 @@ class MainController(PantallaConGraficasController):
             medicion.get_edt().get_rt(), medicion.get_t20().get_rt(), medicion.get_t30().get_rt())
 
     def on_cargar_archivo(self):
-        medicion = LectorDeArchivosDeMedicion().cargar_archivo()
-        self.medicion_repository.put_medicion(medicion)
-        self.mostrar_medicion_en_vista()
-        self.desbloquear_controles()
+        LectorDeArchivosDeMedicion().cargar_archivo()
 
     def on_guardar_archivo(self):
         if self.hay_medicion():
@@ -61,10 +58,14 @@ class MainController(PantallaConGraficasController):
         CoordinadorDeVistas().mostrar_vista("VistaPantallaEspera")
 
     def finalizar_medicion(self, paquete):
+        self.cerrar_pantalla_espera()
+        self.desplegar_medicion(paquete)
+
+    def desplegar_medicion(self, paquete):
         self.unbindear_evento_root("Configure")
         self.medicion_repository.put_medicion(paquete)
         self.mostrar_medicion_en_vista()
-        self.cerrar_pantalla_espera()
+        self.desbloquear_controles()
 
     def cerrar_pantalla_espera(self):
         mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEspera", "CerrarPantallaEspera")
@@ -72,7 +73,7 @@ class MainController(PantallaConGraficasController):
         self.desbloquear_controles()
 
     def mostrar_error_lundeby(self):
-        self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
+        self.view.mostrar_error(self.string_repository.get_mensaje_error_lundeby())
         self.cerrar_pantalla_espera()
 
     def desactivar_boton_instrucciones(self):
@@ -91,6 +92,10 @@ class MainController(PantallaConGraficasController):
 
     def activar_boton_vista_detallada(self):
         self.view.activar_boton_vista_detallada()
+
+    def mostrar_error_dispositivo_inaccesible(self):
+        self.view.mostrar_error(self.string_repository.get_mensaje_error_dispositivo_inaccesible())
+        self.cerrar_pantalla_espera()
 
     def hay_medicion(self):
         return self.medicion_repository.hay_medicion()

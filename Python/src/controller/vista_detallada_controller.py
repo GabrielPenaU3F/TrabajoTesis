@@ -65,7 +65,7 @@ class VistaDetalladaController(PantallaConGraficasController):
             medicion.get_edt(), medicion.get_t20(), medicion.get_t30(), medicion.get_curvatura())
 
     def mostrar_error_lundeby(self):
-        self.view.mostrar_error_lundeby(self.string_repository.get_mensaje_error_lundeby())
+        self.view.mostrar_error(self.string_repository.get_mensaje_error_lundeby())
         self.desbloquear_controles()
         self.desactivar_progressbar()
 

@@ -230,7 +230,7 @@ class MainView(ViewConGraficas):
         self.sistema_ejes_cd.plot(dominio_temporal, curva_decaimiento, color="#ff0000")
         self.canvas_cd.draw()
 
-    def mostrar_error_lundeby(self, mensaje):
+    def mostrar_error(self, mensaje):
         messagebox.showerror("Error", mensaje)
 
     def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):
@@ -251,11 +251,12 @@ class MainView(ViewConGraficas):
 
     def desbloquear_controles(self):
         self.boton_cargar_archivo.config(state=NORMAL)
-        self.boton_guardar_archivo.config(state=NORMAL)
         self.boton_medir.config(state=NORMAL)
-        self.boton_vista_detallada.config(state=NORMAL)
         self.radiob_ess.config(state=NORMAL)
         self.radiob_mls.config(state=NORMAL)
+        if self.controller.hay_medicion():
+            self.boton_guardar_archivo.config(state=NORMAL)
+            self.boton_vista_detallada.config(state=NORMAL)
 
     def generar_ejes_ri_limpios(self):
         self.sistema_ejes_ri.cla()

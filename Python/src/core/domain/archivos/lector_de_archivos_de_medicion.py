@@ -1,11 +1,17 @@
+from threading import Thread
 from tkinter import filedialog
 from src.core.domain.medicion import Medicion
+from src.core.domain.mensaje import Mensaje
 from src.core.domain.tiempo_reverberacion import TiempoReverberacion
+from src.core.provider.queue_provider import QueueProvider
 from src.exception.excepciones import IOException
 from src.core.domain.senal_audio import SenalAudio
 
 
 class LectorDeArchivosDeMedicion:
+
+    def __init__(self):
+        self.queue = QueueProvider.provide_thread_queue()
 
     def cargar_archivo(self):
         archivo = filedialog.askopenfile(mode="rb", title="Seleccionar archivo",
@@ -13,8 +19,8 @@ class LectorDeArchivosDeMedicion:
                                                     ("Todos los archivos", "*.*")))
         if archivo:
             datos_string = archivo.read().decode('cp037')
-            return self.parsear_datos(datos_string)
-
+            thread_medicion = Thread(target=self.parsear_datos, args=(datos_string,), daemon=True)
+            thread_medicion.start()
         else:
             raise IOException("No se pudo leer el archivo indicado")
 
@@ -35,7 +41,8 @@ class LectorDeArchivosDeMedicion:
         t20 = self.constrruir_rt(valores_t20)
         t30 = self.constrruir_rt(valores_t30)
 
-        return Medicion(ri, cd, edt, t20, t30, curvatura, nivel=True)
+        medicion = Medicion(ri, cd, edt, t20, t30, curvatura, nivel=True)
+        self.queue.put(Mensaje(destinatario="VistaPrincipal", mensaje="CargaCompleta", paquete=medicion))
 
     def parsear_lista_flotantes(self, string):
         valores = string.split(",")

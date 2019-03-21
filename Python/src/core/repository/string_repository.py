@@ -54,6 +54,10 @@ class StringRepository:
                                     " decaimiento. Por favor, intente repetir \n" \
                                     "la medición nuevamente."
 
+        self.string_error_dispositivo_inaccesible = "Lo sentimos, se ha producido un error\n" \
+                                                    " durante la medición. Por favor, verifique\n" \
+                                                    " que los dispositivos de entrada y salida\n" \
+                                                    " de audio estén correctamente conectados."
 
     def get_string_instrucciones(self):
         return self.string_instrucciones
@@ -63,3 +67,6 @@ class StringRepository:
 
     def get_string_instrucciones_vista_detallada(self):
         return self.string_instrucciones_vista_detallada
+
+    def get_mensaje_error_dispositivo_inaccesible(self):
+        return self.string_error_dispositivo_inaccesible
