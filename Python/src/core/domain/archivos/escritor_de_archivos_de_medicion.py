@@ -1,14 +1,16 @@
+import traceback
 from tkinter import filedialog
 
+from src.core.domain.archivos.dialogo_guardar_medicion import DialogoGuardarMedicion
+from src.core.domain.archivos.escritor_de_archivos import EscritorDeArchivos
 from src.exception.excepciones import IOException
 
 
-class EscritorDeArchivosDeMedicion:
+class EscritorDeArchivosDeMedicion(EscritorDeArchivos):
 
     def guardar_archivo(self, medicion):
-        archivo = filedialog.asksaveasfile(mode="wb", title="Guardar archivo", defaultextension=".ram",
-                                           filetypes=(("Archivos RAM", ".ram"),
-                                                      ("Todos los archivos", ".*")))
+        dialogo = DialogoGuardarMedicion()
+        archivo = self.abrir_dialogo(dialogo)
         if archivo:
             string_archivo = self.formatear_medicion(medicion)
             archivo.write(string_archivo.encode('cp037'))  # IBM037 codec
