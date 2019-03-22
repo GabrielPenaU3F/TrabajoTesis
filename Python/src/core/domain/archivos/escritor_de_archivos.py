@@ -9,7 +9,7 @@ class EscritorDeArchivos(ABC):
         pass
 
     def abrir_dialogo(self, dialogo):
-        return filedialog.asksaveasfile(mode="wb",
+        return filedialog.asksaveasfile(mode=dialogo.get_modo(),
                                         title=dialogo.get_titulo(),
                                         defaultextension=dialogo.get_extension_default(),
                                         filetypes=(dialogo.get_tipos_archivo()))

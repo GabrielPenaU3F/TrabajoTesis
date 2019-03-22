@@ -101,6 +101,10 @@ class MainView(ViewConGraficas):
                                           bg="#5e0606", state=DISABLED)
         self.boton_guardar_archivo.grid(row=0, column=5, padx=10)
 
+        self.boton_exportar = Button(self.frame_medicion)
+        self.boton_exportar.config(text="Exportar", command=self.controller.on_exportar, bg="#5e0606", state=DISABLED)
+        self.boton_exportar.grid(row=0, column=6, padx=10)
+
         self.boton_vista_detallada = Button(self.frame_boton_derecha)
         self.boton_vista_detallada.config(text="Vista detallada", bg="#5e0606",
                                           command=self.controller.on_abrir_vista_detallada, state=DISABLED)
@@ -244,6 +248,7 @@ class MainView(ViewConGraficas):
     def bloquear_controles(self):
         self.boton_cargar_archivo.config(state=DISABLED)
         self.boton_guardar_archivo.config(state=DISABLED)
+        self.boton_exportar.config(state=DISABLED)
         self.boton_medir.config(state=DISABLED)
         self.boton_vista_detallada.config(state=DISABLED)
         self.radiob_ess.config(state=DISABLED)
@@ -256,6 +261,7 @@ class MainView(ViewConGraficas):
         self.radiob_mls.config(state=NORMAL)
         if self.controller.hay_medicion():
             self.boton_guardar_archivo.config(state=NORMAL)
+            self.boton_exportar.config(state=NORMAL)
             self.boton_vista_detallada.config(state=NORMAL)
 
     def generar_ejes_ri_limpios(self):

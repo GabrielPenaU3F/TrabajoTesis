@@ -1,5 +1,7 @@
 from threading import Thread
 from tkinter import filedialog
+
+from src.core.domain.archivos.dialogo_cargar_medicion import DialogoCargarMedicion
 from src.core.domain.medicion import Medicion
 from src.core.domain.mensaje import Mensaje
 from src.core.domain.tiempo_reverberacion import TiempoReverberacion
@@ -14,15 +16,21 @@ class LectorDeArchivosDeMedicion:
         self.queue = QueueProvider.provide_thread_queue()
 
     def cargar_archivo(self):
-        archivo = filedialog.askopenfile(mode="rb", title="Seleccionar archivo",
-                                         filetypes=(("Archivos RAM", "*.ram"),
-                                                    ("Todos los archivos", "*.*")))
-        if archivo:
-            datos_string = archivo.read().decode('cp037')
-            thread_medicion = Thread(target=self.parsear_datos, args=(datos_string,), daemon=True)
-            thread_medicion.start()
-        else:
-            raise IOException("No se pudo leer el archivo indicado")
+        dialogo = DialogoCargarMedicion()
+        with self.abrir_dialogo(dialogo) as archivo:
+
+            if archivo:
+                datos_string = archivo.read().decode('cp037')
+                thread_medicion = Thread(target=self.parsear_datos, args=(datos_string,), daemon=True)
+                thread_medicion.start()
+            else:
+                raise IOException("No se pudo leer el archivo indicado")
+
+    def abrir_dialogo(self, dialogo):
+        return filedialog.askopenfile(mode=dialogo.get_modo(),
+                                      title=dialogo.get_titulo(),
+                                      defaultextension=dialogo.get_extension_default(),
+                                      filetypes=(dialogo.get_tipos_archivo()))
 
     def parsear_datos(self, datos_string):
         datos_separados = datos_string.split("$")

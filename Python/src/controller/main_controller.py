@@ -1,4 +1,5 @@
 from src.controller.pantalla_con_graficas_controller import PantallaConGraficasController
+from src.core.domain.archivos.escritor_de_archivos_ods_xls import EscritorDeArchivosOdsXls
 from src.core.domain.medidor_acustico import MedidorAcustico
 from src.core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
 from src.core.domain.archivos.lector_de_archivos_de_medicion import LectorDeArchivosDeMedicion
@@ -99,6 +100,10 @@ class MainController(PantallaConGraficasController):
 
     def hay_medicion(self):
         return self.medicion_repository.hay_medicion()
+
+    def on_exportar(self):
+        if self.hay_medicion():
+            EscritorDeArchivosOdsXls().guardar_archivo(self.medicion_repository.get_medicion())
 
     def on_cerrar_ventana(self):
         quit()

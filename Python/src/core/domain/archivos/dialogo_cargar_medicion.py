@@ -1,11 +1,10 @@
 from src.core.domain.archivos.dialogo import Dialogo
 
-
-class DialogoGuardarMedicion(Dialogo):
+class DialogoCargarMedicion(Dialogo):
 
     def __init__(self):
-        modo = "wb"
-        titulo = "Guardar archivo"
+        modo = "rb"
+        titulo = "Seleccionar archivo"
         extension_default = ".ram"
         tipos_archivo = self.construir_tipos_archivo()
         super().__init__(modo, titulo, extension_default, tipos_archivo)
