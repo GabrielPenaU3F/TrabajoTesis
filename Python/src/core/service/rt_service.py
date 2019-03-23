@@ -1,6 +1,6 @@
 import math
 
-from src.core.domain.tiempo_reverberacion import TiempoReverberacion
+from core.domain.tiempo_reverberacion import TiempoReverberacion
 
 
 class RTService:
@@ -11,7 +11,7 @@ class RTService:
             "T20": self.calcular_t20,
             "T30": self.calcular_t30,
         }
-        from src.core.provider.service_provider import ServiceProvider
+        from core.provider.service_provider import ServiceProvider
         self.recortar_service = ServiceProvider.provide_recortar_senales_service()
         self.estadistica_service = ServiceProvider.provide_estadistica_service()
 

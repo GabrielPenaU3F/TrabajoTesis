@@ -1,8 +1,8 @@
 from tkinter import *
 
-from src.controller.instrucciones_controller import InstruccionesController
-from src.core.provider.repository_provider import RepositoryProvider
-from src.view.view import View
+from controller.instrucciones_controller import InstruccionesController
+from core.provider.repository_provider import RepositoryProvider
+from view.view import View
 
 
 class InstruccionesView(View):

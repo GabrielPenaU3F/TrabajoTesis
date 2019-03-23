@@ -2,10 +2,10 @@ import math
 
 import numpy
 
-from src.core.domain.generadores_de_senales.generador_ess import GeneradorESS
-from src.core.domain.generadores_de_senales.generador_mls import GeneradorMLS
-from src.core.domain.lectograbador_de_audio import LectograbadorDeAudio
-from src.core.domain.senal_audio import SenalAudio
+from core.domain.generadores_de_senales.generador_ess import GeneradorESS
+from core.domain.generadores_de_senales.generador_mls import GeneradorMLS
+from core.domain.lectograbador_de_audio import LectograbadorDeAudio
+from core.domain.senal_audio import SenalAudio
 
 
 class MedirRespuestaImpulsionalAction:
@@ -15,7 +15,7 @@ class MedirRespuestaImpulsionalAction:
             "MLS": self.medir_por_mls,
             "ESS": self.medir_por_ess
         }
-        from src.core.provider.action_provider import ActionProvider
+        from core.provider.action_provider import ActionProvider
         self.eliminar_latencia_action = ActionProvider.provide_eliminar_latencia_action()
         self.ponderar_periodos_mls_action = ActionProvider.provide_ponderar_periodos_mls_action()
         self.realizar_convolucion_action = ActionProvider.provide_realizar_convolucion_action()

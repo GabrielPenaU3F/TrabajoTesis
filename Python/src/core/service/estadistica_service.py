@@ -2,8 +2,8 @@ import math
 
 import numpy
 
-from src.core.domain.recta import Recta
-from src.exception.excepciones import RegresionException
+from core.domain.recta import Recta
+from exception.excepciones import RegresionException
 
 
 class EstadisticaService:

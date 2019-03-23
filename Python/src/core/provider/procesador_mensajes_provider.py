@@ -1,4 +1,4 @@
-from src.core.domain.procesador_mensajes import ProcesadorMensajes
+from core.domain.procesador_mensajes import ProcesadorMensajes
 
 
 class ProcesadorMensajesProvider:

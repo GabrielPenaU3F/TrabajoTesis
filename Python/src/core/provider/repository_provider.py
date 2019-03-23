@@ -1,7 +1,7 @@
-from src.core.repository.bandas_estandar_repository import BandasEstandarRepository
-from src.core.repository.binding_eventos_repository import BindingEventosRepository
-from src.core.repository.medicion_repository import MedicionRepository
-from src.core.repository.string_repository import StringRepository
+from core.repository.bandas_estandar_repository import BandasEstandarRepository
+from core.repository.binding_eventos_repository import BindingEventosRepository
+from core.repository.medicion_repository import MedicionRepository
+from core.repository.string_repository import StringRepository
 
 
 class RepositoryProvider:

@@ -1,4 +1,4 @@
-from src.core.domain.archivos.dialogo import Dialogo
+from core.domain.archivos.dialogo import Dialogo
 
 
 class DialogoExportarMedicion(Dialogo):
@@ -6,7 +6,7 @@ class DialogoExportarMedicion(Dialogo):
     def __init__(self):
         modo = "wb"
         titulo = "Exportar"
-        extension_default = ".ods"
+        extension_default = ".xlsx"
         tipos_archivo = self.construir_tipos_archivo()
         super().__init__(modo, titulo, extension_default, tipos_archivo)
 

@@ -1,8 +1,8 @@
-from src.view.instrucciones_view import InstruccionesView
-from src.view.main_view import MainView
-from src.view.pantalla_espera_view import PantallaEsperaView
-from src.view.vista_detallada.instrucciones_vista_detallada_view import InstruccionesVistaDetalladaView
-from src.view.vista_detallada.vista_detallada_view import VistaDetalladaView
+from view.instrucciones_view import InstruccionesView
+from view.main_view import MainView
+from view.pantalla_espera_view import PantallaEsperaView
+from view.vista_detallada.instrucciones_vista_detallada_view import InstruccionesVistaDetalladaView
+from view.vista_detallada.vista_detallada_view import VistaDetalladaView
 
 
 class CoordinadorDeVistas:

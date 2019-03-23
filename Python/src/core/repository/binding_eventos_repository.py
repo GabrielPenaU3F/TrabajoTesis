@@ -1,4 +1,4 @@
-from src.core.domain.binding_evento import BindingEvento
+from core.domain.binding_evento import BindingEvento
 
 
 class BindingEventosRepository:

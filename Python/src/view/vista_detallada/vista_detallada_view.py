@@ -1,10 +1,10 @@
 from tkinter import Toplevel, Frame, Button, DISABLED, NORMAL, messagebox
-from src.controller.vista_detallada_controller import VistaDetalladaController
-from src.core.provider.repository_provider import RepositoryProvider
-from src.view.view_con_graficas import ViewConGraficas
-from src.view.vista_detallada.tab_control import TabControl
-from src.view.vista_detallada.tab_octava import TabOctava
-from src.view.vista_detallada.tab_tercio_octava import TabTercioOctava
+from controller.vista_detallada_controller import VistaDetalladaController
+from core.provider.repository_provider import RepositoryProvider
+from view.view_con_graficas import ViewConGraficas
+from view.vista_detallada.tab_control import TabControl
+from view.vista_detallada.tab_octava import TabOctava
+from view.vista_detallada.tab_tercio_octava import TabTercioOctava
 
 
 class VistaDetalladaView(ViewConGraficas):

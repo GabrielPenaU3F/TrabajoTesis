@@ -1,7 +1,7 @@
 from abc import ABC
 
-from src.core.provider.procesador_mensajes_provider import ProcesadorMensajesProvider
-from src.core.provider.queue_provider import QueueProvider
+from core.provider.procesador_mensajes_provider import ProcesadorMensajesProvider
+from core.provider.queue_provider import QueueProvider
 
 
 class Controller(ABC):

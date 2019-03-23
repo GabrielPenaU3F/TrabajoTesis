@@ -1,6 +1,6 @@
-from src.controller.controller import Controller
-from src.core.provider.subject_provider import SubjectProvider
-from src.core.domain.mensaje import Mensaje
+from controller.controller import Controller
+from core.provider.subject_provider import SubjectProvider
+from core.domain.mensaje import Mensaje
 
 
 class InstruccionesController(Controller):

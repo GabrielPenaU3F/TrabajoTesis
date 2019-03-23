@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
-from src.controller.main_controller import MainController
+from controller.main_controller import MainController
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
-from src.view.view_con_graficas import ViewConGraficas
+from view.view_con_graficas import ViewConGraficas
 
 
 class MainView(ViewConGraficas):

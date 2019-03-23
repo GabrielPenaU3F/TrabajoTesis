@@ -1,13 +1,13 @@
 from threading import Thread
 from tkinter import filedialog
 
-from src.core.domain.archivos.dialogo_cargar_medicion import DialogoCargarMedicion
-from src.core.domain.medicion import Medicion
-from src.core.domain.mensaje import Mensaje
-from src.core.domain.tiempo_reverberacion import TiempoReverberacion
-from src.core.provider.queue_provider import QueueProvider
-from src.exception.excepciones import IOException
-from src.core.domain.senal_audio import SenalAudio
+from core.domain.archivos.dialogo_cargar_medicion import DialogoCargarMedicion
+from core.domain.medicion import Medicion
+from core.domain.mensaje import Mensaje
+from core.domain.tiempo_reverberacion import TiempoReverberacion
+from core.provider.queue_provider import QueueProvider
+from exception.excepciones import IOException
+from core.domain.senal_audio import SenalAudio
 
 
 class LectorDeArchivosDeMedicion:

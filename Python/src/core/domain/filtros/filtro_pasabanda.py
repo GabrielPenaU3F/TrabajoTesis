@@ -2,8 +2,8 @@ import math
 
 import numpy
 
-from src.exception.excepciones import FiltroException
-from src.core.domain.filtros.filtro_strategy import *
+from exception.excepciones import FiltroException
+from core.domain.filtros.filtro_strategy import *
 
 
 class Filtro:

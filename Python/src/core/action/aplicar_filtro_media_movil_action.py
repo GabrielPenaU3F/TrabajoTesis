@@ -1,8 +1,8 @@
 import numpy
 from scipy import signal
 
-from src.core.domain.senal_audio import SenalAudio
-from src.exception.excepciones import FiltroException
+from core.domain.senal_audio import SenalAudio
+from exception.excepciones import FiltroException
 
 
 class AplicarFiltroMediaMovilAction:

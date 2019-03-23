@@ -1,9 +1,9 @@
 import traceback
 from tkinter import filedialog
 
-from src.core.domain.archivos.dialogo_guardar_medicion import DialogoGuardarMedicion
-from src.core.domain.archivos.escritor_de_archivos import EscritorDeArchivos
-from src.exception.excepciones import IOException
+from core.domain.archivos.dialogo_guardar_medicion import DialogoGuardarMedicion
+from core.domain.archivos.escritor_de_archivos import EscritorDeArchivos
+from exception.excepciones import IOException
 
 
 class EscritorDeArchivosDeMedicion(EscritorDeArchivos):

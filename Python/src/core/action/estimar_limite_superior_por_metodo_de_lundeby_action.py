@@ -4,15 +4,15 @@ import traceback
 import numpy
 from matplotlib import pyplot
 
-from src.core.domain.senal_audio import SenalAudio
-from src.core.provider.service_provider import ServiceProvider
-from src.exception.excepciones import LundebyException
+from core.domain.senal_audio import SenalAudio
+from core.provider.service_provider import ServiceProvider
+from exception.excepciones import LundebyException
 
 
 class EstimarLimiteSuperiorPorMetodoDeLundebyAction:
 
     def __init__(self):
-        from src.core.provider.action_provider import ActionProvider
+        from core.provider.action_provider import ActionProvider
         self.estadistica_service = ServiceProvider.provide_estadistica_service()
         self.aplicar_filtro_media_movil_action = ActionProvider.provide_aplicar_filtro_media_movil_action()
         self.transformar_a_escala_logaritmica_normalizada_action = ActionProvider.\

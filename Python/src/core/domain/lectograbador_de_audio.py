@@ -1,6 +1,6 @@
 import numpy
 import sounddevice
-from src.core.domain.senal_audio import SenalAudio, DispositivoInaccesibleException
+from core.domain.senal_audio import SenalAudio, DispositivoInaccesibleException
 
 
 class LectograbadorDeAudio:

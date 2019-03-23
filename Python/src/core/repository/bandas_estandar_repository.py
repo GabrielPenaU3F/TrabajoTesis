@@ -1,7 +1,7 @@
 import math
 
-from src.core.domain.banda_de_frecuencia import BandaDeFrecuencia
-from src.exception.excepciones import FiltroException
+from core.domain.banda_de_frecuencia import BandaDeFrecuencia
+from exception.excepciones import FiltroException
 
 
 class BandasEstandarRepository:

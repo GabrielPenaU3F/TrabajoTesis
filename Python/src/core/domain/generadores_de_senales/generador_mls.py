@@ -1,7 +1,7 @@
 import numpy
 from scipy import signal
 
-from src.core.domain.senal_audio import SenalAudio
+from core.domain.senal_audio import SenalAudio
 
 
 class GeneradorMLS:

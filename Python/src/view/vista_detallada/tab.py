@@ -4,7 +4,7 @@ from tkinter.ttk import Progressbar
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
-from src.core.provider.repository_provider import RepositoryProvider
+from core.provider.repository_provider import RepositoryProvider
 
 
 class Tab(ABC):

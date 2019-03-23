@@ -1,4 +1,4 @@
-from src.core.domain.archivos.dialogo import Dialogo
+from core.domain.archivos.dialogo import Dialogo
 
 
 class DialogoGuardarMedicion(Dialogo):

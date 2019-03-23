@@ -1,8 +1,8 @@
 import math
 
-from src.core.domain.contenido_temporal import ContenidoTemporal
-from src.core.domain.punto_senal_tiempo import PuntoSenalTiempo
-from src.exception.excepciones import *
+from core.domain.contenido_temporal import ContenidoTemporal
+from core.domain.punto_senal_tiempo import PuntoSenalTiempo
+from exception.excepciones import *
 
 
 class SenalAudio:
@@ -84,7 +84,7 @@ class SenalAudio:
 
     def construir_contenido_frecuencial(self):
         if self.contenido_frecuencial is None:
-            from src.core.provider.action_provider import ActionProvider
+            from core.provider.action_provider import ActionProvider
             accion_transformar = ActionProvider.provide_transformar_fourier_action()
             self.contenido_frecuencial = accion_transformar.execute(self)
 
@@ -127,7 +127,7 @@ class SenalAudio:
 
     def get_energia_total(self):
         if self.energia_total is None:
-            from src.core.provider.action_provider import ActionProvider
+            from core.provider.action_provider import ActionProvider
             self.energia_total = ActionProvider.provide_calcular_energia_total_action().execute(self)
         return self.energia_total
 

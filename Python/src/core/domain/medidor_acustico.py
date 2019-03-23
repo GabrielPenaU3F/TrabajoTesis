@@ -1,10 +1,10 @@
 from threading import *
-from src.core.domain.medicion import Medicion
-from src.core.provider.action_provider import ActionProvider
-from src.core.provider.queue_provider import QueueProvider
-from src.core.provider.repository_provider import RepositoryProvider
-from src.exception.excepciones import LundebyException, DispositivoInaccesibleException
-from src.core.domain.mensaje import Mensaje
+from core.domain.medicion import Medicion
+from core.provider.action_provider import ActionProvider
+from core.provider.queue_provider import QueueProvider
+from core.provider.repository_provider import RepositoryProvider
+from exception.excepciones import LundebyException, DispositivoInaccesibleException
+from core.domain.mensaje import Mensaje
 
 
 class MedidorAcustico:

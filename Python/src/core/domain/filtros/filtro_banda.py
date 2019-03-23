@@ -1,6 +1,6 @@
 from abc import ABC
-from src.core.provider.repository_provider import RepositoryProvider
-from src.core.provider.service_provider import ServiceProvider
+from core.provider.repository_provider import RepositoryProvider
+from core.provider.service_provider import ServiceProvider
 
 
 class FiltroBanda(ABC):

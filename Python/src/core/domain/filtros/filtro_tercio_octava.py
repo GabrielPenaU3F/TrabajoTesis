@@ -1,4 +1,4 @@
-from src.core.domain.filtros.filtro_banda import FiltroBanda
+from core.domain.filtros.filtro_banda import FiltroBanda
 
 
 class FiltroTercioOctava(FiltroBanda):

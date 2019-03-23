@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
-from src.controller.controller import Controller
-from src.core.provider.repository_provider import RepositoryProvider
+from controller.controller import Controller
+from core.provider.repository_provider import RepositoryProvider
 
 
 class PantallaConGraficasController(Controller):

@@ -1,9 +1,9 @@
-from src.controller.pantalla_con_graficas_controller import PantallaConGraficasController
-from src.core.domain.medidor_acustico import MedidorAcustico
-from src.core.provider.action_provider import ActionProvider
-from src.core.provider.repository_provider import RepositoryProvider
-from src.core.provider.subject_provider import SubjectProvider
-from src.core.domain.mensaje import Mensaje
+from controller.pantalla_con_graficas_controller import PantallaConGraficasController
+from core.domain.medidor_acustico import MedidorAcustico
+from core.provider.action_provider import ActionProvider
+from core.provider.repository_provider import RepositoryProvider
+from core.provider.subject_provider import SubjectProvider
+from core.domain.mensaje import Mensaje
 
 
 class VistaDetalladaController(PantallaConGraficasController):
@@ -41,7 +41,7 @@ class VistaDetalladaController(PantallaConGraficasController):
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()
-        from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        from core.domain.coordinador_de_vistas import CoordinadorDeVistas
         CoordinadorDeVistas.mostrar_vista("VistaDetalladaInstrucciones")
 
     def desactivar_boton_instrucciones(self):

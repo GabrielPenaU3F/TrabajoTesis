@@ -1,4 +1,4 @@
-from src.core.provider.action_provider import ActionProvider
+from core.provider.action_provider import ActionProvider
 
 
 class Medicion:

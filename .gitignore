@@ -1,3 +1,6 @@
 *.idea
 .coverage
 *.pyc
+*.spec
+build
+dist

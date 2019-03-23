@@ -1,6 +1,4 @@
-import math
-
-from src.core.provider.service_provider import ServiceProvider
+from core.provider.service_provider import ServiceProvider
 
 
 class CalcularEnergiaTotalAction:

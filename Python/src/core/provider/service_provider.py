@@ -1,9 +1,9 @@
-from src.core.service.estadistica_service import EstadisticaService
-from src.core.service.filtrado_pasabanda_service import FiltradoPasabandaService
-from src.core.service.operaciones_sobre_arrays_service import OperacionesSobreArraysService
-from src.core.service.operaciones_sobre_senales_service import OperacionesSobreSenalesService
-from src.core.service.recortar_senales_service import RecortarSenalesService
-from src.core.service.rt_service import RTService
+from core.service.estadistica_service import EstadisticaService
+from core.service.filtrado_pasabanda_service import FiltradoPasabandaService
+from core.service.operaciones_sobre_arrays_service import OperacionesSobreArraysService
+from core.service.operaciones_sobre_senales_service import OperacionesSobreSenalesService
+from core.service.recortar_senales_service import RecortarSenalesService
+from core.service.rt_service import RTService
 
 
 class ServiceProvider:

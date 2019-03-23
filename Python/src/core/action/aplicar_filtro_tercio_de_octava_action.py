@@ -1,5 +1,5 @@
-from src.core.domain.filtros.filtro_tercio_octava import FiltroTercioOctava
-from src.core.provider.service_provider import ServiceProvider
+from core.domain.filtros.filtro_tercio_octava import FiltroTercioOctava
+from core.provider.service_provider import ServiceProvider
 
 
 class AplicarFiltroTercioDeOctavaAction:

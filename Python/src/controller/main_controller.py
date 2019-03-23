@@ -1,11 +1,11 @@
-from src.controller.pantalla_con_graficas_controller import PantallaConGraficasController
-from src.core.domain.archivos.escritor_de_archivos_ods_xls import EscritorDeArchivosOdsXls
-from src.core.domain.medidor_acustico import MedidorAcustico
-from src.core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
-from src.core.domain.archivos.lector_de_archivos_de_medicion import LectorDeArchivosDeMedicion
-from src.core.provider.repository_provider import RepositoryProvider
-from src.core.provider.subject_provider import SubjectProvider
-from src.core.domain.mensaje import Mensaje
+from controller.pantalla_con_graficas_controller import PantallaConGraficasController
+from core.domain.archivos.escritor_de_archivos_ods_xls import EscritorDeArchivosOdsXls
+from core.domain.medidor_acustico import MedidorAcustico
+from core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
+from core.domain.archivos.lector_de_archivos_de_medicion import LectorDeArchivosDeMedicion
+from core.provider.repository_provider import RepositoryProvider
+from core.provider.subject_provider import SubjectProvider
+from core.domain.mensaje import Mensaje
 
 
 class MainController(PantallaConGraficasController):
@@ -22,7 +22,7 @@ class MainController(PantallaConGraficasController):
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()
-        from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        from core.domain.coordinador_de_vistas import CoordinadorDeVistas
         CoordinadorDeVistas.mostrar_vista("VistaInstrucciones")
 
     def on_efectuar_medicion(self):
@@ -55,7 +55,7 @@ class MainController(PantallaConGraficasController):
             EscritorDeArchivosDeMedicion().guardar_archivo(self.medicion_repository.get_medicion())
 
     def lanzar_pantalla_espera(self):
-        from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        from core.domain.coordinador_de_vistas import CoordinadorDeVistas
         CoordinadorDeVistas().mostrar_vista("VistaPantallaEspera")
 
     def finalizar_medicion(self, paquete):
@@ -85,7 +85,7 @@ class MainController(PantallaConGraficasController):
 
     def on_abrir_vista_detallada(self):
         self.desactivar_boton_vista_detallada()
-        from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        from core.domain.coordinador_de_vistas import CoordinadorDeVistas
         CoordinadorDeVistas.mostrar_vista("VistaDetallada")
 
     def desactivar_boton_vista_detallada(self):

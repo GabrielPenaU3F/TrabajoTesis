@@ -1,7 +1,7 @@
 from scipy import signal
 
-from src.core.domain.filtros.filtro_pasabanda import Filtro
-from src.core.domain.senal_audio import SenalAudio
+from core.domain.filtros.filtro_pasabanda import Filtro
+from core.domain.senal_audio import SenalAudio
 
 
 class AplicarFiltroAAction:

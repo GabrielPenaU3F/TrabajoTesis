@@ -1,5 +1,5 @@
-from src.controller.controller import Controller
-from src.core.provider.subject_provider import SubjectProvider
+from controller.controller import Controller
+from core.provider.subject_provider import SubjectProvider
 
 
 class PantallaEsperaController(Controller):

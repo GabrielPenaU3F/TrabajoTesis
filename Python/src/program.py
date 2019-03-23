@@ -1,3 +1,3 @@
-from src.tk_root import TkRoot
+from tk_root import TkRoot
 
 TkRoot()

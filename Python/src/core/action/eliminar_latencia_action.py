@@ -1,6 +1,5 @@
-from src.core.provider.service_provider import ServiceProvider
-from src.core.domain.senal_audio import SenalAudio
-from src.exception.excepciones import AlineacionException
+from core.provider.service_provider import ServiceProvider
+from exception.excepciones import AlineacionException
 
 
 class EliminarLatenciaAction:

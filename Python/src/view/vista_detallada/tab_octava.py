@@ -1,4 +1,4 @@
-from src.view.vista_detallada.tab import Tab
+from view.vista_detallada.tab import Tab
 
 
 class TabOctava(Tab):

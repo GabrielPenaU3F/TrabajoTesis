@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from src.view.view import View
+from view.view import View
 
 
 class ViewConGraficas(View):

@@ -1,12 +1,12 @@
 import numpy
 
-from src.core.domain.senal_audio import SenalAudio
+from core.domain.senal_audio import SenalAudio
 
 
 class ObtenerCurvaDeDecaimientoAction:
 
     def __init__(self):
-        from src.core.provider.action_provider import ActionProvider
+        from core.provider.action_provider import ActionProvider
         self.estimar_por_metodo_lundeby_action = ActionProvider.\
             provide_estimar_limite_superior_por_metodo_de_lundeby_action()
         self.integrar_senal = ActionProvider.provide_integrar_senal_action()

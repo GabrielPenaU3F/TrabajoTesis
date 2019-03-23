@@ -1,8 +1,8 @@
 from tkinter import Frame, Toplevel, Label
-from tkinter.ttk import Progressbar, Style
+from tkinter.ttk import Progressbar
 
-from src.controller.pantalla_espera_controller import PantallaEsperaController
-from src.view.view import View
+from controller.pantalla_espera_controller import PantallaEsperaController
+from view.view import View
 
 
 class PantallaEsperaView(View):

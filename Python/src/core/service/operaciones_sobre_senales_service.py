@@ -2,16 +2,16 @@ import math
 import numpy
 from scipy import signal
 
-from src.core.domain.contenido_frecuencial import ContenidoFrecuencial
-from src.core.domain.punto_senal_frecuencia import PuntoSenalFrecuencia
-from src.core.domain.senal_audio import SenalAudio
-from src.exception.excepciones import AlineacionException
+from core.domain.contenido_frecuencial import ContenidoFrecuencial
+from core.domain.punto_senal_frecuencia import PuntoSenalFrecuencia
+from core.domain.senal_audio import SenalAudio
+from exception.excepciones import AlineacionException
 
 
 class OperacionesSobreSenalesService:
 
     def __init__(self):
-        from src.core.provider.service_provider import ServiceProvider
+        from core.provider.service_provider import ServiceProvider
         self.operaciones_sobre_arrays_service = ServiceProvider.provide_operaciones_sobre_arrays_service()
         self.recortar_service = ServiceProvider.provide_recortar_senales_service()
 

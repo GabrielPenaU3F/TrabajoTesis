@@ -1,7 +1,7 @@
 from tkinter import Tk
 
-from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
-from src.core.domain.estilista import Estilista
+from core.domain.coordinador_de_vistas import CoordinadorDeVistas
+from core.domain.estilista import Estilista
 
 
 class TkRoot:

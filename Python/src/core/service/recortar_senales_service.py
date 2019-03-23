@@ -1,4 +1,4 @@
-from src.core.domain.senal_audio import SenalAudio
+from core.domain.senal_audio import SenalAudio
 
 
 class RecortarSenalesService:
