@@ -6,6 +6,7 @@ class SubjectProvider:
     pantalla_principal_subject = None
     vista_detallada_subject = None
     pantalla_espera_subject = None
+    pantalla_espera_exportar_subject = None
 
     @classmethod
     def provide_pantalla_principal_subject(cls):
@@ -30,4 +31,12 @@ class SubjectProvider:
             cls.pantalla_espera_subject = Subject()
 
         return cls.pantalla_espera_subject
+
+    @classmethod
+    def provide_pantalla_espera_exportar_subject(cls):
+
+        if cls.pantalla_espera_exportar_subject is None:
+            cls.pantalla_espera_exportar_subject = Subject()
+
+        return cls.pantalla_espera_exportar_subject
 

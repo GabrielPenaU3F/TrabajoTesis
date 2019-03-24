@@ -1,15 +1,15 @@
-from tkinter import Frame, Toplevel, Label
+from tkinter import Toplevel, Label, Frame
 from tkinter.ttk import Progressbar
 
-from controller.pantalla_espera_controller import PantallaEsperaController
+from controller.pantalla_espera_exportar_controller import PantallaEsperaExportarController
 from view.view import View
 
 
-class PantallaEsperaView(View):
+class PantallaEsperaExportarView(View):
 
     def __init__(self):
 
-        super().__init__(Toplevel(), PantallaEsperaController(self))
+        super().__init__(Toplevel(), PantallaEsperaExportarController(self))
 
         self.construir_main_frame()
 
@@ -21,15 +21,15 @@ class PantallaEsperaView(View):
 
     def configurar_root(self):
         # ----- Configuracion del root ------
-        self.root.title("Midiendo")
+        self.root.title("Exportando")
         self.root.geometry("250x150")
-        super(PantallaEsperaView, self).configurar_root()
+        super(PantallaEsperaExportarView, self).configurar_root()
 
     def construir_progressbar_frame(self):
 
-        self.label_midiendo = Label(self.main_frame)
-        self.label_midiendo.config(text="Midiendo. Por favor espere", pady=20, padx=20, font=("Helvetica", 10))
-        self.label_midiendo.grid(row=0, column=0)
+        self.label_progreso = Label(self.main_frame)
+        self.label_progreso.config(text="Exportando", pady=20, padx=20, font=("Helvetica", 10))
+        self.label_progreso.grid(row=0, column=0)
 
         self.pb_frame = Frame(self.main_frame)
         self.pb_frame.config(padx=20, pady=20)
@@ -44,10 +44,10 @@ class PantallaEsperaView(View):
 
     def ocultar_vista(self):
         self.progressbar.stop()
-        super(PantallaEsperaView, self).ocultar_vista()
+        super(PantallaEsperaExportarView, self).ocultar_vista()
         self.pb_frame.grid_remove()
 
     def mostrar_vista(self):
         self.pb_frame.grid(row=1, column=0)
-        super(PantallaEsperaView, self).mostrar_vista()
+        super(PantallaEsperaExportarView, self).mostrar_vista()
         self.progressbar.start(10)

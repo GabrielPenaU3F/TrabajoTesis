@@ -19,6 +19,8 @@ class MainController(PantallaConGraficasController):
         self.pantalla_principal_subject = SubjectProvider.provide_pantalla_principal_subject()
         self.pantalla_principal_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
         self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
+        self.pantalla_espera_exportar_subject = SubjectProvider.provide_pantalla_espera_exportar_subject()
+
 
     def on_mostrar_instrucciones(self):
         self.desactivar_boton_instrucciones()
@@ -69,7 +71,7 @@ class MainController(PantallaConGraficasController):
         self.desbloquear_controles()
 
     def cerrar_pantalla_espera(self):
-        mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEspera", "CerrarPantallaEspera")
+        mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEspera", "Cerrar")
         self.pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
         self.desbloquear_controles()
 
@@ -103,10 +105,19 @@ class MainController(PantallaConGraficasController):
 
     def on_exportar(self):
         if self.hay_medicion():
+            self.bloquear_controles()
             EscritorDeArchivosOdsXls().guardar_archivo(self.medicion_repository.get_medicion())
 
     def on_cerrar_ventana(self):
         quit()
+
+    def on_exportacion_completa(self):
+        self.cerrar_pantalla_espera_exportacion()
+
+    def cerrar_pantalla_espera_exportacion(self):
+        mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEsperaExportar", "Cerrar")
+        self.pantalla_espera_exportar_subject.on_next(mensaje_cerrar_pantalla_espera)
+        self.desbloquear_controles()
 
 
 

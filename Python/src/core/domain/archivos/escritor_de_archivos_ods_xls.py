@@ -1,13 +1,19 @@
 from collections import OrderedDict
+from threading import Thread
 
 import pyexcel
 
 from core.domain.archivos.dialogo_exportar_medicion import DialogoExportarMedicion
 from core.domain.archivos.escritor_de_archivos import EscritorDeArchivos
+from core.domain.mensaje import Mensaje
+from core.provider.queue_provider import QueueProvider
 from exception.excepciones import IOException
 
 
 class EscritorDeArchivosOdsXls(EscritorDeArchivos):
+
+    def __init__(self):
+        self.queue = QueueProvider.provide_thread_queue()
 
     def guardar_archivo(self, medicion):
 
@@ -25,10 +31,19 @@ class EscritorDeArchivosOdsXls(EscritorDeArchivos):
                 book["Curva de decaimiento"] = self.generar_sheet_senal(cd)
                 book["Tiempos de reverberación"] = self.generar_sheet_rts(edt, t20, t30, curvatura)
                 book_excel = pyexcel.get_book(bookdict=book)
-                book_excel.save_as(archivo.name)
+
+                thread_exportar = Thread(target=self.escribir_book, args=(book_excel, archivo.name,), daemon=False)
+                thread_exportar.start()
 
             else:
                 raise IOException("No se pudo escribir el archivo")
+
+    def escribir_book(self, book, path):
+        from core.domain.coordinador_de_vistas import CoordinadorDeVistas
+        CoordinadorDeVistas.mostrar_vista("VistaPantallaEsperaExportar")
+        book.save_as(path)
+        self.queue.put(Mensaje(destinatario="VistaPrincipal", mensaje="ExportacionCompleta"))
+
 
     def generar_sheet_senal(self, senal):
         sheet = []
