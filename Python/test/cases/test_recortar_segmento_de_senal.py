@@ -1,12 +1,10 @@
 import math
 import unittest
 from time import time, process_time
-
 import numpy
-
-from src.core.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
-from src.core.domain.senal_audio import SenalAudio
-from src.core.provider.action_provider import ActionProvider
+from core.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
+from core.domain.senal_audio import SenalAudio
+from core.provider.action_provider import ActionProvider
 
 
 class TestRecortarSegmentoDeSenal(unittest.TestCase):

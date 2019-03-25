@@ -2,9 +2,8 @@ import math
 import unittest
 
 import numpy
-from numpy import mean, std, var
-
-from src.core.domain.generadores_de_senales.generador_ruido import GeneradorRuido
+from numpy import mean, std
+from core.domain.generadores_de_senales.generador_ruido import GeneradorRuido
 
 
 class RuidoTest(unittest.TestCase):

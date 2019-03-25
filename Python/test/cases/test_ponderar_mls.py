@@ -1,9 +1,8 @@
 import math
 import unittest
-
-from src.core.provider.action_provider import ActionProvider
-from src.core.domain.generadores_de_senales.generador_mls import GeneradorMLS
-from src.core.domain.senal_audio import SenalAudio
+from core.provider.action_provider import ActionProvider
+from core.domain.generadores_de_senales.generador_mls import GeneradorMLS
+from core.domain.senal_audio import SenalAudio
 
 
 class PonderarMLSTest(unittest.TestCase):

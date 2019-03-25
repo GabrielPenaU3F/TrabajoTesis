@@ -1,11 +1,9 @@
 import unittest
-
 import math
 import numpy
-
-from src.core.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
-from src.core.domain.senal_audio import SenalAudio
-from src.exception.excepciones import *
+from core.domain.generadores_de_senales.generador_senoidal import GeneradorSenoidal
+from core.domain.senal_audio import SenalAudio
+from exception.excepciones import *
 
 
 class TestSenalAudio(unittest.TestCase):

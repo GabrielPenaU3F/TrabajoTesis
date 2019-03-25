@@ -1,10 +1,8 @@
 import unittest
-
 import numpy
-
-from src.core.domain.senal_audio import SenalAudio
-from src.core.provider.action_provider import ActionProvider
-from src.exception.excepciones import FiltroException
+from core.domain.senal_audio import SenalAudio
+from core.provider.action_provider import ActionProvider
+from exception.excepciones import FiltroException
 
 
 class FiltroMediaMovilTest(unittest.TestCase):

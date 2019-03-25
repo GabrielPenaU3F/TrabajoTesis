@@ -1,9 +1,7 @@
 import unittest
-
 import numpy
-
-from src.core.domain.senal_audio import SenalAudio
-from src.core.provider.action_provider import ActionProvider
+from core.domain.senal_audio import SenalAudio
+from core.provider.action_provider import ActionProvider
 
 
 class EscalaLogaritmicaTest(unittest.TestCase):

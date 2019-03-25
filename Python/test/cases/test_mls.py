@@ -1,7 +1,6 @@
 import math
 import unittest
-
-from src.core.domain.generadores_de_senales.generador_mls import GeneradorMLS
+from core.domain.generadores_de_senales.generador_mls import GeneradorMLS
 
 
 class MLSTest(unittest.TestCase):

@@ -1,14 +1,12 @@
 import math
 import unittest
-
 import numpy
 from matplotlib import pyplot
 from scipy import signal
-
-from src.core.domain.banda_de_frecuencia import BandaDeFrecuencia
-from src.core.domain.generadores_de_senales.generador_ruido import GeneradorRuido
-from src.core.domain.senal_audio import SenalAudio
-from src.core.provider.service_provider import ServiceProvider
+from core.domain.banda_de_frecuencia import BandaDeFrecuencia
+from core.domain.generadores_de_senales.generador_ruido import GeneradorRuido
+from core.domain.senal_audio import SenalAudio
+from core.provider.service_provider import ServiceProvider
 
 
 class FiltroPasabandaTest(unittest.TestCase):

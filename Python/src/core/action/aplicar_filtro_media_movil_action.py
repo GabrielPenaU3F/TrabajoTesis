@@ -1,6 +1,5 @@
 import numpy
 from scipy import signal
-
 from core.domain.senal_audio import SenalAudio
 from exception.excepciones import FiltroException
 

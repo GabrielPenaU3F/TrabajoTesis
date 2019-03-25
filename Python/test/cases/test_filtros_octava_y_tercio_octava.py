@@ -1,10 +1,8 @@
 import math
 import unittest
-
 from matplotlib import pyplot
-
-from src.core.domain.generadores_de_senales.generador_ruido import GeneradorRuido
-from src.core.provider.action_provider import ActionProvider
+from core.domain.generadores_de_senales.generador_ruido import GeneradorRuido
+from core.provider.action_provider import ActionProvider
 
 
 class FiltrosOctavaYTercioOctavaTest(unittest.TestCase):

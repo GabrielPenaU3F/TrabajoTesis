@@ -1,8 +1,7 @@
 import math
 import unittest
-
-from src.core.provider.service_provider import ServiceProvider
-from src.exception.excepciones import RegresionException
+from core.provider.service_provider import ServiceProvider
+from exception.excepciones import RegresionException
 
 
 class RegresionLinealTest(unittest.TestCase):

@@ -1,6 +1,5 @@
 import unittest
-
-from src.core.domain.filtros.filtro_pasabanda import Filtro
+from core.domain.filtros.filtro_pasabanda import Filtro
 
 
 class FiltroATest(unittest.TestCase):

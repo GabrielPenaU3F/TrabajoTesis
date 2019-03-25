@@ -1,8 +1,7 @@
 import math
 import unittest
-
-from src.core.domain.generadores_de_senales.generador_ess import GeneradorESS
-from src.core.provider.action_provider import ActionProvider
+from core.domain.generadores_de_senales.generador_ess import GeneradorESS
+from core.provider.action_provider import ActionProvider
 
 
 class ESSTest(unittest.TestCase):

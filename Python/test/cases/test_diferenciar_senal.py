@@ -1,11 +1,7 @@
-import math
 import unittest
-
 import numpy
-
-from src.core.domain.senal_audio import SenalAudio
-from src.core.provider.action_provider import ActionProvider
-from src.core.provider.service_provider import ServiceProvider
+from core.domain.senal_audio import SenalAudio
+from core.provider.action_provider import ActionProvider
 
 
 class DiferenciarSenalTest(unittest.TestCase):

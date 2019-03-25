@@ -1,8 +1,8 @@
 import unittest
-from src.core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
-from src.core.domain.medicion import Medicion
-from src.core.domain.senal_audio import SenalAudio
-from src.core.domain.tiempo_reverberacion import TiempoReverberacion
+from core.domain.archivos.escritor_de_archivos_de_medicion import EscritorDeArchivosDeMedicion
+from core.domain.medicion import Medicion
+from core.domain.senal_audio import SenalAudio
+from core.domain.tiempo_reverberacion import TiempoReverberacion
 
 
 class TestEscritorArchivos(unittest.TestCase):
