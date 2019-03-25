@@ -1,6 +1,7 @@
 *.idea
-.coverage
+coverage
 *.pyc
 *.spec
 build
 dist
+__pycache__
