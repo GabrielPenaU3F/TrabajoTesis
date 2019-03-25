@@ -1,15 +1,14 @@
-from tkinter import Frame, Toplevel, Label
+from tkinter import Toplevel, Label, Frame
 from tkinter.ttk import Progressbar
 
-from controller.pantalla_espera_controller import PantallaEsperaController
 from view.view import View
 
 
 class PantallaEsperaView(View):
 
-    def __init__(self):
+    def __init__(self, controller):
 
-        super().__init__(Toplevel(), PantallaEsperaController(self))
+        super().__init__(Toplevel(), controller)
 
         self.construir_main_frame()
 
@@ -17,30 +16,25 @@ class PantallaEsperaView(View):
 
         self.ocultar_vista()
 
-        self.root.after(0, self.configurar_root)
-
     def configurar_root(self):
-        # ----- Configuracion del root ------
-        self.root.title("Midiendo")
-        self.root.geometry("250x150")
         super(PantallaEsperaView, self).configurar_root()
-
-    def construir_progressbar_frame(self):
-
-        self.label_midiendo = Label(self.main_frame)
-        self.label_midiendo.config(text="Midiendo. Por favor espere", pady=20, padx=20, font=("Helvetica", 10))
-        self.label_midiendo.grid(row=0, column=0)
-
-        self.pb_frame = Frame(self.main_frame)
-        self.pb_frame.config(padx=20, pady=20)
-        #self.pb_frame.grid(row=1, column=0)
-        self.progressbar = Progressbar(self.pb_frame)
-        self.progressbar.config(mode="indeterminate", length=150)
-        self.progressbar.pack()
+        self.root.geometry("250x150")
 
     def construir_main_frame(self):
         self.main_frame = Frame(self.root)
         self.main_frame.pack()
+
+    def construir_progressbar_frame(self):
+        self.label = Label(self.main_frame)
+        self.label.config(pady=20, padx=20, font=("Helvetica", 10))
+        self.label.grid(row=0, column=0)
+
+        self.pb_frame = Frame(self.main_frame)
+        self.pb_frame.config(padx=20, pady=20)
+        # self.pb_frame.grid(row=1, column=0)
+        self.progressbar = Progressbar(self.pb_frame)
+        self.progressbar.config(mode="indeterminate", length=150)
+        self.progressbar.pack()
 
     def ocultar_vista(self):
         self.progressbar.stop()

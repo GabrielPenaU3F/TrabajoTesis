@@ -18,7 +18,7 @@ class MainController(PantallaConGraficasController):
         self.medidor = MedidorAcustico()
         self.pantalla_principal_subject = SubjectProvider.provide_pantalla_principal_subject()
         self.pantalla_principal_subject.subscribe(on_next=lambda mensaje: self.procesar(mensaje))
-        self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_subject()
+        self.pantalla_espera_subject = SubjectProvider.provide_pantalla_espera_medir_subject()
         self.pantalla_espera_exportar_subject = SubjectProvider.provide_pantalla_espera_exportar_subject()
 
 
@@ -58,7 +58,7 @@ class MainController(PantallaConGraficasController):
 
     def lanzar_pantalla_espera(self):
         from core.domain.coordinador_de_vistas import CoordinadorDeVistas
-        CoordinadorDeVistas().mostrar_vista("VistaPantallaEspera")
+        CoordinadorDeVistas().mostrar_vista("VistaPantallaEsperaMedir")
 
     def finalizar_medicion(self, paquete):
         self.cerrar_pantalla_espera()
@@ -71,7 +71,7 @@ class MainController(PantallaConGraficasController):
         self.desbloquear_controles()
 
     def cerrar_pantalla_espera(self):
-        mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEspera", "Cerrar")
+        mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEsperaMedir", "Cerrar")
         self.pantalla_espera_subject.on_next(mensaje_cerrar_pantalla_espera)
         self.desbloquear_controles()
 
