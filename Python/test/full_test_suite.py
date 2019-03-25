@@ -1,8 +1,16 @@
 import unittest
 
-loader = unittest.TestLoader()
-suite = unittest.TestSuite()
+from src_path import setear_src_path
 
-suite.addTests(loader.discover('./cases'))
+
+def construir_test_suite():
+    suite = unittest.TestSuite()
+    suite.addTests(loader.discover('cases'))
+    return suite
+
+
+setear_src_path()
+loader = unittest.TestLoader()
+suite = construir_test_suite()
 runner = unittest.TextTestRunner(verbosity=3)
 result = runner.run(suite)

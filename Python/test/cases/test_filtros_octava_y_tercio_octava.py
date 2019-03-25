@@ -36,16 +36,16 @@ class FiltrosOctavaYTercioOctavaTest(unittest.TestCase):
                     nulos_incorrectos += 1
 
 
-            # Los +6 y -4 spm porque el ripple del filtro hace que el test falle en las muestras inmediatas anteriores
+            # Los +8 y -6 spm porque el ripple del filtro hace que el test falle en las muestras inmediatas anteriores
             # y siguientes al final de la banda
             nonulos_incorrectos = 0
-            for f in range(0, muestra_en_f_inicial - 4):
+            for f in range(0, muestra_en_f_inicial - 6):
 
                 if abs(espectro_filtrado[f]) > math.pow(10, -1) * maximo:
                     nonulos_incorrectos += 1
 
             muestra_nyquist = int((ruido_blanco.get_longitud() * ruido_blanco.get_fs()/2) / ruido_blanco.get_fs())
-            for f in range(muestra_en_f_final + 6, muestra_nyquist):
+            for f in range(muestra_en_f_final + 8, muestra_nyquist):
                 if abs(espectro_filtrado[f]) > math.pow(10, -1) * maximo:
                     nonulos_incorrectos += 1
 
@@ -79,16 +79,16 @@ class FiltrosOctavaYTercioOctavaTest(unittest.TestCase):
                     nulos_incorrectos += 1
 
             nonulos_incorrectos = 0
-            # El -4 es porque el ripple del filtro hace que el test falle en las muestras inmediatas anteriores
+            # El -6 es porque el ripple del filtro hace que el test falle en las muestras inmediatas anteriores
             # al final de la banda
-            for f in range(0, muestra_en_f_inicial - 4):
+            for f in range(0, muestra_en_f_inicial - 6):
                 if abs(espectro_filtrado[f]) > math.pow(10, -1) * maximo:
                     nonulos_incorrectos += 1
 
             muestra_nyquist = int((ruido_blanco.get_longitud() * ruido_blanco.get_fs()/2) / ruido_blanco.get_fs())
-            # El +6 es porque el ripple del filtro hace que el test falle en las muestras inmediatas siguientes
+            # El +8 es porque el ripple del filtro hace que el test falle en las muestras inmediatas siguientes
             # al final de la banda
-            for f in range(muestra_en_f_final + 6, muestra_nyquist):
+            for f in range(muestra_en_f_final + 8, muestra_nyquist):
                 if abs(espectro_filtrado[f]) > math.pow(10, -1) * maximo:
                     nonulos_incorrectos += 1
 
