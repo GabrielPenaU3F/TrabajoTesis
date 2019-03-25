@@ -1,5 +1,5 @@
 *.idea
-coverage
+.coverage
 *.pyc
 *.spec
 build
