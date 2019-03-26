@@ -105,14 +105,14 @@ class TestSenalAudio(unittest.TestCase):
 
         self.assertListEqual(dominio_frecuencial_esperado, senoide_220Hz.get_dominio_frecuencial())
 
+    '''
+    La idea de este test es mostrar que una senoide pura, en el dominio de la frecuencia,
+    contiene únicamente energía en su frecuencia fundamental, mientras que las otras son nulas (esto
+    en el caso ideal. En la versión digital real, hay siempre un ruido subyacente, de manera que aquí
+    "nulo" significa que el contenido real lo supera en un cierto delta. En este caso, se eligió
+    delta = 10^-7, el menor orden de magnitud posible tal que el ruido no es detectado.
+    '''
     def test_que_la_senoide_pura_tenga_unicamente_su_frecuencia_fundamental(self):
-        '''
-        La idea de este test es mostrar que una senoide pura, en el dominio de la frecuencia,
-        contiene únicamente energía en su frecuencia fundamental, mientras que las otras son nulas (esto
-        en el caso ideal. En la versión digital real, hay siempre un ruido subyacente, de manera que aquí
-        "nulo" significa que el contenido real lo supera en un cierto delta. En este caso, se eligió
-        delta = 10^-7, el menor orden de magnitud posible tal que el ruido no es detectado.
-        '''
         fs = 48000
         duracion = 10
         frecuencia_fundamental = 220
