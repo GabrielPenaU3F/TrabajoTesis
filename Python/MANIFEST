@@ -1,0 +1,5 @@
+setup.py
+medidor_acustico\__init__.py
+medidor_acustico\__main__.py
+medidor_acustico\main.py
+recursive-include medidor_acustico\resources
