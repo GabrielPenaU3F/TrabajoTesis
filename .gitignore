@@ -7,3 +7,7 @@ build
 Build
 dist
 __pycache__
+*.cfg
+Include
+Lib
+Scripts
