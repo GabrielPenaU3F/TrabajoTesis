@@ -4,5 +4,6 @@ htmlcov
 *.pyc
 *.spec
 build
+Build
 dist
 __pycache__
