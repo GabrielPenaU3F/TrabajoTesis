@@ -1,7 +1,6 @@
 
 def main():
     from src.tk_root import TkRoot
-
     TkRoot()
 
 
