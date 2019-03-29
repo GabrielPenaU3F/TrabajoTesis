@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import sys
 
 
 class View(ABC):
@@ -10,10 +11,14 @@ class View(ABC):
 
     @abstractmethod
     def configurar_root(self):
-        self.root.iconbitmap("medidor_acustico/resources/icons/mic_icon.ico")
-        self.root.tk_setPalette(background='#831212')
-        self.root.resizable(False, False)
-        self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
+    if (sys.platform.startswith('win')): 
+        self.root.iconbitmap("@edidor_acustico/resources/icons/mic_icon.ico")
+    else:
+        logo = PhotoImage(file='logo.gif')
+        self.root.call('wm', 'iconphoto', self.root._w, logo)
+    self.root.tk_setPalette(background='#831212')
+    self.root.resizable(False, False)
+    self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
 
     def get_vista(self):
         return self
