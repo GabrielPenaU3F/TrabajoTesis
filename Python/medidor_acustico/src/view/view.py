@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from tkinter import Image
 import sys
 
 
@@ -11,14 +12,14 @@ class View(ABC):
 
     @abstractmethod
     def configurar_root(self):
-    if (sys.platform.startswith('win')): 
-        self.root.iconbitmap("@edidor_acustico/resources/icons/mic_icon.ico")
-    else:
-        logo = PhotoImage(file='logo.gif')
-        self.root.call('wm', 'iconphoto', self.root._w, logo)
-    self.root.tk_setPalette(background='#831212')
-    self.root.resizable(False, False)
-    self.root.protocol("WM_DELETE_WINDOW", self.controller.on_cerrar_ventana)
+        if sys.platform.startswith('win'): 
+            self.root.iconbitmap('medidor_acustico/resources/icons/mic_icon.ico')
+        else:
+            mic = Image('photo', file='medidor_acustico/resources/icons/mic_icon.png')
+            self.root.tk.call('wm', 'iconphoto', self.root._w, mic)
+        self.root.tk_setPalette(background='#831212')
+        self.root.resizable(False, False)
+        self.root.protocol('WM_DELETE_WINDOW', self.controller.on_cerrar_ventana)
 
     def get_vista(self):
         return self
