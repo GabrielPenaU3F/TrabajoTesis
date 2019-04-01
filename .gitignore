@@ -12,5 +12,4 @@ Include
 Lib
 Scripts
 *.egg-info
-build.sh
 build.bat
