@@ -34,4 +34,4 @@ class Estilista:
             style_medidor.theme_use("medidor_acustico")
 
     def definir_estilos_graficas(self):
-        pyplot.style.use('seaborn')
+        pyplot.style.use('seaborn-darkgrid')

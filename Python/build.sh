@@ -1,10 +1,9 @@
-export PYTHONPATH=medidor_acustico
-python3 -m PyInstaller "medidor_acustico/main.py" \
---onefile \
+pyinstaller "medidor_acustico/main.py" \
+--windowed \
 --name "medidor-acustico" \
 --clean \
---specpath "Build" \
---distpath "Build" \
+--specpath "medidor_acustico" \
+--distpath "exe" \
 --hidden-import pyexcel.plugins \
 --hidden-import pyexcel.plugins.parsers \
 --hidden-import pyexcel.plugins.renderers \
