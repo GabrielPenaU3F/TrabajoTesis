@@ -19,3 +19,4 @@ include
 bin
 exe
 share
+build.sh
