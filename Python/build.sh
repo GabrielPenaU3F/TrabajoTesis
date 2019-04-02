@@ -26,6 +26,6 @@ pyinstaller 'medidor_acustico/main.py' \
 --hidden-import pyexcel_ods \
 --hidden-import pyexcel_ods.odsr \
 --hidden-import pyexcel_ods.odsw \
---add-data 'resources:.
+--add-data 'resources:.'
 
-rm -r build
+rm -r build/
