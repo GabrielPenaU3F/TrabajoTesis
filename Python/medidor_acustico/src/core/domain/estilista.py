@@ -1,3 +1,4 @@
+import tkinter
 from tkinter import ttk
 
 from matplotlib import pyplot
@@ -35,3 +36,6 @@ class Estilista:
 
     def definir_estilos_graficas(self):
         pyplot.style.use('seaborn-darkgrid')
+
+    def definir_fuentes(self, root):
+        root.option_add("*font", "Arial 9")

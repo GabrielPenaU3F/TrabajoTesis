@@ -39,7 +39,7 @@ class MainView(ViewConGraficas):
         # ----- Frame de resultados -----
 
         self.label_titulo_resultados = Label(self.frame_titulo_resultados)
-        self.label_titulo_resultados.config(text="Tiempos de reverberación", bg="#0c005a", width=150)
+        self.label_titulo_resultados.config(text="Tiempos de reverberación", bg="#0c005a")
         self.label_titulo_resultados.pack(fill="both", expand="True", ipadx=3, ipady=3)
 
         self.label_edt = Label(self.frame_resultados)
