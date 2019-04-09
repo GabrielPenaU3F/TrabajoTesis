@@ -4,7 +4,7 @@ import numpy
 
 from src.core.domain.generadores_de_senales.generador_ess import GeneradorESS
 from src.core.domain.generadores_de_senales.generador_mls import GeneradorMLS
-from src.core.domain.lectograbador_de_audio import LectograbadorDeAudio
+from src.core.domain.equipo_de_audio import EquipoDeAudio
 from src.core.domain.senal_audio import SenalAudio
 
 
@@ -29,7 +29,7 @@ class MedirRespuestaImpulsionalAction:
         periodos = 8
 
         senal_mls = GeneradorMLS().generar_senal_mls(n_bits, periodos, fs)
-        audio = LectograbadorDeAudio().reproducir_y_grabar_audio(senal_mls)
+        audio = EquipoDeAudio().reproducir_y_grabar_audio(senal_mls)
 
         periodo_mls_generado = senal_mls.get_valores()[0:int(math.pow(2, n_bits) - 1)]
         # Una ventana de 100ms debería bastar
@@ -54,7 +54,7 @@ class MedirRespuestaImpulsionalAction:
         frecuencia_final = 22050
 
         senal_ess = GeneradorESS().generar_senal_ess(fs, duracion, frecuencia_inicial, frecuencia_final)
-        audio = LectograbadorDeAudio().reproducir_y_grabar_audio(senal_ess)
+        audio = EquipoDeAudio().reproducir_y_grabar_audio(senal_ess)
         filtro_inverso = GeneradorESS().generar_filtro_inverso_ess(fs, duracion, frecuencia_inicial, frecuencia_final)
 
         respuesta_impulsional = self.realizar_convolucion_action.execute(audio, filtro_inverso)

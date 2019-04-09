@@ -10,7 +10,8 @@ class ProcesadorMensajes:
             "CalculoCompleto": "finalizar_calculo",
             "CargaCompleta": "desplegar_medicion",
             "DispositivoInaccesible": "mostrar_error_dispositivo_inaccesible",
-            "ExportacionCompleta": "on_exportacion_completa"
+            "ExportacionCompleta": "on_exportacion_completa",
+            "ExportacionCancelada": "on_exportacion_cancelada"
         }
 
     def get_mensaje(self, clave_mensaje):
