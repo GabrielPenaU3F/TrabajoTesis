@@ -40,7 +40,7 @@ class MainView(ViewConGraficas):
 
         self.label_titulo_resultados = Label(self.frame_titulo_resultados)
         self.label_titulo_resultados.config(text="Tiempos de reverberación", bg="#0c005a")
-        self.label_titulo_resultados.pack(fill="both", expand="True", ipadx=3, ipady=3)
+        self.label_titulo_resultados.pack(fill="both", expand="True")
 
         self.label_edt = Label(self.frame_resultados)
         self.label_edt.config(text="EDT", bg="#5893d4", borderwidth=2, relief="groove", width=4)
@@ -206,7 +206,7 @@ class MainView(ViewConGraficas):
 
         self.frame_titulo_resultados = Frame(self.main_frame)
         self.frame_titulo_resultados.grid(row=0, column=1, sticky="n", padx=(20, 0))
-        self.frame_titulo_resultados.config(width=150, height=20, borderwidth=2, relief="groove")
+        self.frame_titulo_resultados.config(width=160, height=20, borderwidth=2, relief="groove")
         self.frame_titulo_resultados.pack_propagate(False)
 
         self.frame_resultados = Frame(self.main_frame)

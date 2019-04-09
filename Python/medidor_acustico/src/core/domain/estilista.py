@@ -38,4 +38,4 @@ class Estilista:
         pyplot.style.use('seaborn-darkgrid')
 
     def definir_fuentes(self, root):
-        root.option_add("*font", "Arial 9")
+        root.option_add("*font", "Helvetica 9")
