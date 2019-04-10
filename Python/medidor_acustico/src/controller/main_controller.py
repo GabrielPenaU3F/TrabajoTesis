@@ -115,6 +115,9 @@ class MainController(PantallaConGraficasController):
     def on_exportacion_completa(self):
         self.cerrar_pantalla_espera_exportacion()
 
+    def on_exportacion_cancelada(self):
+        self.desbloquear_controles()
+
     def cerrar_pantalla_espera_exportacion(self):
         mensaje_cerrar_pantalla_espera = Mensaje("VistaPantallaEsperaExportar", "Cerrar")
         self.pantalla_espera_exportar_subject.on_next(mensaje_cerrar_pantalla_espera)

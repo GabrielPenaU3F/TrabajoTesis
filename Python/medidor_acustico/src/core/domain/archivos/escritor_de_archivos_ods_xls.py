@@ -7,6 +7,7 @@ from src.core.domain.archivos.dialogo_exportar_medicion import DialogoExportarMe
 from src.core.domain.archivos.escritor_de_archivos import EscritorDeArchivos
 from src.core.domain.mensaje import Mensaje
 from src.core.provider.queue_provider import QueueProvider
+from src.core.provider.subject_provider import SubjectProvider
 from src.exception.excepciones import IOException
 
 
@@ -14,12 +15,14 @@ class EscritorDeArchivosOdsXls(EscritorDeArchivos):
 
     def __init__(self):
         self.queue = QueueProvider.provide_thread_queue()
+        self.pantalla_principal_subject = SubjectProvider.provide_pantalla_principal_subject()
 
     def guardar_archivo(self, medicion):
 
         dialogo = DialogoExportarMedicion()
-        with self.abrir_dialogo(dialogo) as archivo:
-            if archivo:
+        try:
+            with self.abrir_dialogo(dialogo) as archivo:
+
                 ri = medicion.get_respuesta_impulsional()
                 cd = medicion.get_curva_decaimiento()
                 edt = medicion.get_edt()
@@ -35,15 +38,16 @@ class EscritorDeArchivosOdsXls(EscritorDeArchivos):
                 thread_exportar = Thread(target=self.escribir_book, args=(book_excel, archivo.name,), daemon=False)
                 thread_exportar.start()
 
-            else:
-                raise IOException("No se pudo escribir el archivo")
+        except IOException:
+            print("Archivo inaccesible o dialogo cancelado")
+            self.pantalla_principal_subject.on_next(
+                Mensaje(destinatario="VistaPrincipal", mensaje="ExportacionCancelada"))
 
     def escribir_book(self, book, path):
         from src.core.domain.coordinador_de_vistas import CoordinadorDeVistas
         CoordinadorDeVistas.mostrar_vista("VistaPantallaEsperaExportar")
         book.save_as(path)
         self.queue.put(Mensaje(destinatario="VistaPrincipal", mensaje="ExportacionCompleta"))
-
 
     def generar_sheet_senal(self, senal):
         sheet = []

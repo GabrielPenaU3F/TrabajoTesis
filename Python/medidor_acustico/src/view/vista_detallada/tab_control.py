@@ -5,8 +5,8 @@ class TabControl:
 
     def __init__(self, master):
         self.master = master
-        self.notebook = ttk.Notebook(master)
-        self.notebook.grid(row=0, column=0, columnspan=2)
+        self.notebook = ttk.Notebook(self.master)
+        self.notebook.pack()
         self.tabs = {}  # Indice en el notebook / Objeto tab
 
     def agregar_tab(self, tab, titulo_tab):
@@ -50,4 +50,3 @@ class TabControl:
     def ocultar_grafica(self):
         for tab in self.tabs.values():
             tab.ocultar_grafica()
-

@@ -7,14 +7,14 @@ class EscritorDeArchivosDeMedicion(EscritorDeArchivos):
 
     def guardar_archivo(self, medicion):
         dialogo = DialogoGuardarMedicion()
-        with self.abrir_dialogo(dialogo) as archivo:
+        try:
+            with self.abrir_dialogo(dialogo) as archivo:
 
-            if archivo:
                 string_archivo = self.formatear_medicion(medicion)
                 archivo.write(string_archivo.encode('cp037'))  # IBM037 codec
 
-            else:
-                raise IOException("No se pudo escribir el archivo")
+        except IOException:
+            print("Archivo inaccesible o dialogo cancelado")
 
     def string_valor(self, valor):
         return "$" + str(valor)

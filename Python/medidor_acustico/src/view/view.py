@@ -2,11 +2,14 @@ from abc import ABC, abstractmethod
 from tkinter import Image
 import sys
 
+from src.core.domain.estilista import Estilista
+
 
 class View(ABC):
 
     def __init__(self, root, controller):
         self.root = root
+        Estilista().definir_fuentes(root)
         self.controller = controller
         self.ventana_activa = None
 

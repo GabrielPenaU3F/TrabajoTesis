@@ -3,7 +3,7 @@ import sounddevice
 from src.core.domain.senal_audio import SenalAudio, DispositivoInaccesibleException
 
 
-class LectograbadorDeAudio:
+class EquipoDeAudio:
 
     def reproducir_y_grabar_audio(self, senal):
         try:

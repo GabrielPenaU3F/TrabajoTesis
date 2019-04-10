@@ -19,3 +19,5 @@ include
 bin
 exe
 share
+build_linux.sh
+build_windows.sh
