@@ -14,7 +14,7 @@ class Tab(ABC):
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
         self.tab_frame = tab_control.agregar_tab(self, self.titulo_tab)
         self.construir_tab()
-        
+
     @abstractmethod
     def obtener_bandas(self):
         pass
@@ -26,7 +26,7 @@ class Tab(ABC):
 
     def construir_frame_titulo(self):
         self.frame_titulo_grafica = Frame(self.tab_frame)
-        self.frame_titulo_grafica.config(width=400, height=20, borderwidth=2, relief="groove")
+        self.frame_titulo_grafica.config(width=400, borderwidth=2, relief="groove")
         self.frame_titulo_grafica.grid(row=0, column=0, sticky="nsew", padx=10, pady=(15, 0))
         self.label_titulo_grafica = Label(self.frame_titulo_grafica)
         self.label_titulo_grafica.config(text="Nivel de respuesta impulsional - Curva de decaimiento",
@@ -72,7 +72,7 @@ class Tab(ABC):
 
     def construir_frame_medicion(self):
         self.frame_medicion = Frame(self.tab_frame)
-        self.frame_medicion.grid(row=0, column=1, rowspan=2, sticky="n")
+        self.frame_medicion.grid(row=0, column=1, rowspan=2, sticky="nsew")
         self.construir_frame_bandas()
 
     def construir_frame_bandas(self):
@@ -83,13 +83,12 @@ class Tab(ABC):
     def construir_seleccion_banda(self):
 
         self.frame_titulo_bandas = Label(self.frame_medicion)
-        self.frame_titulo_bandas.config(height=20, borderwidth=2, relief="groove")
+        self.frame_titulo_bandas.config(borderwidth=2, relief="groove")
         self.frame_titulo_bandas.grid(row=0, column=0, sticky="nsew", padx=10, pady=(15, 0))
         self.label_titulo_bandas_octava = Label(self.frame_titulo_bandas)
         self.label_titulo_bandas_octava.config(text=self.titulo_bandas_text, bg="#0c005a")
         self.label_titulo_bandas_octava.pack(ipadx=10, expand="True", fill="both")
         self.frame_medicion_bandas = Frame(self.frame_medicion)
-        self.frame_medicion_bandas.config(height=20)
         self.frame_medicion_bandas.grid(row=1, column=0, sticky="nsew", padx=10, pady=(20, 0))
         bandas_estandar = self.obtener_bandas()
         self.banda_seleccionada = StringVar()
@@ -113,14 +112,15 @@ class Tab(ABC):
         self.frame_rts.config(borderwidth=2, relief='ridge')
         self.frame_rts.grid(row=4, column=0, padx=10, pady=(15, 0))
 
+
         self.frame_titulo_rts = Label(self.frame_rts)
-        self.frame_titulo_rts.config(height=20, borderwidth=2, relief="groove")
+        self.frame_titulo_rts.config(borderwidth=2, relief="groove")
         self.frame_titulo_rts.grid(row=0, column=0, sticky="nsew", padx=10, pady=10, columnspan=2)
         self.label_titulo_rts = Label(self.frame_titulo_rts)
         self.label_titulo_rts.config(text="Tiempos de reverberación", bg="#0c005a")
         self.label_titulo_rts.pack(ipadx=10, expand="True", fill="both")
         self.frame_titulo_linealidad = Label(self.frame_rts)
-        self.frame_titulo_linealidad.config(height=20, borderwidth=2, relief="groove")
+        self.frame_titulo_linealidad.config(borderwidth=2, relief="groove")
         self.frame_titulo_linealidad.grid(row=0, column=2, sticky="nsew", padx=10, pady=10, columnspan=4)
         self.label_titulo_linealidad = Label(self.frame_titulo_linealidad)
         self.label_titulo_linealidad.config(text="Parámetros de linealidad", bg="#0c005a")

@@ -13,6 +13,8 @@ class VistaDetalladaView(ViewConGraficas):
 
         super().__init__(VistaDetalladaController(self), Toplevel())
 
+        self.ocultar_vista()
+
         self.bandas_estandar_repository = RepositoryProvider.provide_bandas_estandar_repository()
 
         self.main_frame = self.construir_main_frame()
@@ -20,8 +22,6 @@ class VistaDetalladaView(ViewConGraficas):
         self.construir_tabs()
 
         self.construir_botones()
-
-        self.ocultar_vista()
 
         self.root.after(0, self.bindear_eventos_root)
 
@@ -36,15 +36,20 @@ class VistaDetalladaView(ViewConGraficas):
 
     def construir_main_frame(self):
         main_frame = Frame(self.root)
-        main_frame.config(width="700", height="700")
         main_frame.pack(fill="both", expand="True", padx=20, pady=20)
         return main_frame
 
     def construir_tabs(self):
 
-        self.tab_control = TabControl(self.main_frame)
+        self.tab_frame = Frame(self.main_frame)
+        self.tab_frame.grid(row=0, column=0, columnspan=2)
+
+        self.tab_control = TabControl(self.tab_frame)
+
+        # ----Agregar tabs aqui----
         self.tab_octava = TabOctava(self, self.tab_control)
         self.tab_tercio_octava = TabTercioOctava(self, self.tab_control)
+
 
     def on_calcular(self):
         self.controller.on_calcular()
@@ -130,5 +135,3 @@ class VistaDetalladaView(ViewConGraficas):
         super(VistaDetalladaView, self).mostrar_vista()
         self.mostrar_valores_generales()
         self.graficar_medicion_general()
-
-

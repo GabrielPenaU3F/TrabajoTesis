@@ -1,4 +1,3 @@
-import tkinter
 from tkinter import ttk
 
 from matplotlib import pyplot
