@@ -1,9 +1,9 @@
-pyinstaller 'medidor_acustico/main.py' \
+python -m PyInstaller 'medidor_acustico/main.py' \
 --windowed \
 --name 'medidor-acustico' \
 --clean \
 --specpath 'medidor_acustico' \
---distpath 'exe' \
+--distpath 'executable' \
 --hidden-import pyexcel.plugins \
 --hidden-import pyexcel.plugins.parsers \
 --hidden-import pyexcel.plugins.renderers \
@@ -26,6 +26,6 @@ pyinstaller 'medidor_acustico/main.py' \
 --hidden-import pyexcel_ods \
 --hidden-import pyexcel_ods.odsr \
 --hidden-import pyexcel_ods.odsw \
---add-data 'resources:.'
+--add-data 'resources:./resources'
 
 rm -r build/
