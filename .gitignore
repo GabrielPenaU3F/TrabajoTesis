@@ -12,7 +12,6 @@ Include
 Lib
 Scripts
 *.egg-info
-build.bat
 lib
 lib64
 include
