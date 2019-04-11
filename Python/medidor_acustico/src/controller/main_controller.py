@@ -6,7 +6,6 @@ from src.core.domain.archivos.lector_de_archivos_de_medicion import LectorDeArch
 from src.core.provider.repository_provider import RepositoryProvider
 from src.core.provider.subject_provider import SubjectProvider
 from src.core.domain.mensaje import Mensaje
-import sys
 
 
 class MainController(PantallaConGraficasController):
@@ -110,7 +109,7 @@ class MainController(PantallaConGraficasController):
             EscritorDeArchivosOdsXls().guardar_archivo(self.medicion_repository.get_medicion())
 
     def on_cerrar_ventana(self):
-        sys.exit()
+        quit()
 
     def on_exportacion_completa(self):
         self.cerrar_pantalla_espera_exportacion()
