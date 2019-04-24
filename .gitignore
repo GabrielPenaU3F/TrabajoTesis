@@ -21,4 +21,4 @@ exe
 executable
 share
 build_linux.sh
-build_windows.sh
+build_windows.bat
