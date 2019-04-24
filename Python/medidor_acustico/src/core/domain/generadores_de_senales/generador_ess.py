@@ -45,26 +45,28 @@ class GeneradorESS:
             como resultado una delta
             Está dado por la función
 
-                h(t) = s_i(t)/k
+                h(t) = ks(-t)
 
-            Donde s_i(t) es la señal ESS invertida en el tiempo, y k es como
+            Donde s(-t) es la señal ESS invertida en el tiempo, y k es como
             sigue
 
-                k = exp(tR/T)
+                k = (f1/L)exp(-t/L)
+                L = T/R
                 R = ln(f2/f1)
 
             El resultado es una versión con amplitud modulada de la señal ESS
             invertida en el tiempo.
         '''
 
-        R = math.log(frecuencia_inicial / frecuencia_inicial)
-
         ess = self.generar_senal_ess(fs, duracion, frecuencia_inicial, frecuencia_final)
         ess_invertida = list(numpy.fliplr([ess.get_valores()])[0])
         dominio_temporal = ess.get_dominio_temporal()
         filtro = []
-        for t in range(len(dominio_temporal)):
-            k = math.exp(t * R / duracion)
-            filtro.append(ess_invertida[t] / k)
+        R = math.log(frecuencia_final / frecuencia_inicial)
+        L = duracion / R
+        for i in range(len(dominio_temporal)):
+            t = dominio_temporal[i]
+            k = (frecuencia_inicial / L) * math.exp(-t / L)
+            filtro.append(k * ess_invertida[i])
 
         return SenalAudio(fs, dominio_temporal, filtro)
