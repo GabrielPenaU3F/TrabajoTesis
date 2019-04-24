@@ -12,7 +12,7 @@ Include
 Lib
 Scripts
 *.egg-info
-lib
+Python/lib
 lib64
 include
 bin
