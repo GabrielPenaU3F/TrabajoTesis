@@ -34,7 +34,8 @@ Instalación y ejecución:
 
 		>coverage run run_all_tests.py
 		>coverage html
-	
+		
+	Nota: para que estos comandos funcionen correctamente, el directorio 'medidor_acustico' debe estar en la variable de entorno PYTHONPATh de su sistema operativo. Asegúrese de incluirlo primero.
 	
 	2. Precompilados
 	
