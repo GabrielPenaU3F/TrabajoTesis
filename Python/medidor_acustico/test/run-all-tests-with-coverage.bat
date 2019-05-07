@@ -1,2 +1,3 @@
-coverage run -m run_all_tests.py
+set PYTHONPATH=..
+coverage run run_all_tests.py
 coverage html
