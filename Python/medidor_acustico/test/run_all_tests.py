@@ -1,9 +1,5 @@
 import unittest
-from src_path import setear_src_path
-from suites.suite_full import SuiteFull
-
-
-setear_src_path()
+from test.suites.suite_full import SuiteFull
 
 suite = SuiteFull()
 runner = unittest.TextTestRunner(verbosity=3)
