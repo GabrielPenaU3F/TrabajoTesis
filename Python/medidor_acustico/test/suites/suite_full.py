@@ -1,6 +1,6 @@
 import unittest
 
-from suites.suite import Suite
+from test.suites.suite import Suite
 
 
 class SuiteFull(Suite):
