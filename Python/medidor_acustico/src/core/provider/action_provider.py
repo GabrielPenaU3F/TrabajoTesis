@@ -8,7 +8,6 @@ from src.core.action.calcular_raiz_cuadrada_de_senal_en_db_action import Calcula
 from src.core.action.calcular_rt_action import CalcularRTAction
 from src.core.action.diferenciar_senal_action import DiferenciarSenalAction
 from src.core.action.eliminar_latencia_action import EliminarLatenciaAction
-from src.core.action.eliminar_segmento_inicial_constante_action import EliminarSegmentoInicialConstanteAction
 from src.core.action.estimar_limite_superior_por_metodo_de_lundeby_action import \
     EstimarLimiteSuperiorPorMetodoDeLundebyAction
 from src.core.action.integrar_senal_action import IntegrarSenalAction
@@ -39,7 +38,6 @@ class ActionProvider:
     recortar_segmento_de_senal_entre_amplitudes_action = None
     recortar_segmento_de_senal_en_tiempo_action = None
     transformar_fourier_action = None
-    eliminar_segmento_inicial_constante_action = None
     calcular_energia_total_action = None
     eliminar_latencia_action = None
     ponderar_periodos_mls_action = None
@@ -70,13 +68,6 @@ class ActionProvider:
             cls.transformar_fourier_action = TransformarFourierAction()
 
         return cls.transformar_fourier_action
-
-    @classmethod
-    def provide_eliminar_segmento_inicial_constante_action(cls):
-        if cls.eliminar_segmento_inicial_constante_action is None:
-            cls.eliminar_segmento_inicial_constante_action = EliminarSegmentoInicialConstanteAction()
-
-        return cls.eliminar_segmento_inicial_constante_action
 
     @classmethod
     def provide_calcular_energia_total_action(cls):
