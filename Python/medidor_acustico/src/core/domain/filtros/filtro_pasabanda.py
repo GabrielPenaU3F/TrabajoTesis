@@ -45,7 +45,7 @@ class Filtro:
         orden = caract_filtro[0]  # Mínimo orden de filtro necesario
         wnat = caract_filtro[1]  # Frecuencia natural Chebyshev del filtro
 
-        filtro = signal.cheby2(orden + 1, 60, wnat, btype='bandpass', output=self.representacion_output)
+        filtro = signal.cheby2(orden + 1, gstop, wnat, btype='bandpass', output=self.representacion_output)
         return filtro
 
     def construir_filtro_A(self, args):
