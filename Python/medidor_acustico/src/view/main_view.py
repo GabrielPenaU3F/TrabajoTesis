@@ -127,7 +127,6 @@ class MainView(ViewConGraficas):
         self.frame_toolbar_rta_impulsional.grid(row=1, column=0)
         self.construir_plot_respuesta_impulsional()
 
-
         self.frame_graf_curva_decaimiento = Frame(self.frame_graficas)
         self.frame_graf_curva_decaimiento.config(width=600, height=400, borderwidth=2, relief="groove")
         self.frame_graf_curva_decaimiento.pack_propagate(False)
@@ -140,9 +139,6 @@ class MainView(ViewConGraficas):
         self.frame_toolbar_curva_decaimiento.pack_propagate(False)
         self.frame_toolbar_curva_decaimiento.grid(row=1, column=1)
         self.construir_plot_curva_decaimiento()
-
-        #self.label_prueba = Label(self.frame_graficas, text="Hola", fg="black")
-        #self.label_prueba.grid(row=3, column=0)
 
     def construir_plot_respuesta_impulsional(self):
         self.figura_ri = Figure(figsize=(10, 10), dpi=100)
