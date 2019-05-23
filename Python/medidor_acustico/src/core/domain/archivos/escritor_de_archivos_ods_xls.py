@@ -2,6 +2,8 @@ from collections import OrderedDict
 from threading import Thread
 
 import pyexcel
+import pyexcel_xlsx
+import pyexcel_ods
 
 from src.core.domain.archivos.dialogo_exportar_medicion import DialogoExportarMedicion
 from src.core.domain.archivos.escritor_de_archivos import EscritorDeArchivos
