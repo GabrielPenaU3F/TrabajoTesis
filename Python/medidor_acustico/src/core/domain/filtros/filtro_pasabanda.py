@@ -8,8 +8,8 @@ from src.core.domain.filtros.filtro_strategy import *
 
 class Filtro:
 
-    def __init__(self, *args, fs, tipo, representacion_output):
-        self.fs = fs
+    def __init__(self, *args, tipo, representacion_output):
+        self.fs = 48000
         self.tipos_filtro = {
             "Cheby2": self.construir_filtro_chebyshev_tipo_2,
             "A": self.construir_filtro_A
@@ -58,9 +58,8 @@ class Filtro:
                  -2 * math.pi * 12200,
         ]
         k = 1.2588*math.pow(12200, 2)*math.pow(2*math.pi, 2)
-        zeros_digital, polos_digital, k_digital = signal.bilinear_zpk(zeros, polos, k, self.fs)
-        return self.strategies_transformacion_output.get(self.representacion_output).\
-            generar_output_filtro(zeros_digital, polos_digital, k_digital, input='zpk')
+        b, a = signal.zpk2tf(zeros, polos, k)
+        return [b, a]
 
     def construir_filtro(self, args, tipo):
         return self.tipos_filtro.get(tipo)(args)
