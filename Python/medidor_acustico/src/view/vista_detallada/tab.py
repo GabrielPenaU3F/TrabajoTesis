@@ -51,9 +51,12 @@ class Tab(ABC):
 
     def construir_plot(self):
         self.figura = Figure(figsize=(6, 4), dpi=100)
-        self.figura.patch.set_facecolor("#becbff")
+        self.figura.patch.set_facecolor("#ffffff")
+        self.figura.patch.set_edgecolor('black')
+        self.figura.patch.set_linewidth('1')
         self.sistema_ejes = self.figura.add_subplot(1, 1, 1)
-        self.sistema_ejes.set_facecolor("#dee1ec")
+        self.sistema_ejes.set_facecolor("#ffffff")
+        self.sistema_ejes.grid(color='black', linestyle='--', linewidth=0.5)
         self.limpiar_ejes()
 
         self.canvas = FigureCanvasTkAgg(self.figura, master=self.label_grafica)
@@ -264,11 +267,10 @@ class Tab(ABC):
         dominio_temporal_cd = curva_decaimiento.get_dominio_temporal()
         valores_cd = curva_decaimiento.get_valores()
         self.limpiar_ejes()
-        self.sistema_ejes.plot(dominio_temporal_ri, valores_ri, color='#0000ff', linewidth=0.5,
-                               label='Nivel respuesta impulsional')
-        self.sistema_ejes.plot(dominio_temporal_cd, valores_cd, color="#ff0000", linewidth=1,
-                               label='Curva de decaimiento')
-        self.sistema_ejes.legend()
+        self.sistema_ejes.plot(dominio_temporal_ri, valores_ri, color='#bfbfbf', linewidth=0.5,
+                               )
+        self.sistema_ejes.plot(dominio_temporal_cd, valores_cd, color="black", linewidth=1,
+                               )
         self.canvas.draw()
 
     def mostrar_tiempos_de_reverberacion(self, edt, t20, t30):

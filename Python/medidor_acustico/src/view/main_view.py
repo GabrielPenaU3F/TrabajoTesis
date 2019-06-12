@@ -142,9 +142,12 @@ class MainView(ViewConGraficas):
 
     def construir_plot_respuesta_impulsional(self):
         self.figura_ri = Figure(figsize=(10, 10), dpi=100)
-        self.figura_ri.patch.set_facecolor("#becbff")
+        self.figura_ri.patch.set_facecolor("#ffffff")
+        self.figura_ri.patch.set_edgecolor('black')
+        self.figura_ri.patch.set_linewidth('1')
         self.sistema_ejes_ri = self.figura_ri.add_subplot(1, 1, 1)
-        self.sistema_ejes_ri.set_facecolor("#dee1ec")
+        self.sistema_ejes_ri.set_facecolor("#ffffff")
+        self.sistema_ejes_ri.grid(color='black', linestyle='--', linewidth=0.5)
         self.generar_ejes_ri_limpios()
 
         self.canvas_ri = FigureCanvasTkAgg(self.figura_ri, master=self.label_graf_respuesta_impulsional)
@@ -155,9 +158,12 @@ class MainView(ViewConGraficas):
 
     def construir_plot_curva_decaimiento(self):
         self.figura_cd = Figure(figsize=(10, 10), dpi=100)
-        self.figura_cd.patch.set_facecolor("#becbff")
+        self.figura_cd.patch.set_facecolor("#ffffff")
+        self.figura_cd.patch.set_edgecolor('black')
+        self.figura_cd.patch.set_linewidth('1')
         self.sistema_ejes_cd = self.figura_cd.add_subplot(1, 1, 1)
-        self.sistema_ejes_cd.set_facecolor("#dee1ec")
+        self.sistema_ejes_cd.set_facecolor("#ffffff")
+        self.sistema_ejes_cd.grid(color='black', linestyle='--', linewidth=0.5)
         self.generar_ejes_cd_limpios()
 
         self.canvas_cd = FigureCanvasTkAgg(self.figura_cd, master=self.label_graf_curva_decaimiento)
@@ -222,12 +228,12 @@ class MainView(ViewConGraficas):
 
     def graficar_respuesta_impulsional(self, dominio_temporal, respuesta_impulsional):
         self.generar_ejes_ri_limpios()
-        self.sistema_ejes_ri.plot(dominio_temporal, respuesta_impulsional, color="#ff0000", linewidth=0.5)
+        self.sistema_ejes_ri.plot(dominio_temporal, respuesta_impulsional, color="black", linewidth=0.5)
         self.canvas_ri.draw()
 
     def graficar_curva_decaimiento(self, dominio_temporal, curva_decaimiento):
         self.generar_ejes_cd_limpios()
-        self.sistema_ejes_cd.plot(dominio_temporal, curva_decaimiento, color="#ff0000")
+        self.sistema_ejes_cd.plot(dominio_temporal, curva_decaimiento, color="black")
         self.canvas_cd.draw()
 
     def mostrar_error(self, mensaje):
