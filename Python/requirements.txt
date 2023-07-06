@@ -1,5 +1,5 @@
 numpy==1.16.1
-scipy==1.2.1
+scipy==1.10.0
 matplotlib==3.0.2
 sounddevice==0.3.13
 pyexcel==0.5.13
